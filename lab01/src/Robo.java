@@ -19,7 +19,7 @@ public class Robo
 
     public int[] exibirPosicao(){
         return new int[]{this.posicaoX, this.posicaoY};
-        //Retorna vetor com duas posicoes, que sao (x,y) do robo.
+        //Retorna vetor com duas posicoes, que sao (x,y) do robo..
     }
 
 }
