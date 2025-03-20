@@ -3,11 +3,13 @@ public class Robo
     String nome;
     private int posicaoX;
     private int posicaoY;
+    private String direcao;
 
-    public Robo(String nome, int posicaoX, int posicaoY) {
+    public Robo(String nome, int posicaoX, int posicaoY, String direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
+        this.direcao = direcao;
         //Construtor da classe Robo.
     }
 
