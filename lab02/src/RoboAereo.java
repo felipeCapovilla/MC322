@@ -1,3 +1,6 @@
+// TODO: Sobreescrever funcao toString de ambas classes herdadas de RoboAereo.
+
+
 public class RoboAereo extends Robo {
     
     private int altitude;
