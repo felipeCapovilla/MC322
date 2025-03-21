@@ -7,7 +7,7 @@ public class Main {
         Robo robo01 = new Robo("robo01",4,10);
         Robo robo02 = new Robo("robo02",5,5);
 
-        //Testa o metodo mover.
+        //Testa o metodo mover. aaa
         robo01.mover(5,2);
         robo02.mover(5,4);
 
