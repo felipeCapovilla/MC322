@@ -1,4 +1,4 @@
-// TODO: Sobreescrever funcao toString de ambas classes herdadas de RoboAereo.
+// TODO: Sobreescrever funcao toString de ambas classes herdadas de RoboAereo && adicionar metodo de verificar obstaculos em torno do robo.
 
 
 public class RoboAereo extends Robo {
