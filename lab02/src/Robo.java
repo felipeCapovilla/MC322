@@ -20,7 +20,7 @@ public class Robo
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY) {
+    protected void mover(int deltaX, int deltaY) {
         this.posicaoX += deltaX;
         this.posicaoY += deltaY;
     }
@@ -28,8 +28,10 @@ public class Robo
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
-    public int[] exibirPosicao(){
+    protected int[] exibirPosicao(){
         return new int[]{this.posicaoX, this.posicaoY};
     }
+
+    //FAZER CLASSE IDENTIFICAR_OBSTACULOS()
 
 }
