@@ -1,31 +1,117 @@
+import robo.terrestre.pedestre.RoboPedestre;
+import robo.terrestre.standart.*;
+import robo.terrestre.veiculo.*;
 
 public class Main {
     public static void main(String[] args) {
 
         //Criacao do ambiente e robos.
-        Ambiente ambiente = new Ambiente(10,10);
-        Robo robo01 = new Robo("robo01",4,10);
-        Robo robo02 = new Robo("robo02",5,5);
+        Ambiente ambiente = new Ambiente(50,50);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("roboTer",5,5, "SUL",15);
+        RoboVeiculo roboVeiculo = new RoboVeiculo("roboVeiculo",25,25, "NORTE", 10, 15);
+        RoboPedestre roboPedestre = new RoboPedestre("roboPedestre", 0, 0, "OESTE", 20);
 
-        //Testa o metodo mover.
-        robo01.mover(5,2);
-        robo02.mover(5,4);
+        
+        //Teste RoboTerrestre
+        System.out.println("\nROBO TERRESTRE");
 
-        //Recebe a nova posicao dos robos pos movimento.
-        int[] pos_robo01 = robo01.exibirPosicao();
-        int[] pos_robo02 = robo02.exibirPosicao();
+            //Verificar velocidade maxima
+        int[] pos_roboTerrestre = roboTerrestre.exibirPosicao();
+        int[] velocidade = {0,0};
+        System.out.println("\nPosicao RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
 
-        //Verifica se a nova posicao esta dentro do limite do ambiente.
-        boolean status_robo01 = ambiente.dentroDosLimites(pos_robo01[0],pos_robo01[1]);
-        boolean status_robo02 = ambiente.dentroDosLimites(pos_robo02[0],pos_robo02[1]);
-        System.out.println("Robo01: "+status_robo01);
-        System.out.println("Robo02: "+status_robo02);
+        velocidade[0] = 0;
+        velocidade[1] = 20;
+        roboTerrestre.mover(velocidade[0], velocidade[1]);
+        pos_roboTerrestre = roboTerrestre.exibirPosicao();
+        System.out.println("Posicao RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
+        System.out.println("\tVelocidade: " + (int)Math.sqrt((velocidade[0]*velocidade[0] + velocidade[1]*velocidade[1])));
 
-        //Imprime a posicao atual de cada robo apos movimento.
-        System.out.println("\nPosicao Robo01: ("+pos_robo01[0]+","+pos_robo01[1]+")");
-        System.out.println("Posicao Robo02: ("+pos_robo02[0]+","+pos_robo02[1]+")");
+        velocidade[0] = 8;
+        velocidade[1] = 15;
+        roboTerrestre.mover(velocidade[0], velocidade[1]);
+        pos_roboTerrestre = roboTerrestre.exibirPosicao();
+        System.out.println("Posicao RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
+        System.out.println("\tVelocidade: " + (int)Math.sqrt((velocidade[0]*velocidade[0] + velocidade[1]*velocidade[1])));
 
 
+
+
+
+        //Teste roboVeiculo
+        System.out.println("\nROBO TERRESTRE VEICULO");
+
+            //Virar o robo
+        System.out.println("Direção:" + roboVeiculo.getDirecao());
+
+        roboVeiculo.virar(true);
+        System.out.println("Direção:" + roboVeiculo.getDirecao());
+
+        roboVeiculo.virar(false);
+        roboVeiculo.virar(false);
+        System.out.println("Direção:" + roboVeiculo.getDirecao());
+
+            //Mudar numero de passageiros
+        System.out.println("Números de passageiros (max 15):");
+        System.err.println(roboVeiculo.getPassageiros());
+
+        roboVeiculo.passageirosEntrar(10);
+        System.err.println(roboVeiculo.getPassageiros());
+
+        roboVeiculo.passageirosEntrar(7);
+        System.err.println(roboVeiculo.getPassageiros());
+
+        roboVeiculo.passageirosSair(20);
+        System.err.println(roboVeiculo.getPassageiros());
+
+
+            //Mover o robo no sentido
+        int[] pos_roboVeiculo = roboVeiculo.exibirPosicao();
+        System.out.println("\nPosicao roboVeiculo: ("+pos_roboVeiculo[0]+","+pos_roboVeiculo[1]+")");
+
+        roboVeiculo.mudarVelocidade(5);
+        roboVeiculo.moverSentido(true);
+        pos_roboVeiculo = roboVeiculo.exibirPosicao();
+        System.out.println("Posicao roboVeiculo: ("+pos_roboVeiculo[0]+","+pos_roboVeiculo[1]+")");
+        System.out.println("\tDireção: " + roboVeiculo.getDirecao() + "; Velocidade: " + roboVeiculo.getVelocidade_atual());
+
+        roboVeiculo.mudarVelocidade(20);
+        roboVeiculo.moverSentido(false);
+        pos_roboVeiculo = roboVeiculo.exibirPosicao();
+        System.out.println("Posicao roboVeiculo: ("+pos_roboVeiculo[0]+","+pos_roboVeiculo[1]+")");
+        System.out.println("\tDireção: " + roboVeiculo.getDirecao() + "; Velocidade: " + roboVeiculo.getVelocidade_atual()); 
+
+
+        
+        //Teste roboPedestre
+        System.out.println("\nROBO TERRESTRE PEDESTRE");
+
+            //Teste de mover correndo e andando
+        System.out.println("Peso=0");
+        int[] pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
+
+        roboPedestre.moverAndar(false, 20, 0);
+        pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
+
+        roboPedestre.moverAndar(true, 0, 20);
+        pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
+
+            //Teste peso
+        roboPedestre.setPeso(10);
+        System.out.println("Peso=10");
+        pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
+
+        roboPedestre.moverAndar(false, 20, 0);
+        pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
+
+        roboPedestre.moverAndar(true, 0, 20);
+        pos_roboPedestre = roboPedestre.exibirPosicao();
+        System.out.println("Posicao roboPedestre: ("+pos_roboPedestre[0]+","+pos_roboPedestre[1]+")");
 
 
     }
