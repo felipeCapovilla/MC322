@@ -17,9 +17,9 @@ public class Main {
         robo_teste.descer(900);
 
         //Recebe a nova posicao dos robos pos movimento.
-        int[] pos_robo01 = robo01.exibirPosicao();
-        int[] pos_robo02 = robo02.exibirPosicao();
-        int [] pos_teste = robo_teste.exibirPosicao();
+        int[] pos_robo01 = robo01.get_posicao();
+        int[] pos_robo02 = robo02.get_posicao();
+        int [] pos_teste = robo_teste.get_posicao();
 
         //Verifica se a nova posicao esta dentro do limite do ambiente.
         boolean status_robo01 = ambiente.dentroDosLimites(pos_teste[0],pos_teste[1]);
