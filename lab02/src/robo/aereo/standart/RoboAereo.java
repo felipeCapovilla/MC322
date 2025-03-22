@@ -1,10 +1,14 @@
+package robo.aereo.standart;
+
+import robo.standart.*;
+
 // TODO: Sobreescrever funcao toString de ambas classes herdadas de RoboAereo && adicionar metodo de verificar obstaculos em torno do robo.
 
 
 public class RoboAereo extends Robo {
     
     private int altitude;
-    private int altitude_max;
+    private final int altitude_max;
 
     public RoboAereo(String nome,int posicaoX, int posicaoY, String direcao,int altitude,int altitude_max){
         
@@ -41,4 +45,5 @@ public class RoboAereo extends Robo {
         this.altitude -=metros; 
         return this.altitude; //Retorna nova altitude.
     }
+
 }

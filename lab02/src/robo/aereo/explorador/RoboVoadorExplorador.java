@@ -1,8 +1,12 @@
+package robo.aereo.explorador;
+
+import robo.aereo.standart.*;
+
 public class RoboVoadorExplorador extends RoboAereo {
 
     private int temperatura_atual;
     private int pressao_atual;
-    private int velocidade_max;
+    private final int velocidade_max;
     private int velocidade_atual;
     private String planeta_atual;
     private boolean em_missao;
@@ -29,7 +33,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * @param velocidade_atual Velocidade atual.
      * @param planeta Qual planeta esta o robo.
     */
-    protected void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
+    public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
 
         if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
             throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar"+this.velocidade_max+"m/s"); //Se nao: lança erro.
@@ -87,7 +91,7 @@ public class RoboVoadorExplorador extends RoboAereo {
     /**
      * Retorna temperatura atual percebida pelo robo.
      */
-    protected int get_temperatura(){
+    public int get_temperatura(){
         return this.temperatura_atual; 
     }
 
@@ -95,7 +99,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna pressao atual percebida pelo robo.
      */
-    protected int get_pressao(){
+    public int get_pressao(){
         return this.pressao_atual;
     }
 
@@ -103,7 +107,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna velocidade atual do robo.
      */
-    protected int get_velocidade(){
+    public int get_velocidade(){
         return this.velocidade_atual;
     }
 
@@ -111,7 +115,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna o planeta sendo explorado pelo robo.
      */
-    protected String get_planeta(){
+    public String get_planeta(){
         return this.planeta_atual;
     }
 
@@ -119,7 +123,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna se o robo esta sendo usado.
      */
-    protected boolean status_missao(){
+    public boolean status_missao(){
         return this.em_missao;
     }
 
@@ -127,7 +131,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Finaliza a missao e libera o robo para uso.
      */
-    protected void finalizar_exploracao(){
+    public void finalizar_exploracao(){
         this.em_missao = false;
         this.planeta_atual = "";
         this.pressao_atual=0;

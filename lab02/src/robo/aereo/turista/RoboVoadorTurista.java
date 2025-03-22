@@ -1,7 +1,10 @@
+package robo.aereo.turista;
+
+import robo.aereo.standart.*;
 public class RoboVoadorTurista extends RoboAereo{
 
     private int numero_passageiros;
-    private int capacidade_maxima;
+    private final int capacidade_maxima;
     private String cidade_turistica;
     private boolean em_passeio;
 
@@ -21,7 +24,7 @@ public class RoboVoadorTurista extends RoboAereo{
      * @param numero_passageiros Indica a quantidade de passageiros atual presentes.
      * @param cidade_turistica Indica o destino do passeio turistico do Robo.
      */
-    protected void inciar_passeio(int numero_passageiros, String cidade_turistica){
+    public void inciar_passeio(int numero_passageiros, String cidade_turistica){
         if(numero_passageiros > this.capacidade_maxima){ //Verifica se a quantidade de passageiros e permitida.
             throw new IllegalArgumentException("A capacidade maxima de "+this.capacidade_maxima+"passageiros, foi excedida. \n Circulação não permitida.");
         }
@@ -34,7 +37,7 @@ public class RoboVoadorTurista extends RoboAereo{
     /**
      * Retorna o numero de passageiros no robo.
      */
-    protected int get_numero_passageiros(){
+    public int get_numero_passageiros(){
         return this.numero_passageiros;
     }
 
@@ -42,7 +45,7 @@ public class RoboVoadorTurista extends RoboAereo{
     /**
      * Retorna se o robo esta em servico.
      */
-    protected boolean get_status(){
+    public boolean get_status(){
         return this.em_passeio;
     }
 
@@ -50,7 +53,7 @@ public class RoboVoadorTurista extends RoboAereo{
     /**
      * Retorna o destino turistico do robo.
      */
-    protected String get_destino(){
+    public String get_destino(){
         return this.cidade_turistica;
     }
 }
