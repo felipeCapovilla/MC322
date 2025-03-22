@@ -13,6 +13,13 @@ public class RoboPedestre extends RoboTerrestre{
 
     }
 
+    /**
+     * Move o robo pedestre em dois modos:
+     * <p>
+     * correr-> até velocidade máxima <p>
+     * caminhar-> até 0.6 * velocidade máxima
+     * @param correr correr(true) ou caminhar(false)
+     */
     public void moverAndar(boolean correr, int deltaX, int deltaY){
         //Decide para correr ou caminhar
         double fator_movimento = (correr)? 1 : 0.6;
@@ -38,14 +45,14 @@ public class RoboPedestre extends RoboTerrestre{
         }
     }
 
+    /**
+     * Fator do peso faz andar mais devagar <p>
+     * peso = 1 -> 1 * velocidade <p>
+     * peso = 10 -> 0,5 * velocidade <p>
+     * ...
+     */
     public void setPeso(int peso) {
         this.peso = Math.max(peso, 0);
     }
-
-    
-
-
-
-
 
 }

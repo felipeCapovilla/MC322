@@ -17,6 +17,10 @@ public class RoboVeiculo extends RoboTerrestre{
 
     }
 
+    /**
+     * Muda a velocidade do veiculo
+     * @param nova_velocidade
+     */
     public void mudarVelocidade(int nova_velocidade){
         velocidade_atual = Math.min(nova_velocidade, velocidadeMaxima);
     }
@@ -60,11 +64,16 @@ public class RoboVeiculo extends RoboTerrestre{
         }
     }
 
-
+    /**
+     * Diminui o n umero de passageiros
+     */
     public void passageirosSair(int num_passageiros){
         passageiros = Math.max(0, passageiros-num_passageiros);
     }
 
+    /**
+     * Aumenta o numero de passageiros
+     */
     public void passageirosEntrar(int num_passageiros){
         passageiros = Math.min(passageiros_maximo, passageiros+num_passageiros);
     }
