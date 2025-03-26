@@ -60,7 +60,7 @@ public class Main {
 
 
         //Teste RoboExplorador
-        System.out.println("\nROBO EXPLORADOR");
+        System.out.println("\nROBO AEREO EXPLORADOR");
             //Metodo de iniciar exploração
         roboExplorador.iniciar_exploracao(200, 600, 5, "Marte");
         System.out.println("Em missão: " + roboExplorador.status_missao());
@@ -80,7 +80,7 @@ public class Main {
 
 
         //Teste RoboTurista
-        System.out.println("\nROBO TURISTA");
+        System.out.println("\nROBO AEREO TURISTA");
             //Verifivar iniciar passeio
         roboTurista.inciar_passeio(7, "Rio de Janeiro");
         System.out.println("Em Passeio: " + roboTurista.get_status());
