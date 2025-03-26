@@ -31,7 +31,7 @@ public class RoboVeiculo extends RoboTerrestre{
      */
     public void virar(boolean direita){
         int index;
-        switch (direcao) {
+        switch (get_direcao()) {
             case "NORTE" -> index = 0;
 
             case "LESTE" -> index = 1;
@@ -46,7 +46,7 @@ public class RoboVeiculo extends RoboTerrestre{
         int lado = (direita)? 1: -1;
 
         //movimento ciclico do index
-        direcao = direcoesList[((index+lado)%4 + 4) % 4];
+        set_direcao(direcoesList[((index+lado)%4 + 4) % 4]);
     }
 
     /**
@@ -55,7 +55,7 @@ public class RoboVeiculo extends RoboTerrestre{
     public void moverSentido(boolean frente){
         int marcha = (frente)? 1:-1;
 
-        switch (direcao) {
+        switch (get_direcao()) {
             case "NORTE" -> mover(0, velocidade_atual * marcha);
             case "SUL" -> mover(0, -(velocidade_atual * marcha));
             case "LESTE" -> mover(velocidade_atual * marcha,0);
