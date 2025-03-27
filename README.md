@@ -1,11 +1,11 @@
-#Simulador de Robo
+# Simulador de Robo
 Repositorio utilizado para entrega de laboratórios da matéria MC322.
 
-##Colaboradores
-Felipe Pavanello Capovilla - 174411
+## Colaboradores
+Felipe Pavanello Capovilla - 174411 <p>
 Guilherme Henrique da Silva - 281217
 
-##Execução
+## Execução
 Comandos usados dentros de uma das pastas labXX.
 ```
 javac -sourcepath src src/*.java -d bin
