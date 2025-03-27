@@ -32,14 +32,24 @@ public class RoboVeiculo extends RoboTerrestre{
     public void virar(boolean direita){
         int index;
         switch (get_direcao()) {
-            case "NORTE" -> index = 0;
+            case "NORTE":
+                index = 0;
+                break;
 
-            case "LESTE" -> index = 1;
+            case "LESTE":
+                index = 1;
+                break;
 
-            case "SUL" -> index = 2;
+            case "SUL":
+                index = 2;
+                break;
 
-            case "OESTE" -> index = 3;
-            default -> throw new AssertionError();
+            case "OESTE":
+                index = 3;
+                break;
+
+            default:
+                throw new AssertionError();
         }
 
         //direita(1) e esquerda(-1)
@@ -56,11 +66,24 @@ public class RoboVeiculo extends RoboTerrestre{
         int marcha = (frente)? 1:-1;
 
         switch (get_direcao()) {
-            case "NORTE" -> mover(0, velocidade_atual * marcha);
-            case "SUL" -> mover(0, -(velocidade_atual * marcha));
-            case "LESTE" -> mover(velocidade_atual * marcha,0);
-            case "OESTE" -> mover(-(velocidade_atual * marcha), 0);
-            default -> throw new AssertionError("Direção inválida");
+            case "NORTE": 
+                mover(0, velocidade_atual * marcha);
+                break;
+
+            case "SUL": 
+                mover(0, -(velocidade_atual * marcha));
+                break;
+
+            case "LESTE": 
+                mover(velocidade_atual * marcha,0);
+                break;
+
+            case "OESTE": 
+                mover(-(velocidade_atual * marcha), 0);
+                break;
+                
+            default: 
+                throw new AssertionError("Direção inválida");
         }
     }
 
