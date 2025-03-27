@@ -2,11 +2,9 @@ package robo.standart;
 
 import ambiente.Ambiente;
 
-import ambiente.Ambiente;
-
 public class Robo
 {
-    private Ambiente ambiente;
+    private Ambiente ambiente_atual;
     private String nome;
     private int posicaoX;
     private int posicaoY;
@@ -23,7 +21,7 @@ public class Robo
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.direcao = direcao;
-        this.ambiente = ambiente;
+        this.ambiente_atual = ambiente;
     }
 
 
@@ -33,7 +31,7 @@ public class Robo
      * @param deltaY
      */
     public void mover(int deltaX, int deltaY) { //Usar um polimorfismo em mover.
-        if(ambiente.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY)){
+        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY)){
             posicaoX += deltaX;
             posicaoY += deltaY;
         } else {
@@ -108,12 +106,5 @@ public class Robo
         this.direcao = direcao;
     }
 
-    public Ambiente getAmbiente() {
-        return ambiente;
-    }
-
-    public void setAmbiente(Ambiente ambiente) {
-        this.ambiente = ambiente;
-    }
 
 }
