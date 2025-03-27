@@ -1,15 +1,16 @@
 package robo.terrestre.standart;
 
+import ambiente.Ambiente;
 import robo.standart.Robo;
 
 public class RoboTerrestre extends Robo{
-    protected int velocidadeMaxima;
+    private int velocidadeMaxima;
     
     /**
      * Construtor da classe RoboTerrestre.
      */
-    public RoboTerrestre(String nome, int posicaoX, int posicaoY, String direcao, int velocidadeMaxima){
-        super(nome, posicaoX, posicaoY, direcao);
+    public RoboTerrestre(int posicaoX, int posicaoY, Ambiente ambiente ,String direcao, String nome, int velocidadeMaxima){
+        super(posicaoX, posicaoY, ambiente, direcao, nome);
         this.velocidadeMaxima = velocidadeMaxima;
     }
 
@@ -22,14 +23,21 @@ public class RoboTerrestre extends Robo{
     public void mover(int deltaX, int deltaY){
         double velAtual = Math.sqrt((deltaX*deltaX + deltaY*deltaY));
 
-        if(velAtual <= velocidadeMaxima){
-            super.mover(deltaX, deltaY);
-        } else {
+        if(velAtual >= velocidadeMaxima){
+            deltaX = (int)((deltaX/velAtual) * velocidadeMaxima);
+            deltaY = (int)((deltaY/velAtual) * velocidadeMaxima);
+        } 
 
-            int newdeltaX = (int)((deltaX/velAtual) * velocidadeMaxima);
-            int newdeltaY = (int)((deltaY/velAtual) * velocidadeMaxima);
+        super.mover(deltaX, deltaY);
+        
+    }
 
-            super.mover(newdeltaX, newdeltaY);
-        }
+    
+    public int getVelocidadeMaxima() {
+        return velocidadeMaxima;
+    }
+
+    public void setVelocidadeMaxima(int velocidadeMaxima) {
+        this.velocidadeMaxima = velocidadeMaxima;
     }
 }

@@ -1,3 +1,5 @@
+package ambiente;
+
 public class Ambiente {
 
     private int largura;
@@ -18,7 +20,22 @@ public class Ambiente {
      */
     public boolean dentroDosLimites(int x, int y) {
         return (x <largura &&x >=0)&&(y<altura && y>=0);
+    }
 
+    public int getLargura() {
+        return largura;
+    }
+
+    public void setLargura(int largura) {
+        this.largura = largura;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
     }
 
 

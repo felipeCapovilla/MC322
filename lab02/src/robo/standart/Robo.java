@@ -1,7 +1,10 @@
 package robo.standart;
 
+import ambiente.Ambiente;
+
 public class Robo
 {
+    private Ambiente ambiente;
     private String nome;
     private int posicaoX;
     private int posicaoY;
@@ -13,50 +16,12 @@ public class Robo
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, String direcao) {
+    public Robo(int posicaoX, int posicaoY, Ambiente ambiente, String direcao, String nome) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.direcao = direcao;
-    }
-
-
-    /**
-     * Retorna o nome do robo.
-     * @return
-     */
-    public String get_nome(){
-        return this.nome;
-    }
-
-    
-    /**
-     * Altera nome do robo.
-     * @param novo_nome Novo nome a atualizar.
-     */
-    public String set_nome(String novo_nome){
-        this.nome = novo_nome;
-        return ("Novo nome alterado para:"+this.nome);
-    }
-
-
-    /**
-     * Retorna direcao robo.
-     * @return
-     */
-    public String get_direcao(){
-        return this.direcao;
-    }
-
-
-    /**
-     * Ajusta nova direcao robo.
-     * @param nova_direcao Nova direcao a ser ajustada.
-     * @return
-     */
-    public String set_direcao(String nova_direcao){
-        this.direcao = nova_direcao;
-        return ("Nova direcao setada para:"+this.direcao);
+        this.ambiente = ambiente;
     }
 
 
@@ -66,19 +31,70 @@ public class Robo
      * @param deltaY
      */
     public void mover(int deltaX, int deltaY) { //Usar um polimorfismo em mover.
-        this.posicaoX += deltaX;
-        this.posicaoY += deltaY;
+        if(ambiente.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY)){
+            posicaoX += deltaX;
+            posicaoY += deltaY;
+        } else {
+            throw new IllegalArgumentException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
+        }
+        
     }
+
+    //FAZER CLASSE IDENTIFICAR_OBSTACULOS()
+
+
+
+
+
 
 
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
-    public int[] get_posicao(){
+    public int[] getPosicao(){
         return new int[]{this.posicaoX, this.posicaoY};
     }
 
-    //FAZER CLASSE IDENTIFICAR_OBSTACULOS()
+    /**
+     * Retorna o nome do robo.
+     * @return
+     */
+    public String getNome(){
+        return this.nome;
+    }
 
+    
+    /**
+     * Altera nome do robo.
+     */
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+
+
+    /**
+     * Retorna direcao robo.
+     * @return
+     */
+    public String getDirecao(){
+        return this.direcao;
+    }
+
+
+    /**
+     * Ajusta nova direcao robo.
+     * @param nova_direcao Nova direcao a ser ajustada.
+     */
+    public void setDirecao(String direcao){
+        this.direcao = direcao;
+    }
+
+    public Ambiente getAmbiente() {
+        return ambiente;
+    }
+
+    public void setAmbiente(Ambiente ambiente) {
+        this.ambiente = ambiente;
+    }
 
 }
