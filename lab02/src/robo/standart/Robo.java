@@ -1,5 +1,7 @@
 package robo.standart;
 
+import ambiente.Ambiente;
+
 public class Robo
 {
     private String nome;
@@ -9,6 +11,7 @@ public class Robo
      * NORTE, SUL, LESTE, OESTE
      */
     private String direcao;
+    private Ambiente ambiente_atual;
 
     /**
      * Construtor da classe Robo.
@@ -18,6 +21,7 @@ public class Robo
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.direcao = direcao;
+        this.ambiente_atual = null;
     }
 
 
@@ -27,6 +31,23 @@ public class Robo
      */
     public String get_nome(){
         return this.nome;
+    }
+
+
+    /**
+     * Adiciona o robo num ambiente.
+     * @param novo_ambiente Ambiente a ser adicionado.
+     */
+    public void set_ambiente(Ambiente novo_ambiente){
+        this.ambiente_atual = novo_ambiente;
+    }
+
+
+    /**
+     * Retorna ambiente atual.
+     */
+    public Ambiente get_ambiente(){
+        return this.ambiente_atual;
     }
 
     
@@ -65,7 +86,7 @@ public class Robo
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY) { //Usar um polimorfismo em mover.
+    public void mover(int deltaX, int deltaY) { 
         this.posicaoX += deltaX;
         this.posicaoY += deltaY;
     }
@@ -74,11 +95,10 @@ public class Robo
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
-    public int[] get_posicao(){
+    public int[] exibir_posicao(){
         return new int[]{this.posicaoX, this.posicaoY};
     }
 
-    //FAZER CLASSE IDENTIFICAR_OBSTACULOS()
-
+ 
 
 }

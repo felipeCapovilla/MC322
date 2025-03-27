@@ -1,3 +1,5 @@
+package ambiente;
+
 public class Ambiente {
 
     private int largura;
@@ -21,6 +23,6 @@ public class Ambiente {
 
     }
 
-
+    
 
 }
