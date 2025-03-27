@@ -1,12 +1,24 @@
-import ambiente.Ambiente;
-import robo.aereo.explorador.RoboVoadorExplorador;
+/*
+ * Main.java
+ * 
+ * Última modificação: 27/03/2025
+ * 
+ * Simulação de um ambiente virtual para a testar robos.
+ */
+
+
+import ambiente.*;
+import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
-import robo.aereo.turista.RoboVoadorTurista;
+import robo.aereo.turista.*;
 import robo.standart.*;
 import robo.terrestre.pedestre.*;
 import robo.terrestre.standart.*;
 import robo.terrestre.veiculo.*;
 
+/**
+ * Arquivo principaal para iniciação do programa
+ */
 public class Main {
     public static void main(String[] args) {
 
@@ -23,11 +35,48 @@ public class Main {
         RoboVeiculo roboVeiculo = new RoboVeiculo(25,25, ambiente,"NORTE", "roboVeiculo", 10, 15);
         RoboPedestre roboPedestre = new RoboPedestre(0, 0, ambiente,"OESTE", "roboPedestre", 20);
 
+        //Teste Ambiente
+        System.out.println("\n--AMBIENTE--");
+            //Adicionar os robos no ambiente
+        ambiente.adicionarRobo(robo01);
+        ambiente.adicionarRobo(roboAereo);
+        ambiente.adicionarRobo(roboExplorador);
+        ambiente.adicionarRobo(roboTurista);
+        ambiente.adicionarRobo(roboTerrestre);
+        ambiente.adicionarRobo(roboVeiculo);
+        ambiente.adicionarRobo(roboPedestre);
+
+        System.out.println("Lista de robos no ambiente:");
+        ambiente.getListaRobos().forEach(robo -> {
+            System.out.print(" " + robo);
+        });
+
+            //Adicionar Obstáculos no ambiente
+        ambiente.adicionarObstaculo(1, 1);
+        ambiente.adicionarObstaculo(10, 7);
+        ambiente.adicionarObstaculo(1, 40);
+        ambiente.adicionarObstaculo(30, 25);
+        ambiente.adicionarObstaculo(49, 49);
+        ambiente.adicionarObstaculo(0, 0);
+
+        System.out.println("\nLista de obstáculos no ambiente:");
+        ambiente.getObstaculos().forEach(obst -> {
+            System.out.print(String.format(" (%d,%d)", obst[0], obst[1]));
+        });
+
+            //Obstáculo fora do limite
+        System.out.println("\nAdicionando obstáculo fora dos limites do ambiente");
+        try {
+            ambiente.adicionarObstaculo(60, 60);
+            System.out.println("Obstáculo adicionado com sucesso fora dos limites");
+        } catch (Exception e) {
+            System.out.println("ERRO: " + e);
+        }
 
 
 
         //Teste Robo Standart
-        System.out.println("\n--ROBO STANDART--");
+        System.out.println("\n\n--ROBO STANDART--");
         System.out.println("testando o " + robo01.getNome());
 
             //Testa o metodo mover

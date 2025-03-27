@@ -22,6 +22,7 @@ public class Robo
         this.posicaoY = posicaoY;
         this.direcao = direcao;
         this.ambiente_atual = ambiente;
+
     }
 
 
@@ -104,6 +105,11 @@ public class Robo
      */
     public void setDirecao(String direcao){
         this.direcao = direcao;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 
 
