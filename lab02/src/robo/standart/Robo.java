@@ -2,6 +2,8 @@ package robo.standart;
 
 import ambiente.Ambiente;
 
+import ambiente.Ambiente;
+
 public class Robo
 {
     private Ambiente ambiente;
@@ -61,6 +63,23 @@ public class Robo
      */
     public String getNome(){
         return this.nome;
+    }
+
+
+    /**
+     * Adiciona o robo num ambiente.
+     * @param novo_ambiente Ambiente a ser adicionado.
+     */
+    public void set_ambiente(Ambiente novo_ambiente){
+        this.ambiente_atual = novo_ambiente;
+    }
+
+
+    /**
+     * Retorna ambiente atual.
+     */
+    public Ambiente get_ambiente(){
+        return this.ambiente_atual;
     }
 
     
