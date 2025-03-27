@@ -9,5 +9,7 @@ Guilherme Henrique da Silva - 281217
 Comandos usados dentros de uma das pastas labXX.
 ```
 javac -sourcepath src src/*.java -d bin
+```
+```
 java -cp bin Main
 ```
