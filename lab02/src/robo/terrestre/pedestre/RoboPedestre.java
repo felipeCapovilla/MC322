@@ -1,6 +1,5 @@
 package robo.terrestre.pedestre;
 
-import ambiente.Ambiente;
 import robo.terrestre.standart.*;
 
 public class RoboPedestre extends RoboTerrestre{
@@ -8,7 +7,7 @@ public class RoboPedestre extends RoboTerrestre{
     private int peso;
 
 
-    public RoboPedestre(String nome,int posicaoX, int posicaoY, Ambiente ambiente,String direcao, int velocidadeMaxima){
+    public RoboPedestre(String nome,int posicaoX, int posicaoY, String direcao, int velocidadeMaxima){
         super (nome,posicaoX, posicaoY, direcao,velocidadeMaxima);
         peso = 0;
 
