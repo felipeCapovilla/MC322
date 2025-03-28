@@ -37,6 +37,7 @@ public class Ambiente {
     public void adicionarRobo(Robo robo){
         if(!listaRobos.contains(robo)){
             listaRobos.add(robo);
+            robo.set_ambiente(this); //Insere o objeto ambiente como ambiente do robo.
         }
     }
 
@@ -45,6 +46,7 @@ public class Ambiente {
      */
     public void removerRobo(Robo robo){
         listaRobos.remove(robo);
+        robo.set_ambiente(null); //Remove o ambiente da instancia do Robo.
     }
 
     /**

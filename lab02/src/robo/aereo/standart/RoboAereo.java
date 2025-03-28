@@ -13,7 +13,7 @@ public class RoboAereo extends Robo {
 
     public RoboAereo(int posicaoX, int posicaoY, Ambiente ambiente,String direcao, String nome, int altitude,int altitude_max){
         
-        super(posicaoX, posicaoY, ambiente, direcao, nome); //Chama o construtor da super-classe Robo.
+        super(posicaoX, posicaoY,direcao, nome); //Chama o construtor da super-classe Robo.
         this.altitude = altitude;
         this.altitude_max = altitude_max;
     }

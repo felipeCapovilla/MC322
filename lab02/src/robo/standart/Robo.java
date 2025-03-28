@@ -16,12 +16,12 @@ public class Robo
     /**
      * Construtor da classe Robo.
      */
-    public Robo(int posicaoX, int posicaoY, Ambiente ambiente, String direcao, String nome) {
+    public Robo(int posicaoX, int posicaoY, String direcao, String nome) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.direcao = direcao;
-        this.ambiente_atual = ambiente;
+        this.ambiente_atual = null;
 
     }
 
