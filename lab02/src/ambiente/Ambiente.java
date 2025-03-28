@@ -7,6 +7,7 @@ import robo.standart.Robo;
 public class Ambiente {
 
     private int largura;
+    private int comprimento;
     private int altura;
     private int quantidade_robos_ativos;
     private int quantidade_obstaculos;
@@ -19,8 +20,9 @@ public class Ambiente {
      * @param largura X -> [0, largura-1]
      * @param altura Y -> [0, altura-1]
      */
-    public Ambiente(int largura, int altura) {
+    public Ambiente(int largura, int comprimento, int altura) {
         this.largura = largura;
+        this.comprimento = comprimento;
         this.altura = altura;
         this.quantidade_robos_ativos =0;
         this.quantidade_obstaculos =0;
@@ -32,14 +34,17 @@ public class Ambiente {
     /**
      * Verifica se o robo esta dentro do ambiente
      */
-    public boolean dentroDosLimites(int x, int y) {
-        return (x <largura &&x >=0)&&(y<altura && y>=0);
+    public boolean dentroDosLimites(int x, int y, int z) {
+        return (x <this.largura &&x >=0)&&(y<this.comprimento && y>=0)&&(z>=0 &&z<this.altura);
     }
 
     /**
      * Adiciona um objeto da classe Robo na lista de robos no ambiente
      */
     public void adicionarRobo(Robo robo){
+        if(robo.get_posicao()[0] > this.largura || robo.get_posicao()[1] > this.comprimento)
+            throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois esta fora dos limites do ambiente.");
+
         if(!listaRobos.contains(robo)){
             listaRobos.add(robo);
             robo.set_ambiente(this); //Insere o objeto ambiente como ambiente do robo.
@@ -62,7 +67,7 @@ public class Ambiente {
     public void adicionarObstaculo(int posX, int posY){
         int[] coordenada = {posX, posY};
         if(!obstaculos.contains(coordenada)){
-            if(dentroDosLimites(posX, posY)){
+            if(dentroDosLimites(posX, posY,0)){
                 obstaculos.add(coordenada);
                 this.quantidade_obstaculos++;
             } else {
@@ -95,6 +100,14 @@ public class Ambiente {
 
     public void setLargura(int largura) {
         this.largura = largura;
+    }
+
+    public int get_comprimento(){
+        return this.comprimento;
+    }
+
+    public void set_comprimento(int novo_comprimento){
+        this.comprimento = novo_comprimento;
     }
 
     public int getAltura() {

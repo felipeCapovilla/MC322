@@ -32,8 +32,8 @@ public class Robo
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY) { //Usar um polimorfismo em mover.
-        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY)){
+    public void mover(int deltaX, int deltaY) { 
+        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,0)){
             posicaoX += deltaX;
             posicaoY += deltaY;
         } else {

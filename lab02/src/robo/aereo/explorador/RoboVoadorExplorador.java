@@ -37,7 +37,7 @@ public class RoboVoadorExplorador extends RoboAereo {
     public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
 
         if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
-            throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar"+this.velocidade_max+"m/s"); //Se nao: lança erro.
+            throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar "+this.velocidade_max+"m/s"); //Se nao: lança erro.
         }
         this.velocidade_atual = velocidade_atual; //Se sim: seta o valor.
         
@@ -56,7 +56,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a temperatura atual percebida pelo robo.
      * @param nova_temperatura Nova temperatura a ser setada.
      */
-    protected int set_temperatura(int nova_temperatura){ 
+    public int set_temperatura(int nova_temperatura){ 
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
@@ -70,7 +70,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a pressao atual percebida pelo robo.
      * @param nova_pressao O novo valor da variavel pressao.
      */
-    protected void set_pressao(int nova_pressao){
+    public void set_pressao(int nova_pressao){
         this.pressao_atual = nova_pressao;
     }
 
@@ -79,7 +79,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a velocidade atual do robo.
      * @param nova_velocidade O novo valor da velocidade.
      */
-    protected void set_velocidade(int nova_velocidade){ 
+    public void set_velocidade(int nova_velocidade){ 
         if(nova_velocidade > this.velocidade_max){ //Verifica se nova_velocidade e permitida dentros dos limites.
             throw new IllegalArgumentException("A velocidade maxima nao deve exceder "+this.velocidade_max+"m/s."); //Se nao: gera erro.
         }
