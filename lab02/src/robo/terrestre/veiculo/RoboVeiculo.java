@@ -1,6 +1,5 @@
 package robo.terrestre.veiculo;
 
-import ambiente.Ambiente;
 import robo.terrestre.standart.RoboTerrestre;
 
 public class RoboVeiculo extends RoboTerrestre{
@@ -10,8 +9,8 @@ public class RoboVeiculo extends RoboTerrestre{
     private int velocidade;
 
     
-    public RoboVeiculo(int posicaoX, int posicaoY, Ambiente ambiente,String direcao, String nome, int velocidadeMaxima, int passageiros_maximo){
-        super (posicaoX, posicaoY, ambiente,direcao, nome, velocidadeMaxima);
+    public RoboVeiculo(String nome,int posicaoX, int posicaoY,String direcao, int velocidadeMaxima, int passageiros_maximo){
+        super (nome,posicaoX, posicaoY,direcao, velocidadeMaxima);
         this.passageiros_maximo = passageiros_maximo;
         passageiros = 0;
         velocidade = 0;

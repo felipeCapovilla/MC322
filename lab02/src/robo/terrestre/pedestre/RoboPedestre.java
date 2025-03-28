@@ -8,8 +8,8 @@ public class RoboPedestre extends RoboTerrestre{
     private int peso;
 
 
-    public RoboPedestre(int posicaoX, int posicaoY, Ambiente ambiente,String direcao, String nome, int velocidadeMaxima){
-        super (posicaoX, posicaoY, ambiente, direcao, nome, velocidadeMaxima);
+    public RoboPedestre(String nome,int posicaoX, int posicaoY, Ambiente ambiente,String direcao, int velocidadeMaxima){
+        super (nome,posicaoX, posicaoY, direcao,velocidadeMaxima);
         peso = 0;
 
     }

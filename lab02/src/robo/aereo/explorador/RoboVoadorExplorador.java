@@ -1,6 +1,6 @@
 package robo.aereo.explorador;
 
-import ambiente.Ambiente;
+
 import robo.aereo.standart.*;
 
 public class RoboVoadorExplorador extends RoboAereo {
@@ -13,9 +13,9 @@ public class RoboVoadorExplorador extends RoboAereo {
     private boolean em_missao;
 
 
-    public RoboVoadorExplorador(int posicaoX, int posicaoY, Ambiente ambiente,String direcao, String nome, int altitude,int altitude_max,int velocidade_max){
+    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,String direcao,int altitude,int altitude_max,int velocidade_max){
         
-        super(posicaoX,posicaoY, ambiente,direcao, nome, altitude,altitude_max); //Inicializa as variaveis da classe herdada.
+        super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max); //Inicializa as variaveis da classe herdada.
         
         this.velocidade_max = velocidade_max;
         
@@ -56,7 +56,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a temperatura atual percebida pelo robo.
      * @param nova_temperatura Nova temperatura a ser setada.
      */
-    protected int setTemperatura(int nova_temperatura){ 
+    protected int set_temperatura(int nova_temperatura){ 
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
@@ -70,7 +70,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a pressao atual percebida pelo robo.
      * @param nova_pressao O novo valor da variavel pressao.
      */
-    protected void setPressao(int nova_pressao){
+    protected void set_pressao(int nova_pressao){
         this.pressao_atual = nova_pressao;
     }
 
@@ -79,7 +79,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a velocidade atual do robo.
      * @param nova_velocidade O novo valor da velocidade.
      */
-    protected void setVelocidade(int nova_velocidade){ 
+    protected void set_velocidade(int nova_velocidade){ 
         if(nova_velocidade > this.velocidade_max){ //Verifica se nova_velocidade e permitida dentros dos limites.
             throw new IllegalArgumentException("A velocidade maxima nao deve exceder "+this.velocidade_max+"m/s."); //Se nao: gera erro.
         }
@@ -90,7 +90,7 @@ public class RoboVoadorExplorador extends RoboAereo {
     /**
      * Retorna temperatura atual percebida pelo robo.
      */
-    public int getTemperatura(){
+    public int get_temperatura(){
         return this.temperatura_atual; 
     }
 
@@ -98,7 +98,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna pressao atual percebida pelo robo.
      */
-    public int getPressao(){
+    public int get_pressao(){
         return this.pressao_atual;
     }
 
@@ -106,7 +106,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna velocidade atual do robo.
      */
-    public int getVelocidade(){
+    public int get_velocidade(){
         return this.velocidade_atual;
     }
 
@@ -114,7 +114,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      /**
      * Retorna o planeta sendo explorado pelo robo.
      */
-    public String getPlaneta(){
+    public String get_planeta(){
         return this.planeta_atual;
     }
 

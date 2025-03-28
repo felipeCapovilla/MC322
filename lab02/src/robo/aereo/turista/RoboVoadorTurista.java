@@ -1,6 +1,6 @@
 package robo.aereo.turista;
 
-import ambiente.Ambiente;
+
 import robo.aereo.standart.*;
 public class RoboVoadorTurista extends RoboAereo{
 
@@ -9,8 +9,8 @@ public class RoboVoadorTurista extends RoboAereo{
     private String cidade_turistica;
     private boolean em_passeio;
 
-    public RoboVoadorTurista(int posicaoX, int posicaoY, Ambiente ambiente, String direcao, String nome, int altitude,int altitude_max,int capacidade_maxima){
-        super(posicaoX,posicaoY, ambiente,direcao, nome, altitude,altitude_max);
+    public RoboVoadorTurista(String nome,int posicaoX, int posicaoY, String direcao, int altitude,int altitude_max,int capacidade_maxima){
+        super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max);
 
         this.capacidade_maxima = capacidade_maxima;
         this.numero_passageiros = 0;
@@ -41,7 +41,7 @@ public class RoboVoadorTurista extends RoboAereo{
     /**
      * Retorna se o robo esta em servico.
      */
-    public boolean getStatus(){
+    public boolean get_status(){
         return this.em_passeio;
     }
 
@@ -49,18 +49,18 @@ public class RoboVoadorTurista extends RoboAereo{
     /**
      * Retorna o destino turistico do robo.
      */
-    public String getDestino(){
+    public String get_destino(){
         return this.cidade_turistica;
     }
 
     /**
      * Retorna o numero de passageiros no robo.
      */
-    public int getNumero_passageiros() {
+    public int get_numero_passageiros() {
         return numero_passageiros;
     }
 
-    public void setNumero_passageiros(int numero_passageiros) {
+    public void set_numero_passageiros(int numero_passageiros) {
         if(numero_passageiros < 0){
             this.numero_passageiros = 0;
         } else if (numero_passageiros > capacidade_maxima){

@@ -17,7 +17,7 @@ public class Robo
     /**
      * Construtor da classe Robo.
      */
-    public Robo(int posicaoX, int posicaoY, String direcao, String nome) {
+    public Robo(String nome, int posicaoX, int posicaoY, String direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
@@ -50,18 +50,12 @@ public class Robo
 
     }
 
-    //FAZER CLASSE IDENTIFICAR_OBSTACULOS()
-
-
-
-
-
 
 
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
-    public int[] getPosicao(){
+    public int[] get_posicao(){
         return new int[]{this.posicaoX, this.posicaoY};
     }
 

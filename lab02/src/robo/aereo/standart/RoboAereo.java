@@ -1,6 +1,5 @@
 package robo.aereo.standart;
 
-import ambiente.Ambiente;
 import robo.standart.*;
 
 // TODO: Sobreescrever funcao toString de ambas classes herdadas de RoboAereo && adicionar metodo de verificar obstaculos em torno do robo.
@@ -11,9 +10,9 @@ public class RoboAereo extends Robo {
     private int altitude;
     private final int altitude_max;
 
-    public RoboAereo(int posicaoX, int posicaoY, Ambiente ambiente,String direcao, String nome, int altitude,int altitude_max){
+    public RoboAereo(String nome,int posicaoX, int posicaoY,String direcao, int altitude,int altitude_max){
         
-        super(posicaoX, posicaoY,direcao, nome); //Chama o construtor da super-classe Robo.
+        super(nome,posicaoX, posicaoY,direcao); //Chama o construtor da super-classe Robo.
         this.altitude = altitude;
         this.altitude_max = altitude_max;
     }
@@ -23,7 +22,7 @@ public class RoboAereo extends Robo {
      * Adiciona a altura atual do robo.
      * @param metros Indica quantos metros ele deve subir.
      */
-    public void  subir(int metros){
+    public void subir(int metros){
         if(this.altitude + metros > this.altitude_max){ //Verifica se a altura pode ser atingida.
             throw new IllegalArgumentException("A altitude do robo nao pode ultrapassar "+this.altitude_max+"m."); 
         }
@@ -44,11 +43,11 @@ public class RoboAereo extends Robo {
         this.altitude -=metros; 
     }
 
-    public int getAltitude() {
+    public int get_altitude() {
         return altitude;
     }
 
-    public void setAltitude(int altitude) {
+    public void set_altitude(int altitude) {
         if(altitude < 0){
             this.altitude = 0;
         } else if(altitude > altitude_max){
@@ -58,7 +57,7 @@ public class RoboAereo extends Robo {
         }
     }
 
-    public int getAltitude_max() {
+    public int get_altitude_max() {
         return altitude_max;
     }
 
