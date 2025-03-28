@@ -1,5 +1,6 @@
 package robo.standart;
 
+import java.util.Arrays;
 import ambiente.Ambiente;
 
 public class Robo
@@ -39,6 +40,14 @@ public class Robo
             throw new IllegalArgumentException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
         }
         
+    }
+
+    public void identificar_obstaculos(){
+        System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
+        for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
+            System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
+        }
+
     }
 
     //FAZER CLASSE IDENTIFICAR_OBSTACULOS()

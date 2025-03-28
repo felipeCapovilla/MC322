@@ -8,8 +8,11 @@ public class Ambiente {
 
     private int largura;
     private int altura;
+    private int quantidade_robos_ativos;
+    private int quantidade_obstaculos;
     private final ArrayList<Robo> listaRobos;
     private final ArrayList<int[]> obstaculos;
+    
 
     /**
      * Cria um plano cartesiano. A extremidade esquerda inferior do ambiente se inicia em (0,0).
@@ -19,6 +22,8 @@ public class Ambiente {
     public Ambiente(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
+        this.quantidade_robos_ativos =0;
+        this.quantidade_obstaculos =0;
         listaRobos = new ArrayList<>();
         obstaculos = new ArrayList<>();
 
@@ -38,6 +43,7 @@ public class Ambiente {
         if(!listaRobos.contains(robo)){
             listaRobos.add(robo);
             robo.set_ambiente(this); //Insere o objeto ambiente como ambiente do robo.
+            this.quantidade_robos_ativos++;
         }
     }
 
@@ -47,6 +53,7 @@ public class Ambiente {
     public void removerRobo(Robo robo){
         listaRobos.remove(robo);
         robo.set_ambiente(null); //Remove o ambiente da instancia do Robo.
+        this.quantidade_robos_ativos--;
     }
 
     /**
@@ -57,6 +64,7 @@ public class Ambiente {
         if(!obstaculos.contains(coordenada)){
             if(dentroDosLimites(posX, posY)){
                 obstaculos.add(coordenada);
+                this.quantidade_obstaculos++;
             } else {
                 throw new IllegalArgumentException(String.format("Posição inválida (%d,%d)", posX, posY));
             }
@@ -70,9 +78,16 @@ public class Ambiente {
     public void removerObstaculo(int posX, int posY){
         int[] coordenada = {posX, posY};
         obstaculos.remove(coordenada);
+        this.quantidade_obstaculos--;
     }
 
+    public int get_quantidade_obstaculos(){
+        return this.quantidade_obstaculos;
+    }
 
+    public int get_robos_ativos(){
+        return this.quantidade_robos_ativos;
+    }
 
     public int getLargura() {
         return largura;
