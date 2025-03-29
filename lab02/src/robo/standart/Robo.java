@@ -1,7 +1,7 @@
 package robo.standart;
 
-import java.util.Arrays;
 import ambiente.Ambiente;
+import java.util.Arrays;
 
 public class Robo
 {
@@ -10,7 +10,7 @@ public class Robo
     private int posicaoX;
     private int posicaoY;
     /**
-     * NORTE, SUL, LESTE, OESTE
+     * Direção deve ser tudo em maiúsculo
      */
     private String direcao;
 
@@ -42,15 +42,27 @@ public class Robo
         
     }
 
+    /**
+     * Identifica os obstáculos presentes no ambiente atual
+     */
     public void identificar_obstaculos(){
-        System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
-        for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-            System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
+        if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
+
+            System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
+            
+            for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
+                System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
+            }
+        } else {
+            System.out.printf("Robo %S não está em um ambiente\n", nome);
         }
+        
 
     }
 
 
+
+    //GETs e SETs
 
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
@@ -60,13 +72,11 @@ public class Robo
     }
 
     /**
-     * Retorna o nome do robo.
-     * @return
+     * Retorna o valor da variável nome
      */
     public String getNome(){
         return this.nome;
     }
-
 
     /**
      * Adiciona o robo num ambiente.
@@ -76,35 +86,29 @@ public class Robo
         this.ambiente_atual = novo_ambiente;
     }
 
-
     /**
-     * Retorna ambiente atual.
+     * Retorna o valor da variável ambiente_atual
      */
     public Ambiente get_ambiente(){
         return this.ambiente_atual;
     }
-
     
     /**
-     * Altera nome do robo.
+     * define o valor da variável nome
      */
     public void setNome(String nome){
         this.nome = nome;
     }
 
-
     /**
-     * Retorna direcao robo.
-     * @return
+     * Retorna o valor da variável direção
      */
     public String getDirecao(){
         return this.direcao;
     }
 
-
     /**
-     * Ajusta nova direcao robo.
-     * @param nova_direcao Nova direcao a ser ajustada.
+     * define o valor da variável direção
      */
     public void setDirecao(String direcao){
         this.direcao = direcao;

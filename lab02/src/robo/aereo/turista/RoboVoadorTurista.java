@@ -36,7 +36,7 @@ public class RoboVoadorTurista extends RoboAereo{
 
 
 
-
+    //GETs e SETs
 
     /**
      * Retorna se o robo esta em servico.
@@ -60,6 +60,9 @@ public class RoboVoadorTurista extends RoboAereo{
         return numero_passageiros;
     }
 
+    /**
+     * define o valor da variável numero_passageiros
+     */
     public void set_numero_passageiros(int numero_passageiros) {
         if(numero_passageiros < 0){
             this.numero_passageiros = 0;

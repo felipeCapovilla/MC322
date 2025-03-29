@@ -22,7 +22,7 @@ public class RoboTerrestre extends Robo{
     public void mover(int deltaX, int deltaY){
         double velAtual = Math.sqrt((deltaX*deltaX + deltaY*deltaY));
 
-        if(velAtual >= velocidadeMaxima){
+        if(velAtual >= velocidadeMaxima){ //altera o deslocamento para o máximo possível que é menor do que a velocidade máxima
             deltaX = (int)((deltaX/velAtual) * velocidadeMaxima);
             deltaY = (int)((deltaY/velAtual) * velocidadeMaxima);
         } 
@@ -31,11 +31,18 @@ public class RoboTerrestre extends Robo{
         
     }
 
-    
+    //GETs e SETs
+
+    /**
+     * Retorna o valor da variável velocidadeMaxima
+     */
     public int getVelocidadeMaxima() {
         return velocidadeMaxima;
     }
 
+    /**
+     * define o valor da variável velocidadeMaxima
+     */
     public void setVelocidadeMaxima(int velocidadeMaxima) {
         this.velocidadeMaxima = velocidadeMaxima;
     }

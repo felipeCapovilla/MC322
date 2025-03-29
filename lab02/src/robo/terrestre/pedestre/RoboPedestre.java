@@ -45,6 +45,8 @@ public class RoboPedestre extends RoboTerrestre{
     }
 
     /**
+     * define o valor da variável largura <p>
+     * <p>
      * Fator do peso faz andar mais devagar <p>
      * peso = 1 -> 1 * velocidade <p>
      * peso = 10 -> 0,5 * velocidade <p>
@@ -54,6 +56,9 @@ public class RoboPedestre extends RoboTerrestre{
         this.peso = Math.max(peso, 0);
     }
 
+    /**
+     * Retorna o valor da variável peso
+     */
     public int getPeso() {
         return peso;
     }

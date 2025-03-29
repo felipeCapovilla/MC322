@@ -36,33 +36,43 @@ public class RoboVoadorExplorador extends RoboAereo {
     */
     public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
 
+        //Verificação de valores inválidos
         if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
             throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar "+this.velocidade_max+"m/s"); //Se nao: lança erro.
-        }
-        this.velocidade_atual = velocidade_atual; //Se sim: seta o valor.
-        
-        if(temperatura_atual < 0){ //Verifica se a temperatura é plausivel.
+        } else if (temperatura_atual < 0) { //Verifica se a temperatura é plausivel.
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lança erro.
         }
-        this.temperatura_atual = temperatura_atual; //Se sim: seta valor.
 
+        //Se tudo estiver válido
+        this.velocidade_atual = velocidade_atual; 
+        this.temperatura_atual = temperatura_atual; 
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
     }
 
+     /**
+     * Finaliza a missao e libera o robo para uso.
+     */
+    public void finalizar_exploracao(){
+        this.em_missao = false;
+        this.planeta_atual = "";
+        this.pressao_atual=0;
+        this.temperatura_atual=0;
+        this.velocidade_atual=0;
+    }
+
+    //GETs e SETs
 
     /**
      * Altera a temperatura atual percebida pelo robo.
      * @param nova_temperatura Nova temperatura a ser setada.
      */
-    public int set_temperatura(int nova_temperatura){ 
+    public void set_temperatura(int nova_temperatura){ 
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
-
-        return nova_temperatura; 
     }
 
 
@@ -127,16 +137,7 @@ public class RoboVoadorExplorador extends RoboAereo {
     }
 
 
-     /**
-     * Finaliza a missao e libera o robo para uso.
-     */
-    public void finalizar_exploracao(){
-        this.em_missao = false;
-        this.planeta_atual = "";
-        this.pressao_atual=0;
-        this.temperatura_atual=0;
-        this.velocidade_atual=0;
-    }
+    
 }
 
 

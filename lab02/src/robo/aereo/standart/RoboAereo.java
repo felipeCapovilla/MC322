@@ -22,7 +22,7 @@ public class RoboAereo extends Robo {
     public void subir(int metros){
         
         if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
-            if(this.get_ambiente().getAltura() < this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
+            if(this.get_ambiente().getAltura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
                 throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar os limites do ambiente.");
         }
 
@@ -39,22 +39,28 @@ public class RoboAereo extends Robo {
      * @param metros Indica quantos metros ele vai descer.
      */
     public void descer(int metros){
-        if(this.altitude - metros <= 0){ //Verifica viabilidade de nova altitude descendente.
-            throw new IllegalArgumentException("A altitude do robo não pode ser <= 0m.");
+        if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
+            throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
         }
     
         this.altitude -=metros; 
     }
 
+    /**
+     * Retorna o valor da variável altitude
+     */
     public int get_altitude() {
         return altitude;
     }
 
+    /**
+     * define o valor da variável altitude
+     */
     public void set_altitude(int altitude) {
         if(altitude < 0){
             System.out.println("A altitude do robo não pode ser < 0m. Ajustando altura para 0m.");
             this.altitude = 0;
-        } else if(altitude > this.get_ambiente().getAltura()){
+        } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().getAltura()){
             System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().getAltura()+"m.");
             this.altitude = this.get_ambiente().getAltura();
         }else if(altitude > altitude_max){
@@ -65,6 +71,9 @@ public class RoboAereo extends Robo {
         }
     }
 
+    /**
+     * Retorna o valor da variável altitude maxima
+     */
     public int get_altitude_max() {
         return altitude_max;
     }
