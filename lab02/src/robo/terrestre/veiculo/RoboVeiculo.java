@@ -3,7 +3,6 @@ package robo.terrestre.veiculo;
 import robo.terrestre.standart.RoboTerrestre;
 
 public class RoboVeiculo extends RoboTerrestre{
-    private final String[] direcoesList = {"NORTE", "LESTE", "SUL", "OESTE"};  //direções possíveis para o RoboVeículo
     private int passageiros;
     private final int passageiros_maximo;
     private int velocidade;

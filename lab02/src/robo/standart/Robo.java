@@ -10,9 +10,12 @@ public class Robo
     private int posicaoX;
     private int posicaoY;
     /**
-     * Direção deve ser tudo em maiúsculo
+     * NORTE, SUL, LESTE, OESTE
      */
     private String direcao;
+
+    protected final String[] direcoesList = {"NORTE", "LESTE", "SUL", "OESTE"};  //direções possíveis para o Robo
+
 
     /**
      * Construtor da classe Robo.
@@ -21,9 +24,13 @@ public class Robo
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
-        this.direcao = direcao;
         this.ambiente_atual = null;
 
+        if(direcaoValida(direcao)){ //verifica se a direção é válida
+            this.direcao = direcao;
+        } else { //valor dafault da direção
+            this.direcao = "NORTE";
+        }
     }
 
 
@@ -33,7 +40,7 @@ public class Robo
      * @param deltaY
      */
     public void mover(int deltaX, int deltaY) { 
-        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,0)){
+        if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,0)){
             posicaoX += deltaX;
             posicaoY += deltaY;
         } else {
@@ -54,10 +61,18 @@ public class Robo
                 System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
             }
         } else {
-            System.out.printf("Robo %S não está em um ambiente\n", nome);
+            System.out.printf("Robo %s não está em um ambiente\n", nome);
         }
         
 
+    }
+
+    /**
+     * Verifica se a direção é válida: <p>
+     * NORTE, SUL, LESTE, OESTE
+     */
+    private boolean direcaoValida(String dir){
+        return ((dir.equals("NORTE")) || (dir.equals("SUL")) || (dir.equals("LESTE")) || (dir.equals("OESTE")));
     }
 
 
@@ -111,7 +126,9 @@ public class Robo
      * define o valor da variável direção
      */
     public void setDirecao(String direcao){
-        this.direcao = direcao;
+        if(direcaoValida(direcao)){
+            this.direcao = direcao;
+        }
     }
 
     @Override
