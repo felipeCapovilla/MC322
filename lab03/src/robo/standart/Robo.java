@@ -1,6 +1,7 @@
 package robo.standart;
 
 import ambiente.Ambiente;
+import constantes.Bussula;
 import java.util.Arrays;
 
 public class Robo
@@ -12,25 +13,17 @@ public class Robo
     /**
      * NORTE, SUL, LESTE, OESTE
      */
-    private String direcao;
-
-    protected final String[] direcoesList = {"NORTE", "LESTE", "SUL", "OESTE"};  //direções possíveis para o Robo
-
+    private Bussula direcao;
 
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, String direcao) {
+    public Robo(String nome, int posicaoX, int posicaoY, Bussula direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.ambiente_atual = null;
-
-        if(direcaoValida(direcao)){ //verifica se a direção é válida
-            this.direcao = direcao;
-        } else { //valor dafault da direção
-            this.direcao = "NORTE";
-        }
+        this.direcao = direcao;
     }
 
 
@@ -66,16 +59,6 @@ public class Robo
         
 
     }
-
-    /**
-     * Verifica se a direção é válida: <p>
-     * NORTE, SUL, LESTE, OESTE
-     */
-    private boolean direcaoValida(String dir){
-        return ((dir.equals("NORTE")) || (dir.equals("SUL")) || (dir.equals("LESTE")) || (dir.equals("OESTE")));
-    }
-
-
 
     //GETs e SETs
 
@@ -118,17 +101,16 @@ public class Robo
     /**
      * Retorna o valor da variável direção
      */
-    public String getDirecao(){
+    public Bussula getDirecao(){
         return this.direcao;
     }
 
     /**
      * define o valor da variável direção
      */
-    public void setDirecao(String direcao){
-        if(direcaoValida(direcao)){
-            this.direcao = direcao;
-        }
+    public void setDirecao(Bussula direcao){
+        this.direcao = direcao;
+        
     }
 
     @Override

@@ -1,13 +1,14 @@
 /*
  * Main.java
  * 
- * Última modificação: 28/03/2025
+ * Última modificação: 10/04/2025
  * 
  * Simulação de um ambiente virtual para a testar robos.
  */
 
 
 import ambiente.*;
+import constantes.Bussula;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -26,13 +27,13 @@ public class Main {
 
         Ambiente ambiente = new Ambiente(100,100,100);
 
-        Robo roboStandart = new Robo("roboStandart",20,20,"LESTE");
-        RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,"OESTE",20,100);
-        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("roboAereoTurista",10,20,"OESTE",10,40,30);
-        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("roboAereoExplorador",23,42,"LESTE",2,50,100);
-        RoboTerrestre roboTerrestre = new RoboTerrestre("RoboTerrestre",15,16,"SUL",120);
-        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,"OESTE",120,120);
-        RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, "SUL", 20);
+        Robo roboStandart = new Robo("roboStandart",20,20,Bussula.LESTE);
+        RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,Bussula.OESTE,20,100);
+        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("roboAereoTurista",10,20,Bussula.OESTE,10,40,30);
+        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("roboAereoExplorador",23,42,Bussula.LESTE,2,50,100);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("RoboTerrestre",15,16,Bussula.SUL,120);
+        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,Bussula.OESTE,120,120);
+        RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, Bussula.SUL, 20);
 
 
         //Teste Ambiente

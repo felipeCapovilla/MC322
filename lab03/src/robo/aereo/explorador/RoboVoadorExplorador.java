@@ -1,6 +1,7 @@
 package robo.aereo.explorador;
 
 
+import constantes.Bussula;
 import robo.aereo.standart.*;
 
 public class RoboVoadorExplorador extends RoboAereo {
@@ -13,7 +14,7 @@ public class RoboVoadorExplorador extends RoboAereo {
     private boolean em_missao;
 
 
-    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,String direcao,int altitude,int altitude_max,int velocidade_max){
+    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussula direcao,int altitude,int altitude_max,int velocidade_max){
         
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max); //Inicializa as variaveis da classe herdada.
         

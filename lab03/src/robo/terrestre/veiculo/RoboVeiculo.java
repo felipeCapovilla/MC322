@@ -1,5 +1,6 @@
 package robo.terrestre.veiculo;
 
+import constantes.Bussula;
 import robo.terrestre.standart.RoboTerrestre;
 
 public class RoboVeiculo extends RoboTerrestre{
@@ -8,7 +9,7 @@ public class RoboVeiculo extends RoboTerrestre{
     private int velocidade;
 
     
-    public RoboVeiculo(String nome,int posicaoX, int posicaoY,String direcao, int velocidadeMaxima, int passageiros_maximo){
+    public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussula direcao, int velocidadeMaxima, int passageiros_maximo){
         super (nome,posicaoX, posicaoY,direcao, velocidadeMaxima);
         this.passageiros_maximo = passageiros_maximo;
         passageiros = 0;
@@ -35,33 +36,13 @@ public class RoboVeiculo extends RoboTerrestre{
      * @param direita direita(true) ou esquerda(false)
      */
     public void virar(boolean direita){
-        int index;
-        switch (getDirecao()) {
-            case "NORTE":
-                index = 0;
-                break;
-
-            case "LESTE":
-                index = 1;
-                break;
-
-            case "SUL":
-                index = 2;
-                break;
-
-            case "OESTE":
-                index = 3;
-                break;
-
-            default:
-                throw new IllegalArgumentException("Direção inv´alida");
-        }
+        int index = getDirecao().getIndice();
 
         //direita(1) e esquerda(-1)
         int lado = (direita)? 1: -1;
 
         //movimento ciclico do index
-        setDirecao(direcoesList[((index+lado)%4 + 4) % 4]);
+        setDirecao(Bussula.values()[((index+lado)%4 + 4) % 4]);
     }
 
     /**
@@ -72,19 +53,19 @@ public class RoboVeiculo extends RoboTerrestre{
         int marcha = (frente)? 1:-1;
 
         switch (getDirecao()) {
-            case "NORTE": 
+            case Bussula.NORTE: 
                 mover(0, velocidade * marcha);
                 break;
 
-            case "SUL": 
+            case Bussula.SUL: 
                 mover(0, -(velocidade * marcha));
                 break;
 
-            case "LESTE": 
+            case Bussula.LESTE: 
                 mover(velocidade * marcha,0);
                 break;
 
-            case "OESTE": 
+            case Bussula.OESTE: 
                 mover(-(velocidade * marcha), 0);
                 break;
                 
