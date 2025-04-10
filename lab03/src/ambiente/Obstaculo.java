@@ -3,12 +3,17 @@ package ambiente;
 import constantes.TipoObstaculo;
 
 public class Obstaculo {
-    int posX1, posY1;
-    int posX2, posY2;
-    int altura;
-    TipoObstaculo tipoObstaculo;
+    private int posX1, posY1;
+    private int posX2, posY2;
+    private int altura;
+    private TipoObstaculo tipoObstaculo;
 
-    //Obstaculo puntiforme com altura padrão
+    /**
+     * Obstaculo puntiforme com altura padrão
+     * @param posX
+     * @param posY
+     * @param tipoObstaculo
+     */
     public Obstaculo (int posX, int posY, TipoObstaculo tipoObstaculo){
         posX1 = posX;
         posX2 = posX;
@@ -19,7 +24,14 @@ public class Obstaculo {
         altura = tipoObstaculo.getAlturaPadrao();
     }
 
-    //Obstaculo extenso com altura padrão
+    /**
+     * Obstaculo extenso com altura padrão
+     * @param posX1
+     * @param posY1
+     * @param posX2
+     * @param posY2
+     * @param tipoObstaculo
+     */
     public Obstaculo (int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo){
         this.posX1 = Math.min(posX1, posX2);
         this.posX2 = Math.max(posX2, posX2);
@@ -30,7 +42,15 @@ public class Obstaculo {
         altura = tipoObstaculo.getAlturaPadrao();
     }
 
-    //Obstaculo extenso com altura personalizada
+    /**
+     * Obstaculo extenso com altura personalizada
+     * @param posX1
+     * @param posY1
+     * @param posX2
+     * @param posY2
+     * @param altura
+     * @param tipoObstaculo
+     */
     public Obstaculo (int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo){
         this.posX1 = Math.min(posX1, posX2);
         this.posX2 = Math.max(posX2, posX2);

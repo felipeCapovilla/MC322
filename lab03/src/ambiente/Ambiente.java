@@ -1,5 +1,6 @@
 package ambiente;
 
+import constantes.TipoObstaculo;
 import java.util.ArrayList;
 import robo.standart.Robo;
 
@@ -11,7 +12,7 @@ public class Ambiente {
     private int quantidade_robos_ativos;
     private int quantidade_obstaculos;
     private final ArrayList<Robo> listaRobos;
-    private final ArrayList<int[]> obstaculos;
+    private final ArrayList<Obstaculo> obstaculos;
     
 
     /**
@@ -63,18 +64,55 @@ public class Ambiente {
     }
 
     /**
-     * Adiciona um obstáculo no ambiente na posição introduzida
+     * Adiciona um obstáculo puntiforme com altura padrão no ambiente na posição introduzida
      */
-    public void adicionarObstaculo(int posX, int posY){
-        int[] coordenada = {posX, posY};
-        if(!obstaculos.contains(coordenada)){ //evitar duplicatas
-            if(dentroDosLimites(posX, posY,0)){
-                obstaculos.add(coordenada);
-                this.quantidade_obstaculos++;
-            } else {
-                throw new IllegalArgumentException(String.format("Posição inválida (%d,%d)", posX, posY));
-            }
-            
+    public void adicionarObstaculo(int posX, int posY, TipoObstaculo tipoObstaculo){
+        Obstaculo obstaculo = new Obstaculo(posX, posY, tipoObstaculo);
+
+        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        if(
+            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], obstaculo.getAltura())
+        ) {
+            obstaculos.add(obstaculo);
+            this.quantidade_obstaculos++;
+        } else{
+            throw new IllegalArgumentException("Posição inválida");
+        }
+    }
+
+    /**
+     * Adiciona um obstáculo extenso com altura padrão no ambiente na posição introduzida
+     */
+    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo){
+        Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, tipoObstaculo);
+
+        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        if(
+            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
+            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getAltura())
+        ) {
+            obstaculos.add(obstaculo);
+            this.quantidade_obstaculos++;
+        } else{
+            throw new IllegalArgumentException("Posição inválida");
+        }
+    }
+
+    /**
+     * Adiciona um obstáculo extenso com altura personalizada no ambiente na posição introduzida
+     */
+    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo){
+        Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, altura, tipoObstaculo);
+
+        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        if(
+            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
+            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getAltura())
+         ) {
+            obstaculos.add(obstaculo);
+            this.quantidade_obstaculos++;
+        } else{
+            throw new IllegalArgumentException("Posição inválida");
         }
     }
 
@@ -82,9 +120,16 @@ public class Ambiente {
      * Remove um obstáculo na posição introduzida
      */
     public void removerObstaculo(int posX, int posY){
-        int[] coordenada = {posX, posY};
-        if(obstaculos.remove(coordenada)){ //tenta remover a coordenada da lista, se ela estava na lista => true
-            this.quantidade_obstaculos--;
+        for (Obstaculo obst : obstaculos) {
+            if(
+                (obst.getPontoMenor()[0] <= posX && obst.getPontoMaior()[0] >= posX) &&
+                (obst.getPontoMenor()[1] <= posY && obst.getPontoMaior()[1] >= posY)
+             ) {
+                obstaculos.remove(obst);
+                this.quantidade_obstaculos--;
+            
+                break;
+            }
         }
     }
 
@@ -157,7 +202,7 @@ public class Ambiente {
     /**
      * Retorna a lista de obstaculos
      */
-    public ArrayList<int[]> getObstaculos() {
+    public ArrayList<Obstaculo> getObstaculos() {
         return obstaculos;
     }
     

@@ -9,6 +9,7 @@
 
 import ambiente.*;
 import constantes.Bussula;
+import constantes.TipoObstaculo;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -53,12 +54,12 @@ public class Main {
         });
 
             //Adicionar e remover Obstáculos no ambiente
-        ambiente.adicionarObstaculo(1, 1);
-        ambiente.adicionarObstaculo(10, 7);
-        ambiente.adicionarObstaculo(1, 40);
-        ambiente.adicionarObstaculo(30, 25);
-        ambiente.adicionarObstaculo(49, 49);
-        ambiente.adicionarObstaculo(0, 0);
+        ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(10, 7, 20, 13, TipoObstaculo.BURACO);
+        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
+        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
+        ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
+        ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
         ambiente.removerObstaculo(1, 40); //existe
         ambiente.removerObstaculo(62, 48); //não existe
 
@@ -70,7 +71,7 @@ public class Main {
             //Obstáculo fora do limite
         System.out.println("\nAdicionando obstáculo fora dos limites do ambiente:");
         try {
-            ambiente.adicionarObstaculo(160, 60);
+            ambiente.adicionarObstaculo(160, 60, TipoObstaculo.OUTRO);
             System.out.println("Obstáculo adicionado com sucesso fora dos limites");
         } catch (Exception e) {
             System.out.println("ERRO: " + e);
