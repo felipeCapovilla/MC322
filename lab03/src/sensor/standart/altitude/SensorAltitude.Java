@@ -15,6 +15,15 @@ public class SensorAltitude extends Sensor{
         this.altitude_atual = altitude_atual;
         this.precisao = precisao;
     }
+    
+    //Sobrecarga o construtor no caso de ausencia de 'precisao'.
+    public SensorAltitude(double raio_alcance, String modelo,double altitude_atual){
+        
+        super(raio_alcance,modelo);
+        this.altitude_atual = altitude_atual;
+        this.precisao = 0.05*altitude_atual; //Usa precisao generica: 0,5% do valor medido.
+    }
+    
     //Metodos.
 
 
@@ -53,9 +62,6 @@ public class SensorAltitude extends Sensor{
     public String toString(){
         return String.format("%s%nAltitude atual: (%.2f±%.2f)m.%n",this.modelo,this.altitude_atual,get_incerteza());
     }
-
-
-
 
     
     
