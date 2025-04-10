@@ -63,10 +63,6 @@ public class Main {
         ambiente.removerObstaculo(1, 40); //existe
         ambiente.removerObstaculo(62, 48); //não existe
 
-        System.out.printf("\nLista de obstáculos no ambiente (%d):\n", ambiente.get_quantidade_obstaculos());
-        ambiente.getObstaculos().forEach(obst -> {
-            System.out.print(String.format(" (%d,%d)", obst[0], obst[1]));
-        });
 
             //Obstáculo fora do limite
         System.out.println("\nAdicionando obstáculo fora dos limites do ambiente:");

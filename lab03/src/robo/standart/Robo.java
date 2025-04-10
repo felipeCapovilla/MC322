@@ -2,7 +2,6 @@ package robo.standart;
 
 import ambiente.Ambiente;
 import constantes.Bussula;
-import java.util.Arrays;
 
 public class Robo
 {
@@ -51,7 +50,7 @@ public class Robo
             System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
             
             for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
+                System.out.println("Obstaculo"+i+": "+ this.ambiente_atual.getObstaculos().get(i));
             }
         } else {
             System.out.printf("Robo %s não está em um ambiente\n", nome);
