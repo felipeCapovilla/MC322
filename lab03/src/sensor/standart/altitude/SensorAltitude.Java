@@ -23,7 +23,7 @@ public class SensorAltitude extends Sensor{
         this.altitude_atual = altitude_atual;
         this.precisao = 0.05*altitude_atual; //Usa precisao generica: 0,5% do valor medido.
     }
-    
+
     //Metodos.
 
 
@@ -53,6 +53,14 @@ public class SensorAltitude extends Sensor{
      */
     public double get_incerteza(){
         return this.precisao/1.73;
+    }
+
+    @Override
+    public void monitorar(double altura_maxima){
+        double delta_h = altura_maxima - this.altitude_atual;
+        
+
+
     }
 
     /**
