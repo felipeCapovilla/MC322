@@ -1,7 +1,11 @@
 package robo.standart;
 
+import java.util.ArrayList;
+
 import ambiente.Ambiente;
 import constantes.Bussula;
+import sensor.standart.Sensor;
+
 
 public class Robo
 {
@@ -9,10 +13,12 @@ public class Robo
     private String nome;
     private int posicaoX;
     private int posicaoY;
+    private ArrayList<Sensor> sensores;
     /**
      * NORTE, SUL, LESTE, OESTE
      */
     private Bussula direcao;
+
 
     /**
      * Construtor da classe Robo.
@@ -25,7 +31,7 @@ public class Robo
         this.direcao = direcao;
     }
 
-
+    
     /**
      * Adiciona a variacao das coordenadas no valor da coordenada atual.
      * @param deltaX

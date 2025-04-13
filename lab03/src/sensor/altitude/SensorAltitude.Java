@@ -1,5 +1,5 @@
 package sensor.altitude;
-import sensor.standart.*;
+import sensor.standart;
 
 public class SensorAltitude extends Sensor{
 

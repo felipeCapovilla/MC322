@@ -1,5 +1,6 @@
 package sensor.standart;
 
+
 public class Sensor{
 
     private final double raio_alcance;
@@ -13,7 +14,7 @@ public class Sensor{
     public Sensor(double raio_alcance, String modelo){
         this.raio_alcance = raio_alcance;
         this.modelo = modelo;
-        this.quantidade_sensores++;
+        quantidade_sensores++;
     }
 
     /**
@@ -21,8 +22,8 @@ public class Sensor{
      */
     public Sensor(double raio_alcance){
         this.raio_alcance = raio_alcance;
-        this.quantidade_sensores++;
-        this.modelo = String.format("GGG-%02d",this.quantidade_sensores);
+        quantidade_sensores++;
+        this.modelo = String.format("GGG-%02d",quantidade_sensores);
     }
 
     //Metodos
@@ -43,7 +44,7 @@ public class Sensor{
      * Returona quantidade de sensores ativos.
      */
     public int get_quantidadeSensores(){
-        return this.quantidade_sensores;
+        return quantidade_sensores;
     }
 
     /**
