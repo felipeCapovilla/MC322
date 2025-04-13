@@ -5,19 +5,26 @@ public class SensorTemperatura extends Sensor{
 
     private double temperatura;
     private final double precisao;
+    private final double temperatura_maxima;
+    private final double temperatura_minima;
 
     //Construtores.
 
-    public SensorTemperatura(double raio_alcance, String modelo,double temperatura, double precisao){
+    public SensorTemperatura(double raio_alcance, String modelo,double temperatura, double precisao, double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
         this.temperatura = temperatura;
         this.precisao = precisao;
+        this.temperatura_maxima = temperatura_maxima;
+        this.temperatura_minima = temperatura_minima;
     }
     //Sobrecarrega construtor no caso de ausencia de precisao.
-    public SensorTemperatura(double raio_alcance, String modelo,double temperatura){
+    public SensorTemperatura(double raio_alcance, String modelo,double temperatura,double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
         this.temperatura = temperatura;
         this.precisao = 0.05*temperatura; //Considera 5% da quantidade medida.
+        this.temperatura_maxima=temperatura_maxima;
+        this.temperatura_minima=temperatura_minima;
+    
     }
 
 
@@ -28,6 +35,20 @@ public class SensorTemperatura extends Sensor{
      */
     public double get_precisao(){
         return this.precisao;
+    }
+
+    /**
+     * Retorna a temperatura maxima suportada pelo sensor.
+     */
+    public double get_temperaturaMaxima(){
+        return this.temperatura_maxima;
+    }
+
+    /**
+     * Retorna a temperatura minima suportada pelo sensor.
+     */
+    public double get_temperaturaMinima(){
+        return this.temperatura_minima;
     }
 
     /**
@@ -69,11 +90,11 @@ public class SensorTemperatura extends Sensor{
      * Sobreecreve a funcao 'monitorar', fazendo o sensor verificar as condicoes de temperatura.
      */
     @Override
-    public void monitorar(double temperatura_minima, double temperatura_maxima){
-        if(this.temperatura < temperatura_minima || this.temperatura > temperatura_maxima){ //Verifica a condicao do Robo em relacao a temperatura.
-            System.out.printf("WARNING%n Sensor %s detectou um perigo critico! %n A temperatura atual e de %.2fK o que ultrapassa o limite de intervalo permitido. %nPotencial de grandes danos.%n",this.modelo,this.temperatura);
+    public void monitorar(){
+        if(this.temperatura < this.temperatura_minima || this.temperatura > this.temperatura_maxima){ //Verifica a condicao do Robo em relacao a temperatura.
+            System.out.printf("WARNING%n Sensor %s detectou um perigo critico! %n A temperatura atual e de %.2fK o que ultrapassa o limite de intervalo permitido. %nPotencial de grandes danos.%n",get_modelo(),this.temperatura);
         }else{
-            System.out.printf("%s: Nao ha risco detectado.%n ",this.modelo);
+            System.out.printf("%s: Nao ha risco detectado.%n ",get_modelo());
         }
 
     }
@@ -91,11 +112,11 @@ public class SensorTemperatura extends Sensor{
         "%t Em Fahrenheit: (%.2f±%.2f)°F%n"+
         "Raio de alcance do %s: %.2f m"+
         "%n****************************************%n",
-        this.modelo,
-        this.get_temperaturaKelvin,this.incerteza,
-        this.get_temperaturaCelcius,this.incerteza,
-        this.get_temperaturaFahrenheit,this.incerteza,
-        this.modelo,tis.raio_alcance;
-        )
+        get_modelo(),
+        get_temperaturaKelvin(),get_incerteza(),
+        get_temperaturaCelcius(),get_incerteza(),
+        get_temperaturaFahrenheit(),get_incerteza(),
+        get_modelo(),get_raioAlcance()
+        );
     }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ambiente.Ambiente;
 import constantes.Bussula;
 import sensor.standart.Sensor;
+import sensor.temperatura.*;
 
 
 public class Robo
@@ -13,7 +14,8 @@ public class Robo
     private String nome;
     private int posicaoX;
     private int posicaoY;
-    private ArrayList<Sensor> sensores;
+    private final ArrayList<Sensor> sensores;
+
     /**
      * NORTE, SUL, LESTE, OESTE
      */
@@ -29,6 +31,7 @@ public class Robo
         this.posicaoY = posicaoY;
         this.ambiente_atual = null;
         this.direcao = direcao;
+        sensores = new ArrayList<>();
     }
 
     
@@ -63,6 +66,10 @@ public class Robo
         }
         
 
+    }
+
+    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double temperatura,double precisao){
+        SensorTemperatura novo_sensor = new SensorTemperatura(raio_alcance,modelo,temperatura,precisao;)
     }
 
     //GETs e SETs
