@@ -55,12 +55,22 @@ public class SensorAltitude extends Sensor{
         return this.precisao/1.73;
     }
 
+    /**
+     * Sobreescreve o metodo monitorar conforme as especificidades do sensor de altitude.
+     */
     @Override
     public void monitorar(double altura_maxima){
         double delta_h = altura_maxima - this.altitude_atual;
+        System.out.printf(
+            "%s: %n"+
+            "Monitoramento Completo!!!%n"+
+            "Altitude atual: (%.2f±%.2f)m%n"+
+            "Margem restante para elevação de altura ainda disponível: (%.2f±%.2f)m.%n"
+            this.modelo,
+            this.altitude_atual,get_incerteza(),
+            delta_h,get_incerteza();
+        )
         
-
-
     }
 
     /**
