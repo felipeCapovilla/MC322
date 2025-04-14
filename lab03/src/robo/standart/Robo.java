@@ -6,6 +6,7 @@ import ambiente.Ambiente;
 import constantes.Bussula;
 import sensor.standart.Sensor;
 import sensor.temperatura.*;
+import sensor.altitude.*;
 
 
 public class Robo
@@ -14,7 +15,9 @@ public class Robo
     private String nome;
     private int posicaoX;
     private int posicaoY;
-    private final ArrayList<Sensor> sensores;
+    private SensorTemperatura sensor_temperatura;
+    private SensorAltitude sensor_altitude;
+    protected final ArrayList<Sensor> sensores;
 
     /**
      * NORTE, SUL, LESTE, OESTE
@@ -32,6 +35,8 @@ public class Robo
         this.ambiente_atual = null;
         this.direcao = direcao;
         sensores = new ArrayList<>();
+        this.sensor_altitude = null;
+        this.sensor_temperatura = null;
     }
 
     
@@ -68,12 +73,30 @@ public class Robo
 
     }
 
-    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double temperatura,double precisao){
-        SensorTemperatura novo_sensor = new SensorTemperatura(raio_alcance,modelo,temperatura,precisao;)
+    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+        SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
+        this.sensor_temperatura = novo_sensorTemperatura;
+        sensores.add(novo_sensorTemperatura);
+    }
+
+   
+
+    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double altitude_atual,double precisao, double altura_maxima){
+        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,altitude_atual,precisao,altura_maxima);
+        this.sensor_altitude = novo_SensorAltitude;
+        sensores.add(novo_SensorAltitude);
     }
 
     //GETs e SETs
 
+    /**
+     * Seta o novo sensor de temperatura, usado por herdeiros.
+     * @param novo_sensor Novo sensor a ser adicionado.
+     */
+    public void set_sensorTemperatura(SensorTemperatura novo_sensor){
+        this.sensor_temperatura = novo_sensor;
+    }
+    
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
@@ -108,6 +131,19 @@ public class Robo
      */
     public void setNome(String nome){
         this.nome = nome;
+    }
+
+    /**
+     * Retorna o objeto sensorTemperatura associado ao robo.
+     */
+    public SensorTemperatura get_SensorTemperatura(){
+        return this.sensor_temperatura;
+    }
+    /**
+     * Retorna o objeto sensorAltitude associado ao robo.
+     */
+    public SensorAltitude get_SensorAltitude(){
+        return this.sensor_altitude;
     }
 
     /**

@@ -48,6 +48,12 @@ public class SensorAltitude extends Sensor{
     }
 
     /**
+     * Retorna a altuda maxima suportada pelo sensor.
+     */
+    public double get_alturaMaxima(){
+        return this.altura_maxima;
+    }
+    /**
      * Retorna a precisao do sensor.
      */
     public double get_precisao(){

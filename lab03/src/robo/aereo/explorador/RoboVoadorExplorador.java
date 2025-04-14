@@ -3,6 +3,7 @@ package robo.aereo.explorador;
 
 import constantes.Bussula;
 import robo.aereo.standart.*;
+import sensor.temperatura.SensorTemperatura;
 
 public class RoboVoadorExplorador extends RoboAereo {
 
@@ -74,8 +75,19 @@ public class RoboVoadorExplorador extends RoboAereo {
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
+        this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
     }
 
+    /**
+     * Sobreescrever o metodo de adicionarSensor de temperatura pois aqui o robo tem temperatura definida.
+     */
+    @Override
+    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+        SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
+        novo_sensorTemperatura.set_temperatura(this.temperatura_atual);
+        this.set_sensorTemperatura(novo_sensorTemperatura); 
+        sensores.add(novo_sensorTemperatura);
+    }
 
     /**
      * Altera a pressao atual percebida pelo robo.
@@ -99,10 +111,10 @@ public class RoboVoadorExplorador extends RoboAereo {
 
 
     /**
-     * Retorna temperatura atual percebida pelo robo.
+     * Retorna temperatura atual percebida pelo robo pelo sensor.
      */
-    public int get_temperatura(){
-        return this.temperatura_atual; 
+    public double get_temperatura(){
+        return this.get_SensorTemperatura().get_temperaturaKelvin(); 
     }
 
 

@@ -1,4 +1,5 @@
 package sensor.temperatura;
+
 import sensor.standart.*;
 
 public class SensorTemperatura extends Sensor{
@@ -10,17 +11,17 @@ public class SensorTemperatura extends Sensor{
 
     //Construtores.
 
-    public SensorTemperatura(double raio_alcance, String modelo,double temperatura, double precisao, double temperatura_maxima,double temperatura_minima){
+    public SensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
-        this.temperatura = temperatura;
         this.precisao = precisao;
+        this.temperatura =0;
         this.temperatura_maxima = temperatura_maxima;
         this.temperatura_minima = temperatura_minima;
     }
     //Sobrecarrega construtor no caso de ausencia de precisao.
-    public SensorTemperatura(double raio_alcance, String modelo,double temperatura,double temperatura_maxima,double temperatura_minima){
+    public SensorTemperatura(double raio_alcance, String modelo,double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
-        this.temperatura = temperatura;
+        this.temperatura = 0;
         this.precisao = 0.05*temperatura; //Considera 5% da quantidade medida.
         this.temperatura_maxima=temperatura_maxima;
         this.temperatura_minima=temperatura_minima;
