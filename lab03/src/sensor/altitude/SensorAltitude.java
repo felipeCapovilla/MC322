@@ -13,19 +13,20 @@ public class SensorAltitude extends Sensor{
 
     //Construtor.
 
-    public SensorAltitude(double raio_alcance, String modelo,double altitude_atual,double precisao, double altura_maxima){
+    public SensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
         
         super(raio_alcance,modelo);
-        this.altitude_atual = altitude_atual;
+        this.altitude_atual = 0;
         this.precisao = precisao;
         this.altura_maxima = altura_maxima;
+
     }
     
     //Sobrecarga o construtor no caso de ausencia de 'precisao'.
-    public SensorAltitude(double raio_alcance, String modelo,double altitude_atual, double altura_maxima){
+    public SensorAltitude(double raio_alcance, String modelo, double altura_maxima){
         
         super(raio_alcance,modelo);
-        this.altitude_atual = altitude_atual;
+        this.altitude_atual = 0;
         this.precisao = 0.05*altitude_atual; //Usa precisao generica: 0,5% do valor medido.
         this.altura_maxima = altura_maxima;
     }

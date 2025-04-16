@@ -2,6 +2,7 @@ package robo.aereo.standart;
 
 import constantes.Bussula;
 import robo.standart.*;
+import sensor.altitude.SensorAltitude;
 
 public class RoboAereo extends Robo {
     
@@ -32,8 +33,10 @@ public class RoboAereo extends Robo {
         }
 
         this.altitude+=metros; //Adiciona a altitude.
+        this.get_SensorAltitude().set_altitude(this.altitude+metros);
     }
 
+    
 
     /**
      * Subtrai a altura atual do robo.
@@ -43,32 +46,54 @@ public class RoboAereo extends Robo {
         if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
             throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
         }
-    
+        
         this.altitude -=metros; 
+        this.get_SensorAltitude().set_altitude(this.altitude-metros);
     }
 
     /**
-     * Retorna o valor da variável altitude
+     * Sobreescreve o metodo adicionar_sensorAltitude pois aqui o robo ja pode ter altitude, a qual e passada pelo sensor.
      */
-    public int get_altitude() {
-        return altitude;
+    @Override
+    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
+        novo_SensorAltitude.set_altitude(this.altitude);
+        this.set_sensorAltitude(novo_SensorAltitude); 
+        sensores.add(novo_SensorAltitude);
     }
 
     /**
-     * define o valor da variável altitude
+     * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
+     */
+    public double get_altitude() {
+
+        if(this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
+            return this.get_SensorAltitude().get_altitude();
+        }
+        else{
+            return -1.0; //Caso contrario: retorna um numero incoerente (-1).
+        }
+    }
+
+    /**
+     * Define o valor da variável altitude
      */
     public void set_altitude(int altitude) {
         if(altitude < 0){
             System.out.println("A altitude do robo não pode ser < 0m. Ajustando altura para 0m.");
             this.altitude = 0;
+            this.get_SensorAltitude().set_altitude(0);
         } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().getAltura()){
             System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().getAltura()+"m.");
             this.altitude = this.get_ambiente().getAltura();
+            this.get_SensorAltitude().set_altitude(this.get_ambiente().getAltura());
         }else if(altitude > altitude_max){
             System.out.println("A altitude não pode ultrapassar o limite do robo. Altura ajustada para "+this.altitude_max+"m.");
             this.altitude = altitude_max;
+            this.get_SensorAltitude().set_altitude(altitude_max);
         } else {
             this.altitude = altitude;
+            this.get_SensorAltitude().set_altitude(altitude);
         }
     }
 

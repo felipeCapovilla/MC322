@@ -81,8 +81,8 @@ public class Robo
 
    
 
-    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double altitude_atual,double precisao, double altura_maxima){
-        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,altitude_atual,precisao,altura_maxima);
+    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
     }
@@ -95,6 +95,10 @@ public class Robo
      */
     public void set_sensorTemperatura(SensorTemperatura novo_sensor){
         this.sensor_temperatura = novo_sensor;
+    }
+
+    public void set_sensorAltitude(SensorAltitude novo_sensor){
+        this.sensor_altitude  = novo_sensor;
     }
     
     /**
@@ -139,6 +143,7 @@ public class Robo
     public SensorTemperatura get_SensorTemperatura(){
         return this.sensor_temperatura;
     }
+
     /**
      * Retorna o objeto sensorAltitude associado ao robo.
      */
