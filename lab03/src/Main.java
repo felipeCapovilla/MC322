@@ -1,13 +1,15 @@
 /*
  * Main.java
  * 
- * Última modificação: 28/03/2025
+ * Última modificação: 10/04/2025
  * 
  * Simulação de um ambiente virtual para a testar robos.
  */
 
 
+import Console.Console;
 import ambiente.*;
+import constantes.Bussola;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -25,18 +27,19 @@ public class Main {
         //Criacao do ambiente e dos robos.
 
         Ambiente ambiente = new Ambiente(100,100,100);
+        Console menu = new Console(ambiente);
 
-        Robo roboStandart = new Robo("roboStandart",20,20,"LESTE");
-        RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,"OESTE",20,100);
-        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("roboAereoTurista",10,20,"OESTE",10,40,30);
-        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("roboAereoExplorador",23,42,"LESTE",2,50,100);
-        RoboTerrestre roboTerrestre = new RoboTerrestre("RoboTerrestre",15,16,"SUL",120);
-        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,"OESTE",120,120);
-        RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, "SUL", 20);
+        Robo roboStandart = new Robo("roboStandart",20,20,Bussola.LESTE);
+        RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,Bussola.OESTE,20,100);
+        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("roboAereoTurista",10,20,Bussola.OESTE,10,40,30);
+        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("roboAereoExplorador",23,42,Bussola.LESTE,2,50,100);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("RoboTerrestre",15,16,Bussola.SUL,120);
+        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,Bussola.OESTE,120,120);
+        RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, Bussola.SUL, 20);
 
-
+        
         //Teste Ambiente
-        System.out.println("\n--AMBIENTE--");
+        //System.out.println("\n--AMBIENTE--");
             //Adicionar os robos no ambiente
         ambiente.adicionarRobo(roboStandart);
         ambiente.adicionarRobo(roboAereo);
@@ -46,30 +49,32 @@ public class Main {
         ambiente.adicionarRobo(roboTerrestreVeiculo);
         ambiente.adicionarRobo(roboTerrestrePedestre);
 
+
+        //Menu
+        menu.mainMenu();
+
+        /* 
+
         System.out.printf("Lista de robos no ambiente (%d):\n", ambiente.get_robos_ativos());
         ambiente.getListaRobos().forEach(robo -> {
             System.out.print(" " + robo);
         });
 
             //Adicionar e remover Obstáculos no ambiente
-        ambiente.adicionarObstaculo(1, 1);
-        ambiente.adicionarObstaculo(10, 7);
-        ambiente.adicionarObstaculo(1, 40);
-        ambiente.adicionarObstaculo(30, 25);
-        ambiente.adicionarObstaculo(49, 49);
-        ambiente.adicionarObstaculo(0, 0);
+        ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(10, 7, 20, 13, TipoObstaculo.BURACO);
+        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
+        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
+        ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
+        ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
         ambiente.removerObstaculo(1, 40); //existe
         ambiente.removerObstaculo(62, 48); //não existe
 
-        System.out.printf("\nLista de obstáculos no ambiente (%d):\n", ambiente.get_quantidade_obstaculos());
-        ambiente.getObstaculos().forEach(obst -> {
-            System.out.print(String.format(" (%d,%d)", obst[0], obst[1]));
-        });
 
             //Obstáculo fora do limite
         System.out.println("\nAdicionando obstáculo fora dos limites do ambiente:");
         try {
-            ambiente.adicionarObstaculo(160, 60);
+            ambiente.adicionarObstaculo(160, 60, TipoObstaculo.OUTRO);
             System.out.println("Obstáculo adicionado com sucesso fora dos limites");
         } catch (Exception e) {
             System.out.println("ERRO: " + e);
@@ -329,5 +334,5 @@ public class Main {
         pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
         System.out.println("Posicao roboTerrestrePedestre (tentar correr 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
 
-
+        */
     }}

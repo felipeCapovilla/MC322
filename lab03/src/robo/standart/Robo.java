@@ -1,7 +1,12 @@
 package robo.standart;
 
 import ambiente.Ambiente;
-import java.util.Arrays;
+import constantes.Bussola;
+import java.util.ArrayList;
+import sensor.altitude.*;
+import sensor.standart.Sensor;
+import sensor.temperatura.*;
+
 
 public class Robo
 {
@@ -9,31 +14,31 @@ public class Robo
     private String nome;
     private int posicaoX;
     private int posicaoY;
+    private SensorTemperatura sensor_temperatura;
+    private SensorAltitude sensor_altitude;
+    protected final ArrayList<Sensor> sensores;
+
     /**
      * NORTE, SUL, LESTE, OESTE
      */
-    private String direcao;
-
-    protected final String[] direcoesList = {"NORTE", "LESTE", "SUL", "OESTE"};  //direções possíveis para o Robo
+    private Bussola direcao;
 
 
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, String direcao) {
+    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.ambiente_atual = null;
-
-        if(direcaoValida(direcao)){ //verifica se a direção é válida
-            this.direcao = direcao;
-        } else { //valor dafault da direção
-            this.direcao = "NORTE";
-        }
+        this.direcao = direcao;
+        sensores = new ArrayList<>();
+        this.sensor_altitude = null;
+        this.sensor_temperatura = null;
     }
 
-
+    
     /**
      * Adiciona a variacao das coordenadas no valor da coordenada atual.
      * @param deltaX
@@ -58,7 +63,7 @@ public class Robo
             System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
             
             for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                System.out.println("Obstaculo"+i+": "+Arrays.toString(this.ambiente_atual.getObstaculos().get(i)));
+                System.out.println("Obstaculo"+i+": "+ this.ambiente_atual.getObstaculos().get(i));
             }
         } else {
             System.out.printf("Robo %s não está em um ambiente\n", nome);
@@ -67,18 +72,34 @@ public class Robo
 
     }
 
-    /**
-     * Verifica se a direção é válida: <p>
-     * NORTE, SUL, LESTE, OESTE
-     */
-    private boolean direcaoValida(String dir){
-        return ((dir.equals("NORTE")) || (dir.equals("SUL")) || (dir.equals("LESTE")) || (dir.equals("OESTE")));
+    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+        SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
+        this.sensor_temperatura = novo_sensorTemperatura;
+        sensores.add(novo_sensorTemperatura);
     }
 
+   
 
+    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
+        this.sensor_altitude = novo_SensorAltitude;
+        sensores.add(novo_SensorAltitude);
+    }
 
     //GETs e SETs
 
+    /**
+     * Seta o novo sensor de temperatura, usado por herdeiros.
+     * @param novo_sensor Novo sensor a ser adicionado.
+     */
+    public void set_sensorTemperatura(SensorTemperatura novo_sensor){
+        this.sensor_temperatura = novo_sensor;
+    }
+
+    public void set_sensorAltitude(SensorAltitude novo_sensor){
+        this.sensor_altitude  = novo_sensor;
+    }
+    
     /**
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
@@ -116,19 +137,32 @@ public class Robo
     }
 
     /**
+     * Retorna o objeto sensorTemperatura associado ao robo.
+     */
+    public SensorTemperatura get_SensorTemperatura(){
+        return this.sensor_temperatura;
+    }
+
+    /**
+     * Retorna o objeto sensorAltitude associado ao robo.
+     */
+    public SensorAltitude get_SensorAltitude(){
+        return this.sensor_altitude;
+    }
+
+    /**
      * Retorna o valor da variável direção
      */
-    public String getDirecao(){
+    public Bussola getDirecao(){
         return this.direcao;
     }
 
     /**
      * define o valor da variável direção
      */
-    public void setDirecao(String direcao){
-        if(direcaoValida(direcao)){
-            this.direcao = direcao;
-        }
+    public void setDirecao(Bussola direcao){
+        this.direcao = direcao;
+        
     }
 
     @Override
