@@ -1,6 +1,6 @@
 package robo.terrestre.standart;
 
-import constantes.Bussula;
+import constantes.Bussola;
 import robo.standart.Robo;
 
 public class RoboTerrestre extends Robo{
@@ -9,7 +9,7 @@ public class RoboTerrestre extends Robo{
     /**
      * Construtor da classe RoboTerrestre.
      */
-    public RoboTerrestre(String nome,int posicaoX, int posicaoY ,Bussula direcao, int velocidadeMaxima){
+    public RoboTerrestre(String nome,int posicaoX, int posicaoY ,Bussola direcao, int velocidadeMaxima){
         super(nome,posicaoX, posicaoY,direcao);
         this.velocidadeMaxima = velocidadeMaxima;
     }

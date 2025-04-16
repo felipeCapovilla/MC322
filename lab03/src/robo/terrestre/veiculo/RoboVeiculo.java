@@ -1,6 +1,6 @@
 package robo.terrestre.veiculo;
 
-import constantes.Bussula;
+import constantes.Bussola;
 import robo.terrestre.standart.RoboTerrestre;
 
 public class RoboVeiculo extends RoboTerrestre{
@@ -9,7 +9,7 @@ public class RoboVeiculo extends RoboTerrestre{
     private int velocidade;
 
     
-    public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussula direcao, int velocidadeMaxima, int passageiros_maximo){
+    public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo){
         super (nome,posicaoX, posicaoY,direcao, velocidadeMaxima);
         this.passageiros_maximo = passageiros_maximo;
         passageiros = 0;
@@ -42,7 +42,7 @@ public class RoboVeiculo extends RoboTerrestre{
         int lado = (direita)? 1: -1;
 
         //movimento ciclico do index
-        setDirecao(Bussula.values()[((index+lado)%4 + 4) % 4]);
+        setDirecao(Bussola.values()[((index+lado)%4 + 4) % 4]);
     }
 
     /**
@@ -51,21 +51,22 @@ public class RoboVeiculo extends RoboTerrestre{
      */
     public void mover(boolean frente){
         int marcha = (frente)? 1:-1;
+        int indecDirecao = getDirecao().getIndice();
 
-        switch (getDirecao()) {
-            case Bussula.NORTE: 
+        switch (indecDirecao) {
+            case 0: //Norte 
                 mover(0, velocidade * marcha);
                 break;
 
-            case Bussula.SUL: 
+            case 2: //Sul 
                 mover(0, -(velocidade * marcha));
                 break;
 
-            case Bussula.LESTE: 
+            case 1: //Leste 
                 mover(velocidade * marcha,0);
                 break;
 
-            case Bussula.OESTE: 
+            case 3: //Oeste 
                 mover(-(velocidade * marcha), 0);
                 break;
                 

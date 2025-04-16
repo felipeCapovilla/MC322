@@ -1,6 +1,6 @@
 package robo.aereo.standart;
 
-import constantes.Bussula;
+import constantes.Bussola;
 import robo.standart.*;
 import sensor.altitude.SensorAltitude;
 
@@ -9,7 +9,7 @@ public class RoboAereo extends Robo {
     private int altitude;
     private final int altitude_max;
 
-    public RoboAereo(String nome,int posicaoX, int posicaoY,Bussula direcao, int altitude,int altitude_max){
+    public RoboAereo(String nome,int posicaoX, int posicaoY,Bussola direcao, int altitude,int altitude_max){
         
         super(nome,posicaoX, posicaoY,direcao); //Chama o construtor da super-classe Robo.
         this.altitude = altitude;

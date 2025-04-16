@@ -1,6 +1,6 @@
 package constantes;
 
-public enum Bussula {
+public enum Bussola {
     NORTE(0),
     LESTE(1),
     SUL(2),
@@ -8,7 +8,7 @@ public enum Bussula {
 
     private final int indice;
 
-    Bussula(int indice){
+    Bussola(int indice){
         this.indice = indice;
     }
 

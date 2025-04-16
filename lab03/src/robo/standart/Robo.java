@@ -1,12 +1,11 @@
 package robo.standart;
 
-import java.util.ArrayList;
-
 import ambiente.Ambiente;
-import constantes.Bussula;
+import constantes.Bussola;
+import java.util.ArrayList;
+import sensor.altitude.*;
 import sensor.standart.Sensor;
 import sensor.temperatura.*;
-import sensor.altitude.*;
 
 
 public class Robo
@@ -22,13 +21,13 @@ public class Robo
     /**
      * NORTE, SUL, LESTE, OESTE
      */
-    private Bussula direcao;
+    private Bussola direcao;
 
 
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, Bussula direcao) {
+    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
@@ -154,14 +153,14 @@ public class Robo
     /**
      * Retorna o valor da variável direção
      */
-    public Bussula getDirecao(){
+    public Bussola getDirecao(){
         return this.direcao;
     }
 
     /**
      * define o valor da variável direção
      */
-    public void setDirecao(Bussula direcao){
+    public void setDirecao(Bussola direcao){
         this.direcao = direcao;
         
     }

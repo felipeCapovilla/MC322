@@ -1,7 +1,7 @@
 package robo.aereo.turista;
 
 
-import constantes.Bussula;
+import constantes.Bussola;
 import robo.aereo.standart.*;
 public class RoboVoadorTurista extends RoboAereo{
 
@@ -10,7 +10,7 @@ public class RoboVoadorTurista extends RoboAereo{
     private String cidade_turistica;
     private boolean em_passeio;
 
-    public RoboVoadorTurista(String nome,int posicaoX, int posicaoY, Bussula direcao, int altitude,int altitude_max,int capacidade_maxima){
+    public RoboVoadorTurista(String nome,int posicaoX, int posicaoY, Bussola direcao, int altitude,int altitude_max,int capacidade_maxima){
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max);
 
         this.capacidade_maxima = capacidade_maxima;
