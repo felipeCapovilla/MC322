@@ -68,6 +68,11 @@ public class Obstaculo {
         return tipoObstaculo.isBloqueio();
     }
 
+    public boolean estaDentro(int x, int y){
+        return ((posX1 <= x && posX2 >= x) 
+        && (posY1 <= y && posY2 >= y));
+    }
+
     /**
      * Retorna o ponto mais próximo da origem
      */
