@@ -9,6 +9,10 @@ public enum TipoObstaculo {
     BURACO(0, true),
     OUTRO(-1, false); //altura variável
 
+    /**
+     * A altura representa o nível máximo que o objeto vai obstruir. <p>
+     * Ou seja, um objeto com altura 0 não significa que não imperá nada, mas sim que impedirá o nível 0 do ambiente
+     */
     private final int alturaPadrao;
     private final boolean bloqueio;
 

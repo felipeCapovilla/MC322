@@ -9,7 +9,7 @@
 
 import Console.Console;
 import ambiente.*;
-import constantes.Bussola;
+import constantes.*;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -49,6 +49,14 @@ public class Main {
         ambiente.adicionarRobo(roboTerrestreVeiculo);
         ambiente.adicionarRobo(roboTerrestrePedestre);
 
+            //Adicionar Obstáculos no ambiente
+        ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(10, 7, 20, 13, TipoObstaculo.BURACO);
+        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
+        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
+        ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
+        ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
+
 
         //Menu
         menu.mainMenu();
@@ -60,13 +68,7 @@ public class Main {
             System.out.print(" " + robo);
         });
 
-            //Adicionar e remover Obstáculos no ambiente
-        ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(10, 7, 20, 13, TipoObstaculo.BURACO);
-        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
-        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
-        ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
-        ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
+
         ambiente.removerObstaculo(1, 40); //existe
         ambiente.removerObstaculo(62, 48); //não existe
 

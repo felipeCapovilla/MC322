@@ -3,10 +3,14 @@ package ambiente;
 import constantes.TipoObstaculo;
 
 public class Obstaculo {
-    private int posX1, posY1;
-    private int posX2, posY2;
-    private int altura;
-    private TipoObstaculo tipoObstaculo;
+    final private int posX1, posY1;
+    final private int posX2, posY2;
+    /**
+     * A altura representa o nível máximo que o objeto vai obstruir. <p>
+     * Ou seja, um objeto com altura 0 não significa que não imperá nada, mas sim que impedirá o nível 0 do ambiente
+     */
+    final private int altura;
+    final private TipoObstaculo tipoObstaculo;
 
     /**
      * Obstaculo puntiforme com altura padrão
