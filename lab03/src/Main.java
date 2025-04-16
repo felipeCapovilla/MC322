@@ -7,9 +7,9 @@
  */
 
 
+import Console.Console;
 import ambiente.*;
 import constantes.Bussola;
-import constantes.TipoObstaculo;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -27,6 +27,7 @@ public class Main {
         //Criacao do ambiente e dos robos.
 
         Ambiente ambiente = new Ambiente(100,100,100);
+        Console menu = new Console(ambiente);
 
         Robo roboStandart = new Robo("roboStandart",20,20,Bussola.LESTE);
         RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,Bussola.OESTE,20,100);
@@ -36,9 +37,9 @@ public class Main {
         RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,Bussola.OESTE,120,120);
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, Bussola.SUL, 20);
 
-
+        
         //Teste Ambiente
-        System.out.println("\n--AMBIENTE--");
+        //System.out.println("\n--AMBIENTE--");
             //Adicionar os robos no ambiente
         ambiente.adicionarRobo(roboStandart);
         ambiente.adicionarRobo(roboAereo);
@@ -47,6 +48,12 @@ public class Main {
         ambiente.adicionarRobo(roboTerrestre);
         ambiente.adicionarRobo(roboTerrestreVeiculo);
         ambiente.adicionarRobo(roboTerrestrePedestre);
+
+
+        //Menu
+        menu.mainMenu();
+
+        /* 
 
         System.out.printf("Lista de robos no ambiente (%d):\n", ambiente.get_robos_ativos());
         ambiente.getListaRobos().forEach(robo -> {
@@ -327,5 +334,5 @@ public class Main {
         pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
         System.out.println("Posicao roboTerrestrePedestre (tentar correr 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
 
-
+        */
     }}
