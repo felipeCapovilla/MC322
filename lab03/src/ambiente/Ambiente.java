@@ -3,6 +3,7 @@ package ambiente;
 import constantes.TipoObstaculo;
 import java.util.ArrayList;
 import robo.standart.Robo;
+import ambiente.Obstaculo;
 
 public class Ambiente {
 
