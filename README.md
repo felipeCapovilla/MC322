@@ -13,6 +13,4 @@ javac -sourcepath src src/*.java -d bin
 ```
 java -cp bin Main
 ```
-##**Diagrama UML do projeto**
-
 ![Diagrama](lab03/lab_03_UML.jpg)
