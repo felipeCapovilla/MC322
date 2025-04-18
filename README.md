@@ -18,3 +18,7 @@ java -cp bin Main
 Diagrama de classes e relações do projeto.
 
 ![Diagrama](lab03/lab_03_UML.jpg)
+
+## Sobre
+**IDE Utilizada:** Visual Studio Code
+**Versão do Java:** 11.0.26
