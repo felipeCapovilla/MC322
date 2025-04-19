@@ -38,7 +38,12 @@ public class SensorAltitude extends Sensor{
      * Altera a altura atual do sensor, quando robo muda altitude.
      */
     public void set_altitude(double nova_altitude){
-        this.altitude_atual = nova_altitude;
+        if(nova_altitude > this.altura_maxima){ //Se a altura a ser setada for maior que a altura maxima.
+            this.altitude_atual = this.altura_maxima; 
+        }else{
+            this.altitude_atual = nova_altitude;
+        }
+        
     }
 
     /**
