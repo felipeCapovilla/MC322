@@ -3,7 +3,6 @@ package ambiente;
 import constantes.TipoObstaculo;
 import java.util.ArrayList;
 import robo.standart.Robo;
-import ambiente.Obstaculo;
 
 public class Ambiente {
 
@@ -152,7 +151,7 @@ public class Ambiente {
     }
 
     /**
-     * Retorna o valor da variável altura
+     * Retorna o valor da variável largura (X)
      */
     public int getLargura() {
         return largura;
@@ -166,7 +165,7 @@ public class Ambiente {
     }
 
     /**
-     * Retorna o valor da variável comprimento
+     * Retorna o valor da variável comprimento (Y)
      */
     public int get_comprimento(){
         return this.comprimento;
@@ -180,7 +179,7 @@ public class Ambiente {
     }
 
     /**
-     * Retorna o valor da variável altura
+     * Retorna o valor da variável altura (Z)
      */
     public int getAltura() {
         return altura;

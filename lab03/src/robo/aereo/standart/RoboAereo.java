@@ -55,7 +55,7 @@ public class RoboAereo extends Robo {
      * Sobreescreve o metodo adicionar_sensorAltitude pois aqui o robo ja pode ter altitude, a qual e passada pelo sensor.
      */
     @Override
-    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+    public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         novo_SensorAltitude.set_altitude(this.altitude);
         this.set_sensorAltitude(novo_SensorAltitude); 

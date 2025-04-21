@@ -72,7 +72,7 @@ public class Robo
 
     }
 
-    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+    public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
         sensores.add(novo_sensorTemperatura);
@@ -80,7 +80,7 @@ public class Robo
 
    
 
-    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+    public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);

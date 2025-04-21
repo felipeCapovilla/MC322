@@ -17,6 +17,8 @@ import robo.standart.*;
 import robo.terrestre.pedestre.*;
 import robo.terrestre.standart.*;
 import robo.terrestre.veiculo.*;
+/////////////////////////////////////////////////////////////////////
+import sensor.espacial.SensorEspacial;
 
 /**
  * Arquivo principal para iniciação do programa
@@ -81,6 +83,9 @@ public class Main {
         menu.mainMenu();
 
         
+        SensorEspacial sensor = new SensorEspacial(6, "null");
+        System.out.println("");
+        sensor.monitorarPlano(ambiente, 20, 20);
         
 
 

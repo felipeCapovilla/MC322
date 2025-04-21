@@ -82,7 +82,7 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Sobreescrever o metodo de adicionarSensor de temperatura pois aqui o robo tem temperatura definida.
      */
     @Override
-    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+    public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         novo_sensorTemperatura.set_temperatura(this.temperatura_atual);
         this.set_sensorTemperatura(novo_sensorTemperatura); 

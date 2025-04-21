@@ -11,7 +11,7 @@ public class SensorTemperatura extends Sensor{
 
     //Construtores.
 
-    public SensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima,double temperatura_minima){
+    public SensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
         this.precisao = precisao;
         this.temperatura =0;
@@ -19,7 +19,7 @@ public class SensorTemperatura extends Sensor{
         this.temperatura_minima = temperatura_minima;
     }
     //Sobrecarrega construtor no caso de ausencia de precisao.
-    public SensorTemperatura(double raio_alcance, String modelo,double temperatura_maxima,double temperatura_minima){
+    public SensorTemperatura(int raio_alcance, String modelo,double temperatura_maxima,double temperatura_minima){
         super(raio_alcance,modelo);
         this.temperatura = 0;
         this.precisao = 0.05*temperatura; //Considera 5% da quantidade medida.

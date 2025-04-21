@@ -13,7 +13,7 @@ public class SensorAltitude extends Sensor{
 
     //Construtor.
 
-    public SensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+    public SensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         
         super(raio_alcance,modelo);
         this.altitude_atual = 0;
@@ -23,7 +23,7 @@ public class SensorAltitude extends Sensor{
     }
     
     //Sobrecarga o construtor no caso de ausencia de 'precisao'.
-    public SensorAltitude(double raio_alcance, String modelo, double altura_maxima){
+    public SensorAltitude(int raio_alcance, String modelo, double altura_maxima){
         
         super(raio_alcance,modelo);
         this.altitude_atual = 0;
