@@ -17,8 +17,6 @@ import robo.standart.*;
 import robo.terrestre.pedestre.*;
 import robo.terrestre.standart.*;
 import robo.terrestre.veiculo.*;
-/////////////////////////////////////////////////////////////////////
-import sensor.espacial.SensorEspacial;
 
 /**
  * Arquivo principal para iniciação do programa
@@ -62,31 +60,32 @@ public class Main {
             //adicionar sensores
         roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
         roboStandart.get_SensorTemperatura().set_temperatura(10);
+        roboStandart.adicionar_sensorEspacial(5, "EPC-01");
 
         roboAereo.adicionar_sensorAltitude(20, "ALT-01", 1, 100);
         roboAereo.adicionar_sensorTemperatura(0, "TMP-76", 0.8, 900, 0);
+        roboAereo.adicionar_sensorEspacial(5, "EPC-01");
 
         roboAereoExplorador.adicionar_sensorAltitude(10, "ALT-23", 0.1, 100);
         roboAereoExplorador.adicionar_sensorTemperatura(0, "TMP-09", 0.3, 400, 10);
+        roboAereoExplorador.adicionar_sensorEspacial(5, "EPC-01");
 
         roboAereoTurista.adicionar_sensorAltitude(0, "ALT-30", 0.1, 100);
         roboAereoTurista.adicionar_sensorTemperatura(0, "TMP-92", 0.1, 100, 0);
+        roboAereoTurista.adicionar_sensorEspacial(5, "EPC-01");
 
         roboTerrestre.adicionar_sensorTemperatura(0, "TMP-99", 5, 70, 50);
+        roboTerrestre.adicionar_sensorEspacial(10, "EPC-01");
 
         roboTerrestrePedestre.adicionar_sensorTemperatura(0, "TMP-54", 2, 88, 55);
+        roboTerrestrePedestre.adicionar_sensorEspacial(5, "EPC-01");
 
         roboTerrestreVeiculo.adicionar_sensorTemperatura(0, "TMP-23", 1, 400, 100);
+        roboTerrestreVeiculo.adicionar_sensorEspacial(15, "EPC-01");
         
 
         //Menu
         menu.mainMenu();
-
-        
-        SensorEspacial sensor = new SensorEspacial(6, "null");
-        System.out.println("");
-        sensor.monitorarPlano(ambiente, 20, 20);
-        
 
 
     }}

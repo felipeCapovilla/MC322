@@ -112,7 +112,7 @@ public class SensorTemperatura extends Sensor{
                              Temperatura atual: (%.2f\u00b1%.2f)K
                              \t Em Celcius: (%.2f\u00b1%.2f)\u00b0C
                              \t Em Fahrenheit: (%.2f\u00b1%.2f)\u00b0F
-                             Raio de alcance do %s: %.2f m
+                             Raio de alcance do %s: %dm
                              ****************************************
                              """,
         get_modelo(),

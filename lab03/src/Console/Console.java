@@ -291,7 +291,12 @@ public class Console {
                     break;
                 case 2:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -388,7 +393,12 @@ public class Console {
 
                 case 3:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -498,7 +508,12 @@ public class Console {
 
                 case 3:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -655,7 +670,12 @@ public class Console {
 
                 case 3:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -784,7 +804,12 @@ public class Console {
                     break;
                 case 2:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -915,7 +940,12 @@ public class Console {
 
                 case 4:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
@@ -1032,7 +1062,12 @@ public class Console {
                     break;
                 case 2:
                     //Visualizar arredores
-                    //TODO visualizar arredores
+                    try {
+                        System.out.println("Espaco: ");
+                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1]);
+                    } catch (Exception e) {
+                        System.out.println("Sensor espacial nao instalado");
+                    }
 
                     break;
 
