@@ -227,7 +227,7 @@ public class Console {
      * @param _robo
      */
     private void rotearRobo(Robo _robo){
-        //Intanciar o robo na classe correta
+        //Instanciar o robo na classe correta
         if(_robo.getClass() == RoboAereo.class){
             controleRoboAereoStandart((RoboAereo) _robo);
 
@@ -235,7 +235,7 @@ public class Console {
             controleRoboAereoExplorador((RoboVoadorExplorador) _robo);
 
         } else if(_robo.getClass() == RoboVoadorTurista.class){
-            System.out.println("RoboVoadorTurista");
+            controleRoboAereoTurista((RoboVoadorTurista) _robo);
 
         } else if(_robo.getClass() == RoboTerrestre.class){
             System.out.println("RoboTerrestre");
@@ -559,7 +559,8 @@ public class Console {
                         String planeta;
 
                         System.out.print("Indicar planeta destino: ");
-                        planeta = scanner.next();
+                        scanner.nextLine(); // Acontece automaticamente, o usuario nao consegue inserir uma entrada
+                        planeta = scanner.nextLine();
 
                         System.out.print("Indicar velocidade:");
                         velocidade = scanner.nextInt();
@@ -594,7 +595,153 @@ public class Console {
         System.out.println("");
     }
 
+    /**
+     * Menu que controla o RoboAereoTurista
+     * @param robo
+     */
+    private void controleRoboAereoTurista(RoboVoadorTurista robo){
+        int resposta;
 
+        do{
+            
+            System.out.println("+----------------------------------+");
+            System.out.println("|         escolha um opcao         |");
+
+            //Opções
+            System.out.println("| [1] Mover Robo                   |");
+            System.out.println("| [2] Subir/Descer Robo            |");
+            System.out.println("| [3] Visualizar arredores         |");
+            System.out.println("| [4] Info                         |");
+            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [6] Iniciar/Finalizar passeio    |");
+            System.out.println("| [99] Voltar                      |");
+
+            System.out.println("+----------------------------------+");
+
+            //Resposta
+            System.out.print("opcao escolhida: ");
+            resposta = scanner.nextInt();
+
+            switch (resposta) {
+                case 1:
+                    //Mover robo
+                    int deltaX;
+                    int deltaY;
+
+                    System.out.print("Deslocamento horizontal: ");
+                    deltaX = scanner.nextInt();
+                    System.out.print("Deslocamento vertical: ");
+                    deltaY = scanner.nextInt();
+
+                    robo.mover(deltaX, deltaY);
+                    break;
+
+                case 2:
+                    //Subir/Descer robo
+                    System.out.print("Deslocamento altitude: ");
+                    resposta = scanner.nextInt();
+
+                    try {
+                        if(resposta > 0){
+                            robo.subir(resposta);
+                        } else {
+                            robo.descer(-resposta);
+                        }    
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                
+                    break;
+
+                case 3:
+                    //Visualizar arredores
+                    //TODO visualizar arredores
+
+                    break;
+
+                case 4:
+                    //Info
+                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
+                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    
+                    try {
+                        System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Altitude: Sensor de altitude nao instalado");
+                    }
+                    try {
+                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
+                    }
+
+                    if(robo.get_status()){
+                        System.out.println("Status do passeio: ATIVO");
+                        System.out.println("\tCidade turistica: " + robo.get_destino());
+                        System.out.println("\tNumeros passageiros: "+ robo.get_numero_passageiros());
+
+                    } else {
+                        System.out.println("Status do passeio: INATIVO");
+                    }
+
+                    break;
+
+                case 5:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorAltitude() == null){
+                        System.out.println("Sensor de altitude nao instalado");
+                    } else {
+                        System.out.print("Sensor de altitude:\n\t");
+                        robo.get_SensorAltitude().monitorar();
+                    }
+
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                    case 6:
+                    if(robo.get_status()){
+                        robo.finalizar_passeio();
+                        System.out.println("Passeio finalizado");
+                    } else {
+                        int passageiros;
+                        String cidade;
+
+                        System.out.print("Indicar cidade destino: ");
+                        scanner.nextLine(); // Acontece automaticamente, o usuario nao consegue inserir uma entrada
+                        cidade = scanner.nextLine();
+
+                        System.out.print("Indicar numero de passageiros:");
+                        passageiros = scanner.nextInt();
+
+                        try{
+                            robo.inciar_passeio(passageiros, cidade);
+                            
+                            System.out.println("Passeio iniciado");
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                        
+                    }
+
+                    break;
+
+                case 99:
+                    break;
+                default:
+                    System.out.println("Opcao nao disponivel");
+            }
+
+        } while (resposta != 99);
+        System.out.println("");
+    }
 
 
 

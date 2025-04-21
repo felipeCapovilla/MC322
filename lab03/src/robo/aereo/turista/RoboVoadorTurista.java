@@ -33,7 +33,14 @@ public class RoboVoadorTurista extends RoboAereo{
         this.numero_passageiros = numero_passageiros;
         this.cidade_turistica = cidade_turistica;
         this.em_passeio = true;
-    }   
+    }
+
+    /**
+     * Finalizar o turismo do robo.
+     */
+    public void finalizar_passeio(){
+        this.em_passeio = false;
+    }
 
 
 

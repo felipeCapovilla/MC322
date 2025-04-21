@@ -66,6 +66,9 @@ public class Main {
 
         roboAereoExplorador.adicionar_sensorAltitude(10, "ALT-23", 0.1, 100);
         roboAereoExplorador.adicionar_sensorTemperatura(0, "TMP-09", 0.3, 400, 10);
+
+        roboAereoTurista.adicionar_sensorAltitude(0, "ALT-30", 0.1, 100);
+        roboAereoTurista.adicionar_sensorTemperatura(0, "TMP-92", 0.1, 100, 0);
         
 
         //Menu
