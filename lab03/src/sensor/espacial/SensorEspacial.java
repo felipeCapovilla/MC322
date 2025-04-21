@@ -48,7 +48,7 @@ public class SensorEspacial extends Sensor{
         for(int currentY = Y + upSpace; currentY >= Y - downSpace; currentY--){
             for(int currentX = X - leftSpace; currentX <= X + rightSpace; currentX++){
                 if(currentX == X & currentY == Y){
-                    System.out.print('@'); //Posicao do sensor
+                    System.out.print('R'); //Posicao do sensor
                 } else{ //arredores do sensor
                     //Vazio
                     char sprite = '.';

@@ -28,7 +28,7 @@ public class RoboVoadorTurista extends RoboAereo{
      */
     public void inciar_passeio(int numero_passageiros, String cidade_turistica){
         if(numero_passageiros > this.capacidade_maxima){ //Verifica se a quantidade de passageiros e permitida.
-            throw new IllegalArgumentException("A capacidade maxima de "+this.capacidade_maxima+"passageiros, foi excedida. \n Circulação não permitida.");
+            throw new IllegalArgumentException("A capacidade maxima de "+this.capacidade_maxima+" passageiros, foi excedida. \n Circulação não permitida.");
         }
         this.numero_passageiros = numero_passageiros;
         this.cidade_turistica = cidade_turistica;

@@ -33,7 +33,7 @@ public class RoboAereo extends Robo {
         }
 
         this.altitude+=metros; //Adiciona a altitude.
-        this.get_SensorAltitude().set_altitude(this.altitude+metros);
+        this.get_SensorAltitude().set_altitude(this.altitude);
     }
 
     
@@ -48,7 +48,7 @@ public class RoboAereo extends Robo {
         }
         
         this.altitude -=metros; 
-        this.get_SensorAltitude().set_altitude(this.altitude-metros);
+        this.get_SensorAltitude().set_altitude(this.altitude);
     }
 
     /**

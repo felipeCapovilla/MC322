@@ -165,6 +165,14 @@ public class Console {
                 }
                 System.out.println(""); //Quebra de linha
             }
+
+            System.out.println("LEGENDA");
+            System.out.println(". - espaco vazio");
+            System.out.println("X - obstaculo");
+            System.out.println("@ - robo");
+
+
+
             System.out.println("");
         }
 
@@ -539,7 +547,7 @@ public class Console {
                         System.out.println("Status da missao: ATIVO");
                         System.out.println("\tPlaneta destino: " + robo.get_planeta());
                         System.out.printf("\tPressao atual: %dkPa\n", robo.get_pressao());
-                        System.out.println("\tVelocidade atual:" + robo.get_velocidade());
+                        System.out.printf("\tVelocidade atual: %dm/s", robo.get_velocidade());
 
                     } else {
                         System.out.println("Status da missao: INATIVO");
