@@ -6,7 +6,7 @@ public enum TipoObstaculo {
     PESSOA(2, true),
     ARBUSTO(3, false),
     AVIAO(10, true),
-    BURACO(0, true),
+    BURACO(1, true),
     OUTRO(-1, false); //altura variável
 
     /**

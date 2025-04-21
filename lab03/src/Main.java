@@ -32,7 +32,7 @@ public class Main {
         Robo roboStandart = new Robo("padraozinho",20,20,Bussola.LESTE);
         RoboAereo roboAereo = new RoboAereo("padrao aereo",15,15,Bussola.OESTE,20,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
-        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",23,42,Bussola.LESTE,2,50,100);
+        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",97,1,Bussola.LESTE,2,50,100);
         RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,20);
         RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",76,56,Bussola.OESTE,120,120);
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);

@@ -12,7 +12,7 @@ public class SensorEspacial extends Sensor{
         super(raio_alcance, modelo);
     }
 
-    public void monitorarPlano(Ambiente ambiente, int X, int Y){
+    public void monitorarPlano(Ambiente ambiente, int X, int Y, int Z){
         int rightSpace, leftSpace, upSpace, downSpace;
 
         //Esquerda do sensor
@@ -58,7 +58,7 @@ public class SensorEspacial extends Sensor{
                     for(int i = 0; sprite != '@' && i < listaRobos.size(); i++){
                         int[] pos = listaRobos.get(i).get_posicao();
     
-                        if(pos[0] == currentX && pos[1] == currentY){
+                        if(pos[0] == currentX && pos[1] == currentY && listaRobos.get(i).get_altitude() == Z){
                             sprite = '@';
                         }
                     }
@@ -66,7 +66,7 @@ public class SensorEspacial extends Sensor{
                     //Verificar obstáculo
                     ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                     for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(currentX, currentY)){
+                        if(obstaculos.get(i).estaDentro(currentX, currentY) && obstaculos.get(i).getAltura() > Z){
                             sprite = 'X';
                         }
                     }

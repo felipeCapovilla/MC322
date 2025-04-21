@@ -32,8 +32,13 @@ public class RoboAereo extends Robo {
             throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar "+this.altitude_max+"m."); 
         }
 
-        this.altitude+=metros; //Adiciona a altitude.
-        this.get_SensorAltitude().set_altitude(this.altitude);
+        if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude())){
+            this.altitude+=metros; //Adiciona a altitude.
+            this.get_SensorAltitude().set_altitude(this.altitude);
+        } else {
+            throw new IllegalArgumentException("Posicao ja ocupada");
+        }
+        
     }
 
     
@@ -47,8 +52,12 @@ public class RoboAereo extends Robo {
             throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
         }
         
-        this.altitude -=metros; 
-        this.get_SensorAltitude().set_altitude(this.altitude);
+        if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude())){
+            this.altitude-=metros; //Adiciona a altitude.
+            this.get_SensorAltitude().set_altitude(this.altitude);
+        } else {
+            throw new IllegalArgumentException("Posicao ja ocupada");
+        }
     }
 
     /**
@@ -65,9 +74,10 @@ public class RoboAereo extends Robo {
     /**
      * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
      */
+    @Override
     public double get_altitude() {
 
-        if(this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
+        if(get_SensorAltitude() != null && this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
             return this.get_SensorAltitude().get_altitude();
         }
         else{

@@ -3,6 +3,7 @@ package robo.standart;
 import java.util.ArrayList;
 
 import ambiente.Ambiente;
+import ambiente.Obstaculo;
 import constantes.Bussola;
 import java.util.Arrays;
 import sensor.standart.Sensor;
@@ -50,8 +51,8 @@ public class Robo
      * @param deltaY
      */
     public void mover(int deltaX, int deltaY) { 
-        if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,0)){
-            if(!identificar_obstaculos(posicaoX + deltaX, posicaoY + deltaY) && !identificar_robos(posicaoX + deltaX, posicaoY + deltaY)){
+        if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,(int) get_altitude())){
+            if(detectarColisoes(posicaoX + deltaX, posicaoY + deltaY, (int) get_altitude())){
                 posicaoX += deltaX;
                 posicaoY += deltaY;
             } else {
@@ -65,12 +66,24 @@ public class Robo
     }
 
     /**
+     * Verifica se o espaco verificado esta livre
+     * @param X
+     * @param Y
+     * @return
+     */
+    public boolean detectarColisoes(int X, int Y, int Z){
+        return !identificar_obstaculos(X, Y, Z) && !identificar_robos(X, Y, Z);
+    }
+
+    /**
      * Identifica se a posicao esta ocupado por um obstaculo
      */
-    private boolean identificar_obstaculos(int X, int Y){
+    private boolean identificar_obstaculos(int X, int Y, int Z){
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
+            ArrayList<Obstaculo> obstaculos = ambiente_atual.getObstaculos();
+
             for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                if(ambiente_atual.getObstaculos().get(i).estaDentro(X, Y)){
+                if(ambiente_atual.getObstaculos().get(i).estaDentro(X, Y) && obstaculos.get(i).getAltura() > Z){
                     return true;
                 }
             }
@@ -85,12 +98,14 @@ public class Robo
     /**
      * Identifica se a posicao esta ocupado por um robo
      */
-    private boolean identificar_robos(int X, int Y){
+    private boolean identificar_robos(int X, int Y, int Z){
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
             int[] pos = {X, Y};
+            ArrayList<Robo> listaRobos = ambiente_atual.getListaRobos();
+            
             for(int i=0;i<this.ambiente_atual.get_robos_ativos();i++){
 
-                if(Arrays.equals(ambiente_atual.getListaRobos().get(i).get_posicao(), pos)){
+                if(Arrays.equals(ambiente_atual.getListaRobos().get(i).get_posicao(), pos) && listaRobos.get(i).get_altitude() == Z){
                     return true;
                 }
             }
@@ -157,6 +172,13 @@ public class Robo
      */
     public int[] get_posicao(){
         return new int[]{this.posicaoX, this.posicaoY};
+    }
+
+    /**
+     * Retorna a altura do robo
+     */
+    public double get_altitude(){
+        return 0;
     }
 
     /**
