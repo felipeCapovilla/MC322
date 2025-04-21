@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import ambiente.Ambiente;
 import constantes.Bussola;
-import sensor.*;
 import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
 import sensor.altitude.SensorAltitude;
+import sensor.espacial.SensorEspacial;
 
 
 public class Robo
@@ -18,6 +18,7 @@ public class Robo
     private int posicaoY;
     private SensorTemperatura sensor_temperatura;
     private SensorAltitude sensor_altitude;
+    private SensorEspacial sensor_espacial;
     protected final ArrayList<Sensor> sensores;
 
     /**
@@ -38,6 +39,7 @@ public class Robo
         sensores = new ArrayList<Sensor>();
         this.sensor_altitude = null;
         this.sensor_temperatura = null;
+        this.sensor_espacial = null;
     }
 
     
@@ -88,6 +90,16 @@ public class Robo
         sensores.add(novo_SensorAltitude);
     }
 
+    public void adicionar_sensorEspacial(int raio_alcance, String modelo){
+ 
+
+        SensorEspacial novo_SensorEspacial = new SensorEspacial(raio_alcance,modelo);
+        this.sensor_espacial = novo_SensorEspacial;
+        sensores.add(novo_SensorEspacial);
+ 
+
+    }
+
     //GETs e SETs
 
     /**
@@ -104,6 +116,14 @@ public class Robo
      */
     public void set_sensorAltitude(SensorAltitude novo_sensor){
         this.sensor_altitude  = novo_sensor;
+    }
+
+    /**
+     * Seta o novo sensor espacial, usado por herdeiros.
+     * @param novo_sensor Novo sensor a ser adicionado.
+     */
+    public void set_sensorEspacial(SensorEspacial novo_sensor){
+        this.sensor_espacial = novo_sensor;
     }
     
     /**
@@ -156,6 +176,10 @@ public class Robo
         return this.sensor_altitude;
     }
 
+    public SensorEspacial get_SensorEspacial(){
+        return this.sensor_espacial;
+    }
+
     /**
      * Retorna o valor da variável direção
      */
@@ -173,7 +197,7 @@ public class Robo
 
     @Override
     public String toString() {
-        return nome;
+        return String.format("%s [%s]", getClass().getSimpleName(), nome);
     }
 
 
