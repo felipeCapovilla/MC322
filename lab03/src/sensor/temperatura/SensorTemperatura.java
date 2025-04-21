@@ -105,16 +105,15 @@ public class SensorTemperatura extends Sensor{
      */
     @Override
     public String toString(){
-        return String.format("""
+        return String.format(
                              
-                             ****************************************
-                             Relatorio do sensor %s: 
-                             Temperatura atual: (%.2f\u00b1%.2f)K
-                             \t Em Celcius: (%.2f\u00b1%.2f)\u00b0C
-                             \t Em Fahrenheit: (%.2f\u00b1%.2f)\u00b0F
-                             Raio de alcance do %s: %dm
-                             ****************************************
-                             """,
+            "****************************************"+
+            "Relatorio do sensor %s:"+ 
+            "Temperatura atual: (%.2f\u00b1%.2f)K"+
+            "\t Em Celcius: (%.2f\u00b1%.2f)\u00b0C"+
+            "\t Em Fahrenheit: (%.2f\u00b1%.2f)\u00b0F"+
+            "Raio de alcance do %s: %dm"+
+            "****************************************",
         get_modelo(),
         get_temperaturaKelvin(),get_incerteza(),
         get_temperaturaCelcius(),get_incerteza(),

@@ -1,12 +1,12 @@
 package robo.standart;
 
+import java.util.ArrayList;
+
 import ambiente.Ambiente;
 import constantes.Bussola;
-import java.util.ArrayList;
-import sensor.altitude.*;
-import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
 import sensor.temperatura.*;
+import sensor.altitude.*;
 
 
 public class Robo
@@ -17,19 +17,18 @@ public class Robo
     private int posicaoY;
     private SensorTemperatura sensor_temperatura;
     private SensorAltitude sensor_altitude;
-    private SensorEspacial sensor_espacial;
     protected final ArrayList<Sensor> sensores;
 
     /**
      * NORTE, SUL, LESTE, OESTE
      */
-    private Bussola direcao;
+    private Bussula direcao;
 
 
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
+    public Robo(String nome, int posicaoX, int posicaoY, Bussula direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
@@ -74,7 +73,7 @@ public class Robo
 
     }
 
-    public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
         sensores.add(novo_sensorTemperatura);
@@ -82,16 +81,10 @@ public class Robo
 
    
 
-    public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
+    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
-    }
-
-    public void adicionar_sensorEspacial(int raio_alcance, String modelo){
-        SensorEspacial novo_SensorEspacial = new SensorEspacial(raio_alcance,modelo);
-        this.sensor_espacial = novo_SensorEspacial;
-        sensores.add(novo_SensorEspacial);
     }
 
     //GETs e SETs
@@ -104,12 +97,12 @@ public class Robo
         this.sensor_temperatura = novo_sensor;
     }
 
+    /**
+     * Seta o novo sensor de altitude, usado por herdeiros.
+     * @param novo_sensor Novo sensor a ser adicionado.
+     */
     public void set_sensorAltitude(SensorAltitude novo_sensor){
         this.sensor_altitude  = novo_sensor;
-    }
-
-    public void set_sensorEspacial(SensorEspacial novo_sensor){
-        this.sensor_espacial = novo_sensor;
     }
     
     /**
@@ -140,7 +133,7 @@ public class Robo
     public Ambiente get_ambiente(){
         return this.ambiente_atual;
     }
-
+    
     /**
      * define o valor da variável nome
      */
@@ -162,28 +155,24 @@ public class Robo
         return this.sensor_altitude;
     }
 
-    public SensorEspacial get_SensorEspacial(){
-        return this.sensor_espacial;
-    }
-
     /**
      * Retorna o valor da variável direção
      */
-    public Bussola getDirecao(){
+    public Bussula getDirecao(){
         return this.direcao;
     }
 
     /**
      * define o valor da variável direção
      */
-    public void setDirecao(Bussola direcao){
+    public void setDirecao(Bussula direcao){
         this.direcao = direcao;
         
     }
 
     @Override
     public String toString() {
-        return String.format("%s [%s]", getClass().getSimpleName(), nome);
+        return nome;
     }
 
 
