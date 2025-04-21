@@ -45,6 +45,6 @@ public class RoboTerrestre extends Robo{
      * define o valor da variável velocidadeMaxima
      */
     public void setVelocidadeMaxima(int velocidadeMaxima) {
-        this.velocidadeMaxima = velocidadeMaxima;
+        this.velocidadeMaxima = Math.max(0, velocidadeMaxima);
     }
 }

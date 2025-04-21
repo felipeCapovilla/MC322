@@ -295,7 +295,11 @@ public class Console {
                     System.out.print("Deslocamento vertical: ");
                     deltaY = scanner.nextInt();
 
-                    robo.mover(deltaX, deltaY);
+                    try {
+                        robo.mover(deltaX, deltaY);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 2:
                     //Visualizar arredores
@@ -379,7 +383,11 @@ public class Console {
                     System.out.print("Deslocamento vertical: ");
                     deltaY = scanner.nextInt();
 
-                    robo.mover(deltaX, deltaY);
+                    try {
+                        robo.mover(deltaX, deltaY);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
 
                 case 2:
@@ -494,7 +502,11 @@ public class Console {
                     System.out.print("Deslocamento vertical: ");
                     deltaY = scanner.nextInt();
 
-                    robo.mover(deltaX, deltaY);
+                    try {
+                        robo.mover(deltaX, deltaY);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
 
                 case 2:
@@ -655,8 +667,12 @@ public class Console {
                     deltaX = scanner.nextInt();
                     System.out.print("Deslocamento vertical: ");
                     deltaY = scanner.nextInt();
-
-                    robo.mover(deltaX, deltaY);
+                    try {
+                        robo.mover(deltaX, deltaY);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    
                     break;
 
                 case 2:
@@ -808,7 +824,11 @@ public class Console {
                     System.out.print("Deslocamento vertical: ");
                     deltaY = scanner.nextInt();
 
-                    robo.mover(deltaX, deltaY);
+                    try {
+                        robo.mover(deltaX, deltaY);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 2:
                     //Visualizar arredores
@@ -902,19 +922,24 @@ public class Console {
                     scanner.nextLine();
                     moverFrenteResposta = scanner.nextLine();
 
-                    if(moverFrenteResposta.toLowerCase().equals("y")){
-                        robo.mover(true); //andar para frente
+                    try{
+                        if(moverFrenteResposta.toLowerCase().equals("y")){
+                            robo.mover(true); //andar para frente
 
-                        System.out.printf("Robo se moveu %dm para frente na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
+                            System.out.printf("Robo se moveu %dm para frente na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
 
-                    } else if(moverFrenteResposta.toLowerCase().equals("n")){
-                        robo.mover(false); //andar de ré
+                        } else if(moverFrenteResposta.toLowerCase().equals("n")){
+                            robo.mover(false); //andar de ré
 
-                        System.out.printf("Robo se moveu %dm de re na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
+                            System.out.printf("Robo se moveu %dm de re na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
 
-                    } else {
-                        System.out.println("Opcao nao disponivel");
+                        } else {
+                            System.out.println("Opcao nao disponivel");
+                        }
+                    } catch(Exception e){
+                        System.out.println(e);
                     }
+                    
 
                     break;
 
@@ -1057,14 +1082,18 @@ public class Console {
                     scanner.nextLine();
                     correr = scanner.nextLine();
 
-                    if(correr.toLowerCase().equals("y")){
-                        robo.mover(true, deltaX, deltaY);
+                    try{
+                        if(correr.toLowerCase().equals("y")){
+                            robo.mover(true, deltaX, deltaY);
 
-                    } else if(correr.toLowerCase().equals("n")){
-                        robo.mover(false, deltaX, deltaY);
+                        } else if(correr.toLowerCase().equals("n")){
+                            robo.mover(false, deltaX, deltaY);
 
-                    } else {
-                        System.out.println("Opcao nao disponivel");
+                        } else {
+                            System.out.println("Opcao nao disponivel");
+                        }
+                    } catch (Exception e){
+                        System.out.println(e);
                     }
 
                     break;

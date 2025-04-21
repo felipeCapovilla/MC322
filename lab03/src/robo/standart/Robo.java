@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ambiente.Ambiente;
 import constantes.Bussola;
+import java.util.Arrays;
 import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
 import sensor.altitude.SensorAltitude;
@@ -50,8 +51,13 @@ public class Robo
      */
     public void mover(int deltaX, int deltaY) { 
         if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,0)){
-            posicaoX += deltaX;
-            posicaoY += deltaY;
+            if(!identificar_obstaculos(posicaoX + deltaX, posicaoY + deltaY) && !identificar_robos(posicaoX + deltaX, posicaoY + deltaY)){
+                posicaoX += deltaX;
+                posicaoY += deltaY;
+            } else {
+                throw new IllegalArgumentException("Posicao ja ocupada");
+            }
+                
         } else {
             throw new IllegalArgumentException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
         }
@@ -59,21 +65,41 @@ public class Robo
     }
 
     /**
-     * Identifica os obstáculos presentes no ambiente atual
+     * Identifica se a posicao esta ocupado por um obstaculo
      */
-    public void identificar_obstaculos(){
+    private boolean identificar_obstaculos(int X, int Y){
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-
-            System.out.printf("Foram identificados %d obstaculos no ambiente.\n",this.ambiente_atual.get_quantidade_obstaculos());
-            
             for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                System.out.println("Obstaculo"+i+": "+ this.ambiente_atual.getObstaculos().get(i));
+                if(ambiente_atual.getObstaculos().get(i).estaDentro(X, Y)){
+                    return true;
+                }
             }
+
+            return false;
         } else {
             System.out.printf("Robo %s não está em um ambiente\n", nome);
+            return false;
         }
-        
+    }
 
+    /**
+     * Identifica se a posicao esta ocupado por um robo
+     */
+    private boolean identificar_robos(int X, int Y){
+        if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
+            int[] pos = {X, Y};
+            for(int i=0;i<this.ambiente_atual.get_robos_ativos();i++){
+
+                if(Arrays.equals(ambiente_atual.getListaRobos().get(i).get_posicao(), pos)){
+                    return true;
+                }
+            }
+
+            return false;
+        } else {
+            System.out.printf("Robo %s não está em um ambiente\n", nome);
+            return false;
+        }
     }
 
     public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
