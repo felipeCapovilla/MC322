@@ -238,13 +238,13 @@ public class Console {
             controleRoboAereoTurista((RoboVoadorTurista) _robo);
 
         } else if(_robo.getClass() == RoboTerrestre.class){
-            System.out.println("RoboTerrestre");
+            controleRoboTerrestreStandart((RoboTerrestre) _robo);
 
         } else if(_robo.getClass() == RoboVeiculo.class){
-            System.out.println("RoboVeiculo");
+            controleRoboTerrestreVeiculo((RoboVeiculo) _robo);
 
         } else if(_robo.getClass() == RoboPedestre.class){
-            System.out.println("RoboPedestre");
+            controleRoboTerrestrePedrestre((RoboPedestre) _robo);
 
         } else {
             controleRoboStandart(_robo);
@@ -743,12 +743,350 @@ public class Console {
         System.out.println("");
     }
 
+    /**
+     * Menu que controla o RoboTerrestreStandart
+     * @param robo
+     */
+    private void controleRoboTerrestreStandart(RoboTerrestre robo){
+        int resposta;
+
+        do{
+            
+            System.out.println("+----------------------------------+");
+            System.out.println("|         escolha um opcao         |");
+
+            //Opções
+            System.out.println("| [1] Mover Robo                   |");
+            System.out.println("| [2] Visualizar arredores         |");
+            System.out.println("| [3] Mudar velocidade maxima      |");
+            System.out.println("| [4] Info                         |");
+            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [99] Voltar                      |");
+
+            System.out.println("+----------------------------------+");
+
+            //Resposta
+            System.out.print("opcao escolhida: ");
+            resposta = scanner.nextInt();
+
+            switch (resposta) {
+                case 1:
+                    //Mover robo
+                    int deltaX;
+                    int deltaY;
+
+                    System.out.print("Deslocamento horizontal: ");
+                    deltaX = scanner.nextInt();
+                    System.out.print("Deslocamento vertical: ");
+                    deltaY = scanner.nextInt();
+
+                    robo.mover(deltaX, deltaY);
+                    break;
+                case 2:
+                    //Visualizar arredores
+                    //TODO visualizar arredores
+
+                    break;
+
+                case 3:
+                    System.out.print("Indicar nova velocidade maxima: ");
+                    resposta = scanner.nextInt();
+
+                    robo.setVelocidadeMaxima(resposta);
+
+                    break;
+
+                case 4:
+                    //Info
+                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
+                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.printf("Velocidade maxima: %dm/s\n", robo.getVelocidadeMaxima());
+
+                    try {
+                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
+                    }
+                    break;
+
+                case 5:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 99:
+                    break;
+                default:
+                    System.out.println("Opcao nao disponivel");
+            }
+
+        } while (resposta != 99);
+        System.out.println("");
+    }
+
+    /**
+     * Menu que controla o RoboTerrestreVeiculo
+     * @param robo
+     */
+    private void controleRoboTerrestreVeiculo(RoboVeiculo robo){
+        int resposta;
+
+        do{
+            
+            System.out.println("+----------------------------------+");
+            System.out.println("|         escolha um opcao         |");
+
+            //Opções
+            System.out.println("| [1] Mover Robo                   |");
+            System.out.println("| [2] Mudar velocidade             |");
+            System.out.println("| [3] Virar direcao                |");
+            System.out.println("| [4] Visualizar arredores         |");
+            System.out.println("| [5] Mudar velocidade maxima      |");
+            System.out.println("| [6] Mudar numero de passageiros  |");
+            System.out.println("| [7] Info                         |");
+            System.out.println("| [8] Monitorar sensores           |");
+            System.out.println("| [99] Voltar                      |");
+
+            System.out.println("+----------------------------------+");
+
+            //Resposta
+            System.out.print("opcao escolhida: ");
+            resposta = scanner.nextInt();
+
+            switch (resposta) {
+                case 1:
+                    //Mover robo
+                    String moverFrenteResposta;
+
+                    System.out.print("Mover para frente? (Y/N) ");
+                    scanner.nextLine();
+                    moverFrenteResposta = scanner.nextLine();
+
+                    if(moverFrenteResposta.toLowerCase().equals("y")){
+                        robo.mover(true); //andar para frente
+
+                        System.out.printf("Robo se moveu %dm para frente na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
+
+                    } else if(moverFrenteResposta.toLowerCase().equals("n")){
+                        robo.mover(false); //andar de ré
+
+                        System.out.printf("Robo se moveu %dm de re na direcao %s\n", robo.getVelocidade(), robo.getDirecao());
+
+                    } else {
+                        System.out.println("Opcao nao disponivel");
+                    }
+
+                    break;
+
+                case 2:
+                    System.out.print("Indicar nova velocidade: ");
+                    resposta = scanner.nextInt();
+
+                    robo.mudarVelocidade(resposta);
+
+                    break;
+
+                case 3:
+                    String virar;
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.print("Virar para esquerda (E) ou direita (D): ");
+                    scanner.nextLine();
+                    virar = scanner.nextLine();
 
 
+                    if(virar.toLowerCase().equals("e")){
+                        robo.virar(false);
+
+                    } else if(virar.toLowerCase().equals("d")){
+                        robo.virar(true);
+
+                    } else {
+                        System.out.println("Opcao nao disponivel");
+                    }
+
+                    break;
+
+                case 4:
+                    //Visualizar arredores
+                    //TODO visualizar arredores
+
+                    break;
+
+                case 5:
+                    System.out.print("Indicar nova velocidade maxima: ");
+                    resposta = scanner.nextInt();
+
+                    robo.setVelocidadeMaxima(resposta);
+
+                    break;
+
+                case 6:
+                    System.out.print("Quantidade de passageiros saindo (negativo) ou entrando (positivo): ");
+                    resposta = scanner.nextInt();
+
+                    if(resposta < 0){
+                        robo.passageirosSair(-resposta);
+                    } else {
+                        robo.passageirosEntrar(resposta);
+                    }
+
+                    break;
+
+                case 7:
+                    //Info
+                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
+                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.printf("Velocidade atual: %dm/s\n", robo.getVelocidade());
+                    System.out.printf("Velocidade maxima: %dm/s\n", robo.getVelocidadeMaxima());
+                    System.out.println("Numeros passageiros: "+ robo.getPassageiros());
+
+                    try {
+                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
+                    }
+                    break;
+
+                case 8:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 99:
+                    break;
+                default:
+                    System.out.println("Opcao nao disponivel");
+            }
+
+        } while (resposta != 99);
+        System.out.println("");
+    }
 
 
+    /**
+     * Menu que controla o RoboTerrestrePedestre
+     * @param robo
+     */
+    private void controleRoboTerrestrePedrestre(RoboPedestre robo){
+        int resposta;
 
+        do{
+            
+            System.out.println("+----------------------------------+");
+            System.out.println("|         escolha um opcao         |");
 
+            //Opções
+            System.out.println("| [1] Mover Robo                   |");
+            System.out.println("| [2] Visualizar arredores         |");
+            System.out.println("| [3] Mudar peso                   |");
+            System.out.println("| [4] Mudar velocidade maxima      |");
+            System.out.println("| [5] Info                         |");
+            System.out.println("| [6] Monitorar sensores           |");
+            System.out.println("| [99] Voltar                      |");
+
+            System.out.println("+----------------------------------+");
+
+            //Resposta
+            System.out.print("opcao escolhida: ");
+            resposta = scanner.nextInt();
+
+            switch (resposta) {
+                case 1:
+                    //Mover robo
+                    int deltaX;
+                    int deltaY;
+                    String correr;
+
+                    System.out.print("Deslocamento horizontal: ");
+                    deltaX = scanner.nextInt();
+                    System.out.print("Deslocamento vertical: ");
+                    deltaY = scanner.nextInt();
+                    System.out.print("Correr? (Y/N)");
+                    scanner.nextLine();
+                    correr = scanner.nextLine();
+
+                    if(correr.toLowerCase().equals("y")){
+                        robo.mover(true, deltaX, deltaY);
+
+                    } else if(correr.toLowerCase().equals("n")){
+                        robo.mover(false, deltaX, deltaY);
+
+                    } else {
+                        System.out.println("Opcao nao disponivel");
+                    }
+
+                    break;
+                case 2:
+                    //Visualizar arredores
+                    //TODO visualizar arredores
+
+                    break;
+
+                case 3:
+                    System.out.print("Indicar novo peso: ");
+                    resposta = scanner.nextInt();
+
+                    robo.setPeso(resposta);
+
+                    break;
+
+                case 4:
+                    System.out.print("Indicar nova velocidade maxima: ");
+                    resposta = scanner.nextInt();
+
+                    robo.setVelocidadeMaxima(resposta);
+
+                    break;
+
+                case 5:
+                    //Info
+                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
+                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.printf("Velocidade maxima: %dm/s\n", robo.getVelocidadeMaxima());
+                    System.out.printf("Peso atual: %dkg\n", robo.getPeso());
+
+                    try {
+                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
+                    }
+                    break;
+
+                case 6:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 99:
+                    break;
+                default:
+                    System.out.println("Opcao nao disponivel");
+            }
+
+        } while (resposta != 99);
+        System.out.println("");
+    }
 
 
 

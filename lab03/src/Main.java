@@ -33,7 +33,7 @@ public class Main {
         RoboAereo roboAereo = new RoboAereo("padrao aereo",15,15,Bussola.OESTE,20,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
         RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",23,42,Bussola.LESTE,2,50,100);
-        RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,120);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,20);
         RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",76,56,Bussola.OESTE,120,120);
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);
 
@@ -69,6 +69,12 @@ public class Main {
 
         roboAereoTurista.adicionar_sensorAltitude(0, "ALT-30", 0.1, 100);
         roboAereoTurista.adicionar_sensorTemperatura(0, "TMP-92", 0.1, 100, 0);
+
+        roboTerrestre.adicionar_sensorTemperatura(0, "TMP-99", 5, 70, 50);
+
+        roboTerrestrePedestre.adicionar_sensorTemperatura(0, "TMP-54", 2, 88, 55);
+
+        roboTerrestreVeiculo.adicionar_sensorTemperatura(0, "TMP-23", 1, 400, 100);
         
 
         //Menu
