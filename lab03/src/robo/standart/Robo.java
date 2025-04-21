@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import ambiente.Ambiente;
 import constantes.Bussola;
+import sensor.*;
 import sensor.standart.Sensor;
-import sensor.temperatura.*;
-import sensor.altitude.*;
+import sensor.temperatura.SensorTemperatura;
+import sensor.altitude.SensorAltitude;
 
 
 public class Robo
@@ -22,19 +23,19 @@ public class Robo
     /**
      * NORTE, SUL, LESTE, OESTE
      */
-    private Bussula direcao;
+    private Bussola direcao;
 
 
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, Bussula direcao) {
+    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.ambiente_atual = null;
         this.direcao = direcao;
-        sensores = new ArrayList<>();
+        sensores = new ArrayList<Sensor>();
         this.sensor_altitude = null;
         this.sensor_temperatura = null;
     }
@@ -73,7 +74,7 @@ public class Robo
 
     }
 
-    public void adicionar_sensorTemperatura(double raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+    public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
         sensores.add(novo_sensorTemperatura);
@@ -81,7 +82,7 @@ public class Robo
 
    
 
-    public void adicionar_sensorAltitude(double raio_alcance, String modelo,double precisao, double altura_maxima){
+    public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
@@ -158,14 +159,14 @@ public class Robo
     /**
      * Retorna o valor da variável direção
      */
-    public Bussula getDirecao(){
+    public Bussola getDirecao(){
         return this.direcao;
     }
 
     /**
      * define o valor da variável direção
      */
-    public void setDirecao(Bussula direcao){
+    public void setDirecao(Bussola direcao){
         this.direcao = direcao;
         
     }
