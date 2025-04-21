@@ -81,9 +81,9 @@ public class SensorAltitude extends Sensor{
         double delta_h = this.altura_maxima - this.altitude_atual;
         System.out.printf(
             "%s: %n"+
-            "Monitoramento Completo!!!%n"+
-            "Altitude atual: (%.2f±%.2f)m%n"+
-            "Margem restante para elevação de altura ainda disponível: (%.2f±%.2f)m.%n",
+            " Monitoramento Completo!!!%n"+
+            " Altitude atual: (%.2f±%.2f)m%n"+
+            " Margem restante para elevação de altura ainda disponível: (%.2f±%.2f)m.%n",
             get_modelo(),
             this.altitude_atual,get_incerteza(),
             delta_h,get_incerteza()

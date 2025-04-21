@@ -93,7 +93,7 @@ public class SensorTemperatura extends Sensor{
     @Override
     public void monitorar(){
         if(this.temperatura < this.temperatura_minima || this.temperatura > this.temperatura_maxima){ //Verifica a condicao do Robo em relacao a temperatura.
-            System.out.printf("WARNING%n Sensor %s detectou um perigo critico! %n A temperatura atual e de %.2fK o que ultrapassa o limite de intervalo permitido. %nPotencial de grandes danos.%n",get_modelo(),this.temperatura);
+            System.out.printf("WARNING%n Sensor %s detectou um perigo critico! %n A temperatura atual e de %.2fK o que ultrapassa o limite de intervalo permitido. %n Potencial de grandes danos.%n",get_modelo(),this.temperatura);
         }else{
             System.out.printf("%s: Nao ha risco detectado.%n ",get_modelo());
         }
@@ -105,14 +105,16 @@ public class SensorTemperatura extends Sensor{
      */
     @Override
     public String toString(){
-        return String.format(
-        "%n****************************************%n"+
-        "Relatorio do sensor %s: %n"+
-        "Temperatura atual: (%.2f±%.2f)K%n"+
-        "%t Em Celcius: (%.2f±%.2f)°C%n"+
-        "%t Em Fahrenheit: (%.2f±%.2f)°F%n"+
-        "Raio de alcance do %s: %.2f m"+
-        "%n****************************************%n",
+        return String.format("""
+                             
+                             ****************************************
+                             Relatorio do sensor %s: 
+                             Temperatura atual: (%.2f\u00b1%.2f)K
+                             \t Em Celcius: (%.2f\u00b1%.2f)\u00b0C
+                             \t Em Fahrenheit: (%.2f\u00b1%.2f)\u00b0F
+                             Raio de alcance do %s: %.2f m
+                             ****************************************
+                             """,
         get_modelo(),
         get_temperaturaKelvin(),get_incerteza(),
         get_temperaturaCelcius(),get_incerteza(),

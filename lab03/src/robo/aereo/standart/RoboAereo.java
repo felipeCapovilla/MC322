@@ -65,7 +65,6 @@ public class RoboAereo extends Robo {
     /**
      * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
      */
-    @Override
     public double get_altitude() {
 
         if(this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.

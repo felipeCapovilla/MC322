@@ -104,7 +104,7 @@ public class Obstaculo {
 
     @Override
     public String toString(){
-        return String.format("(%d,%d) até (%d, %d)", getPontoMenor()[0], getPontoMenor()[1], getPontoMaior()[0], getPontoMaior()[1]);
+        return String.format(tipoObstaculo.toString());
     }
 
 

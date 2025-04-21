@@ -129,10 +129,6 @@ public class Robo
         return this.ambiente_atual;
     }
 
-    public double get_altitude(){
-        return 0;
-    }
-    
     /**
      * define o valor da variável nome
      */
@@ -171,7 +167,7 @@ public class Robo
 
     @Override
     public String toString() {
-        return String.format("%S (%S)", nome, getClass().getSimpleName());
+        return String.format("%s [%s]", getClass().getSimpleName(), nome);
     }
 
 

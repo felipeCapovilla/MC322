@@ -29,17 +29,16 @@ public class Main {
         Ambiente ambiente = new Ambiente(100,100,100);
         Console menu = new Console(ambiente);
 
-        Robo roboStandart = new Robo("roboStandart",20,20,Bussola.LESTE);
-        RoboAereo roboAereo = new RoboAereo("roboAereo",15,15,Bussola.OESTE,20,100);
-        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("roboAereoTurista",10,20,Bussola.OESTE,10,40,30);
-        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("roboAereoExplorador",23,42,Bussola.LESTE,2,50,100);
-        RoboTerrestre roboTerrestre = new RoboTerrestre("RoboTerrestre",15,16,Bussola.SUL,120);
-        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("RoboTerrestreVeiculo",76,56,Bussola.OESTE,120,120);
-        RoboPedestre roboTerrestrePedestre = new RoboPedestre("RoboTerrestePedestre", 1, 1, Bussola.SUL, 20);
+        Robo roboStandart = new Robo("padraozinho",20,20,Bussola.LESTE);
+        RoboAereo roboAereo = new RoboAereo("padrao aereo",15,15,Bussola.OESTE,20,100);
+        RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
+        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",23,42,Bussola.LESTE,2,50,100);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,120);
+        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",76,56,Bussola.OESTE,120,120);
+        RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);
 
         
-        //Teste Ambiente
-        //System.out.println("\n--AMBIENTE--");
+        //Ambiente
             //Adicionar os robos no ambiente
         ambiente.adicionarRobo(roboStandart);
         ambiente.adicionarRobo(roboAereo);
@@ -57,284 +56,23 @@ public class Main {
         ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
         ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
 
+        //Robos
+            //adicionar sensores
+        roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
+        roboStandart.get_SensorTemperatura().set_temperatura(10);
+
+        roboAereo.adicionar_sensorAltitude(20, "ALT-01", 1, 100);
+        roboAereo.adicionar_sensorTemperatura(0, "TMP-76", 0.8, 900, 0);
+
+        roboAereoExplorador.adicionar_sensorAltitude(10, "ALT-23", 0.1, 100);
+        roboAereoExplorador.adicionar_sensorTemperatura(0, "TMP-09", 0.3, 400, 10);
+        
 
         //Menu
         menu.mainMenu();
 
-        /* 
-
-        System.out.printf("Lista de robos no ambiente (%d):\n", ambiente.get_robos_ativos());
-        ambiente.getListaRobos().forEach(robo -> {
-            System.out.print(" " + robo);
-        });
-
-
-        ambiente.removerObstaculo(1, 40); //existe
-        ambiente.removerObstaculo(62, 48); //não existe
-
-
-            //Obstáculo fora do limite
-        System.out.println("\nAdicionando obstáculo fora dos limites do ambiente:");
-        try {
-            ambiente.adicionarObstaculo(160, 60, TipoObstaculo.OUTRO);
-            System.out.println("Obstáculo adicionado com sucesso fora dos limites");
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-
-
-
-        //Teste Robo Standart
-        System.out.println("\n\n--ROBO STANDART--");
-        System.out.println("testando o " + roboStandart.getNome());
-
-            //Testa o metodo mover
-        System.out.println("1. Método de mover");
-        int[] pos_roboStandart = roboStandart.get_posicao();
-        System.out.println("Posicao inicial roboStandart: ("+pos_roboStandart[0]+","+pos_roboStandart[1]+")");
-
-        roboStandart.mover(5, 2);
-        pos_roboStandart = roboStandart.get_posicao();
-        System.out.println("Posicao final roboStandart: ("+pos_roboStandart[0]+","+pos_roboStandart[1]+")");
-
-            //Verifica se a nova posicao esta dentro do limite do ambiente.
-        System.out.println("2. Verificar os limites do ambiente");
-        System.out.println("roboStandart está dentro dos limites?");
-        System.out.println("Posicao inicial roboStandart: ("+pos_roboStandart[0]+","+pos_roboStandart[1]+")");
-        try {
-            roboStandart.mover(600, 60);
-            pos_roboStandart = roboStandart.get_posicao();
-            System.out.println("\t movido com sucesso para ("+pos_roboStandart[0]+","+pos_roboStandart[1]+")");
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-
-            //Testa o método de identificar obstáculos
-        System.out.println("3. Verificar os obstáculos do ambiente do robo");
-        roboStandart.identificar_obstaculos();
-
-        System.out.println("Removendo o robo do ambiente");
-        ambiente.removerRobo(roboStandart);
-        roboStandart.identificar_obstaculos();
-
-
-
-        //Teste RoboAereo
-        System.out.println("\n--ROBO AEREO--");
-        System.out.println("testando o " + roboAereo.getNome());
-            //Testa metodo de subir e descer
-        System.out.println("1. Métodos subida e descida");
-        System.out.println("Altitude inicial: " + roboAereo.get_altitude()); //altitude original
         
-        roboAereo.subir(20);
-        System.out.println("Altitude subida (tenta subir 20m): " + roboAereo.get_altitude());
-
-        roboAereo.descer(25);
-        System.out.println("Altitude descida (tenta descer 25m): " + roboAereo.get_altitude());
-
-            //Testa altitude máxima e mínima
-        System.out.println("2. Verificar altitude máxima e mínima");
-        System.out.println("Altitude máxima = " + roboAereo.get_altitude_max());
-        try {
-            roboAereo.subir(200);
-            System.out.println("Altitude subida com sucesso: " + roboAereo.get_altitude());
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-
-        try {
-            roboAereo.descer(500);
-            System.out.println("Altitude descida com sucesso: " + roboAereo.get_altitude());
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-
-        roboAereo.set_altitude(4000);
-        roboAereo.set_altitude(-43);
-
-            //Movimentação geral
-        roboAereo.mover(10,15);
-        roboAereo.subir(30);
-        roboAereo.descer(15);
-
-
-        //Teste roboAereoExplorador
-        System.out.println("\n--ROBO AEREO EXPLORADOR--");
-        System.out.println("testando o " + roboAereoExplorador.getNome());
-            //Metodo de iniciar exploração
-        roboAereoExplorador.iniciar_exploracao(200, 600, 5, "Marte");
-        System.out.println("1. Iniciar exploração");
-        System.out.println("\tEm missão: " + roboAereoExplorador.status_missao());
-        System.out.println("\tPressão: " + roboAereoExplorador.get_pressao());
-        System.out.println("\tTemperatura: " + roboAereoExplorador.get_temperatura());
-        System.out.println("\tVelocidade: " + roboAereoExplorador.get_velocidade());
-        System.out.println("\tPlaneta: " + roboAereoExplorador.get_planeta());
-
-            //Finalizar missão
-        roboAereoExplorador.finalizar_exploracao();
-        System.out.println("2. Finalizar missão");
-        System.out.println("\tEm missão: " + roboAereoExplorador.status_missao());
-        System.out.println("\tPressão: " + roboAereoExplorador.get_pressao());
-        System.out.println("\tTemperatura: " + roboAereoExplorador.get_temperatura());
-        System.out.println("\tVelocidade: " + roboAereoExplorador.get_velocidade());
-        System.out.println("\tPlaneta: " + roboAereoExplorador.get_planeta());
-
-            //Testando valores extremos
-        System.out.println("3. Testando valores extremos");
-        try {
-            roboAereoExplorador.set_temperatura(-1);
-            System.out.println("Temperatura mudada com sucesso para: " + roboAereoExplorador.get_temperatura());
-
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-        try {
-            roboAereoExplorador.set_velocidade(200);
-            System.out.println("Velocidade mudada com sucesso para: " + roboAereoExplorador.get_temperatura());
-
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e);
-        }
-
-            //Movimentação geral
-        roboAereoExplorador.mover(10,10);
-        roboAereoExplorador.subir(15);
-        roboAereoExplorador.descer(5);
-
-            //Altitude máima e mínima
-        roboAereoExplorador.set_altitude(600);
-        roboAereoExplorador.set_altitude(-1);
-
-
-        //Teste roboAereoTurista
-        System.out.println("\n--ROBO AEREO TURISTA--");
-        System.out.println("testando o " + roboAereoTurista.getNome());
-
-            //Verifivar iniciar passeio
-        System.out.println("1. Verificar iniciação de passeio");
-        roboAereoTurista.inciar_passeio(7, "Rio de Janeiro");
-        System.out.println("Em Passeio: " + roboAereoTurista.get_status());
-        System.out.println("Passegeiros: " + roboAereoTurista.get_numero_passageiros());
-        System.out.println("Cidade turistica: " + roboAereoTurista.get_destino());
-
-            //Movimentação geral
-        roboAereoTurista.mover(10, 10);
-        roboAereoTurista.subir(15);
-        roboAereoTurista.descer(21);
-
-            //Altitude máxima e mínima
-        roboAereoTurista.set_altitude(900);
-        roboAereoTurista.set_altitude(-1);
-    
-
-
-        //Teste RoboTerrestre
-        System.out.println("\n--ROBO TERRESTRE--");
-        System.out.println("testando o " + roboTerrestre.getNome());
-
-            //Verificar velocidade maxima
-        System.out.println("1. Verificar a velocidade máxima");
-        int[] pos_roboTerrestre = roboTerrestre.get_posicao();
-        int[] velocidade = {0,0};
-        System.out.println("Posicao inicial RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
-        System.out.println("\tVelocidade máxima: 15");
-
-        velocidade[0] = 0;
-        velocidade[1] = 20;
-        roboTerrestre.mover(velocidade[0], velocidade[1]);
-        pos_roboTerrestre = roboTerrestre.get_posicao();
-        System.out.println("Posicao RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
-        System.out.println("\tVelocidade inserida: " + (int)Math.sqrt((velocidade[0]*velocidade[0] + velocidade[1]*velocidade[1])));
-
-        velocidade[0] = 8;
-        velocidade[1] = 15;
-        roboTerrestre.mover(velocidade[0], velocidade[1]);
-        pos_roboTerrestre = roboTerrestre.get_posicao();
-        System.out.println("Posicao RoboTerrestre: ("+pos_roboTerrestre[0]+","+pos_roboTerrestre[1]+")");
-        System.out.println("\tVelocidade inserida: " + (int)Math.sqrt((velocidade[0]*velocidade[0] + velocidade[1]*velocidade[1])));
-
-
-        //Teste roboTerrestreVeiculo
-        System.out.println("\n--ROBO TERRESTRE VEICULO--");
-        System.out.println("testando o " + roboTerrestreVeiculo.getNome());
-
-            //Virar o robo
-        System.out.println("1. Testar o método de virar");
-        System.out.println("Direção inicial:" + roboTerrestreVeiculo.getDirecao());
-
-        roboTerrestreVeiculo.virar(true);
-        System.out.println("Direção virar 1 para direita:" + roboTerrestreVeiculo.getDirecao());
-
-        roboTerrestreVeiculo.virar(false);
-        roboTerrestreVeiculo.virar(false);
-        System.out.println("Direção virar 2 para esquerda:" + roboTerrestreVeiculo.getDirecao());
-
-            //Mudar numero de passageiros
-        System.out.println("2. Testar a entrada e saída de passageiros");
-        System.out.println("Números de passageiros (max 15):");
-        System.err.println("passageiros iniciais: " + roboTerrestreVeiculo.getPassageiros());
-
-        roboTerrestreVeiculo.passageirosEntrar(10);
-        System.err.println("passageiros (tenta entrar 10): " + roboTerrestreVeiculo.getPassageiros());
-
-        roboTerrestreVeiculo.passageirosEntrar(7);
-        System.err.println("passageiros (tenta entrar 7): " +roboTerrestreVeiculo.getPassageiros());
-
-        roboTerrestreVeiculo.passageirosSair(20);
-        System.err.println("passageiros (tenta sair 20): " +roboTerrestreVeiculo.getPassageiros());
-
-
-            //Mover o robo no sentido
-        System.out.println("3. Verificar o método mover no sentido da direção");
-        int[] pos_roboTerrestreVeiculo = roboTerrestreVeiculo.get_posicao();
-        System.out.println("Posicao inicial roboTerrestreVeiculo: ("+pos_roboTerrestreVeiculo[0]+","+pos_roboTerrestreVeiculo[1]+")");
-
-        roboTerrestreVeiculo.mudarVelocidade(5);
-        roboTerrestreVeiculo.mover(true);
-        pos_roboTerrestreVeiculo = roboTerrestreVeiculo.get_posicao();
-        System.out.println("Posicao roboTerrestreVeiculo: ("+pos_roboTerrestreVeiculo[0]+","+pos_roboTerrestreVeiculo[1]+")");
-        System.out.println("\tDireção (frente): " + roboTerrestreVeiculo.getDirecao() + "; Velocidade: " + roboTerrestreVeiculo.getVelocidade());
-
-        roboTerrestreVeiculo.mudarVelocidade(20);
-        roboTerrestreVeiculo.mover(false);
-        pos_roboTerrestreVeiculo = roboTerrestreVeiculo.get_posicao();
-        System.out.println("Posicao roboTerrestreVeiculo: ("+pos_roboTerrestreVeiculo[0]+","+pos_roboTerrestreVeiculo[1]+")");
-        System.out.println("\tDireção (trás): " + roboTerrestreVeiculo.getDirecao() + "; Velocidade: " + roboTerrestreVeiculo.getVelocidade()); 
-
         
-        //Teste roboTerrestrePedestre
-        System.out.println("\n--ROBO TERRESTRE PEDESTRE--");
-        System.out.println("testando o " + roboTerrestrePedestre.getNome());
 
-            //Teste de mover correndo e andando
-        System.out.println("1. Verificar o movimento andando e correndo");
-        System.out.println("Velocidade máxima: " + roboTerrestrePedestre.getVelocidadeMaxima());
-        System.out.println("Peso=" + roboTerrestrePedestre.getPeso());
-        int[] pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao inicial roboTerrestrePedestre: ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
 
-        roboTerrestrePedestre.mover(false, 20, 0);
-        pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao roboTerrestrePedestre (tentar andar 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
-
-        roboTerrestrePedestre.mover(true, 0, 20);
-        pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao roboTerrestrePedestre (tentar correr 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
-
-            //Teste peso
-        System.out.println("2. Verificar o movimento com maior peso");
-        roboTerrestrePedestre.setPeso(10);
-        System.out.println("Peso="+ roboTerrestrePedestre.getPeso());
-        pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao inicial roboTerrestrePedestre: ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
-
-        roboTerrestrePedestre.mover(false, 20, 0);
-        pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao roboTerrestrePedestre (tentar andar 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
-
-        roboTerrestrePedestre.mover(true, 0, 20);
-        pos_roboTerrestrePedestre = roboTerrestrePedestre.get_posicao();
-        System.out.println("Posicao roboTerrestrePedestre (tentar correr 20): ("+pos_roboTerrestrePedestre[0]+","+pos_roboTerrestrePedestre[1]+")");
-
-        */
     }}
