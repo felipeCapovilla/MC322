@@ -17,7 +17,7 @@ java -cp bin Main
 ## Diagrama UML
 Diagrama de classes e relações do projeto.
 
-![Diagrama](lab03/lab_03_UML.jpg)
+![Diagrama](lab03/lab03_UML.png)
 
 ## Sobre
 **IDE Utilizada:** Visual Studio Code <p>
