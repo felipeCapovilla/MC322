@@ -29,8 +29,8 @@ public class Main {
         Ambiente ambiente = new Ambiente(100,100,100);
         Console menu = new Console(ambiente);
 
-        Robo roboStandart = new Robo("padraozinho",20,20,Bussola.LESTE);
-        RoboAereo roboAereo = new RoboAereo("padrao aereo",15,15,Bussola.OESTE,20,100);
+        Robo roboStandart = new Robo("padraozinho",50,49,Bussola.LESTE);
+        RoboAereo roboAereo = new RoboAereo("padrao aereo",50,49,Bussola.OESTE,12,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
         RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",97,1,Bussola.LESTE,2,50,100);
         RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,20);
@@ -60,11 +60,11 @@ public class Main {
             //adicionar sensores
         roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
         roboStandart.get_SensorTemperatura().set_temperatura(10);
-        roboStandart.adicionar_sensorEspacial(5, "EPC-01");
+        roboStandart.adicionar_sensorEspacial(15, "EPC-01");
 
         roboAereo.adicionar_sensorAltitude(20, "ALT-01", 1, 100);
         roboAereo.adicionar_sensorTemperatura(0, "TMP-76", 0.8, 900, 0);
-        roboAereo.adicionar_sensorEspacial(5, "EPC-01");
+        roboAereo.adicionar_sensorEspacial(15, "EPC-01");
 
         roboAereoExplorador.adicionar_sensorAltitude(10, "ALT-23", 0.1, 100);
         roboAereoExplorador.adicionar_sensorTemperatura(0, "TMP-09", 0.3, 400, 10);

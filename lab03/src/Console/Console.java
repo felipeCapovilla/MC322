@@ -25,13 +25,14 @@ public class Console {
      */
     public void mainMenu(){
         int resposta;
+        boolean running = true;
 
         System.out.println("+----------------------------------+");
         System.out.println("|        SIMULADOR DE ROBOS        |");
         
 
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -57,12 +58,13 @@ public class Console {
                     roboMenu();
                     break;
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");;
             }
 
-        } while (resposta != 99);
+        }
 
         scanner.close();
     }
@@ -73,8 +75,9 @@ public class Console {
      */
     private void ambienteMenu(){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -117,12 +120,13 @@ public class Console {
 
                     break;
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -182,9 +186,6 @@ public class Console {
     ///////MENU ROBO
     /**
      * Formata uma String para ter exatamente o tamanho inserido, para mais(inserindo espaços) ou para menos
-     * @param texto
-     * @param tamanho
-     * @return
      */
     private static String formatString(String texto, int tamanho) {
         if (texto.length() > tamanho) {
@@ -199,8 +200,9 @@ public class Console {
      */
     private void roboMenu(){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um robo          |");
@@ -222,11 +224,13 @@ public class Console {
             if(resposta > 0 && resposta <= ambiente.get_robos_ativos()){
                 rotearRobo(ambiente.getListaRobos().get(resposta-1));
 
-            } else if(resposta != 99){
+            } else if(resposta == 99){
+                running = false;
+            } else{
                 System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        };
         System.out.println("");
     }
 
@@ -237,36 +241,37 @@ public class Console {
     private void rotearRobo(Robo _robo){
         //Instanciar o robo na classe correta
         if(_robo.getClass() == RoboAereo.class){
-            controleRoboAereoStandart((RoboAereo) _robo);
+            controleRobo((RoboAereo) _robo);
 
         } else if(_robo.getClass() == RoboVoadorExplorador.class){
-            controleRoboAereoExplorador((RoboVoadorExplorador) _robo);
+            controleRobo((RoboVoadorExplorador) _robo);
 
         } else if(_robo.getClass() == RoboVoadorTurista.class){
-            controleRoboAereoTurista((RoboVoadorTurista) _robo);
+            controleRobo((RoboVoadorTurista) _robo);
 
         } else if(_robo.getClass() == RoboTerrestre.class){
-            controleRoboTerrestreStandart((RoboTerrestre) _robo);
+            controleRobo((RoboTerrestre) _robo);
 
         } else if(_robo.getClass() == RoboVeiculo.class){
-            controleRoboTerrestreVeiculo((RoboVeiculo) _robo);
+            controleRobo((RoboVeiculo) _robo);
 
         } else if(_robo.getClass() == RoboPedestre.class){
-            controleRoboTerrestrePedrestre((RoboPedestre) _robo);
+            controleRobo((RoboPedestre) _robo);
 
         } else {
-            controleRoboStandart(_robo);
+            controleRobo(_robo);
         }
     }
 
     /**
      * Menu que controla o RoboStandart
-     * @param robo
+     * @param robo RoboStandart
      */
-    private void controleRoboStandart(Robo robo){
+    private void controleRobo(Robo robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -274,8 +279,8 @@ public class Console {
             //Opções
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Visualizar arredores         |");
-            System.out.println("| [3] Info                         |");
-            System.out.println("| [4] Monitorar sensores           |");
+            System.out.println("| [3] Monitorar sensores           |");
+            System.out.println("| [4] Info                         |");
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -306,6 +311,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -313,6 +320,16 @@ public class Console {
                     break;
 
                 case 3:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 4:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -326,23 +343,14 @@ public class Console {
                     }
                     break;
 
-                case 4:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -350,10 +358,11 @@ public class Console {
      * Menu que controla o RoboAereoStandart
      * @param robo
      */
-    private void controleRoboAereoStandart(RoboAereo robo){
+    private void controleRobo(RoboAereo robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -362,8 +371,8 @@ public class Console {
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Subir/Descer Robo            |");
             System.out.println("| [3] Visualizar arredores         |");
-            System.out.println("| [4] Info                         |");
-            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [4] Monitorar sensores           |");
+            System.out.println("| [5] Info                         |");
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -412,13 +421,31 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
-                    } catch (Exception e) {
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());                    } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
 
                     break;
 
                 case 4:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorAltitude() == null){
+                        System.out.println("Sensor de altitude nao instalado");
+                    } else {
+                        System.out.print("Sensor de altitude:\n\t");
+                        robo.get_SensorAltitude().monitorar();
+                    }
+
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 5:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -437,30 +464,14 @@ public class Console {
                     }
                     break;
 
-                case 5:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorAltitude() == null){
-                        System.out.println("Sensor de altitude nao instalado");
-                    } else {
-                        System.out.print("Sensor de altitude:\n\t");
-                        robo.get_SensorAltitude().monitorar();
-                    }
-
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -468,10 +479,11 @@ public class Console {
      * Menu que controla o RoboAereoExplorador
      * @param robo
      */
-    private void controleRoboAereoExplorador(RoboVoadorExplorador robo){
+    private void controleRobo(RoboVoadorExplorador robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -480,9 +492,9 @@ public class Console {
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Subir/Descer Robo            |");
             System.out.println("| [3] Visualizar arredores         |");
-            System.out.println("| [4] Info                         |");
+            System.out.println("| [4] Iniciar/Finalizar missao     |");
             System.out.println("| [5] Monitorar sensores           |");
-            System.out.println("| [6] Iniciar/Finalizar missao     |");
+            System.out.println("| [6] Info                         |");
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -531,6 +543,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -538,54 +552,7 @@ public class Console {
                     break;
 
                 case 4:
-                    //Info
-                    System.out.println("Nome: " + robo.getNome());
-                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
-                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
-                    System.out.println("Direcao atual: " + robo.getDirecao());
-                    
-                    try {
-                        System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
-                    } catch (Exception e) {
-                        System.out.println("Altitude: Sensor de altitude nao instalado");
-                    }
-                    try {
-                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
-                    } catch (Exception e) {
-                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
-                    }
-
-                    if(robo.status_missao()){
-                        System.out.println("Status da missao: ATIVO");
-                        System.out.println("\tPlaneta destino: " + robo.get_planeta());
-                        System.out.printf("\tPressao atual: %dkPa\n", robo.get_pressao());
-                        System.out.printf("\tVelocidade atual: %dm/s", robo.get_velocidade());
-
-                    } else {
-                        System.out.println("Status da missao: INATIVO");
-                    }
-
-
-                    break;
-
-                case 5:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorAltitude() == null){
-                        System.out.println("Sensor de altitude nao instalado");
-                    } else {
-                        System.out.print("Sensor de altitude:\n\t");
-                        robo.get_SensorAltitude().monitorar();
-                    }
-
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
-                case 6:
+                    //Inicia/finaliza uma missão
                     if(robo.status_missao()){
                         robo.finalizar_exploracao();
                         System.out.println("Missao finalizada");
@@ -620,13 +587,62 @@ public class Console {
 
                     break;
 
+                case 5:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorAltitude() == null){
+                        System.out.println("Sensor de altitude nao instalado");
+                    } else {
+                        System.out.print("Sensor de altitude:\n\t");
+                        robo.get_SensorAltitude().monitorar();
+                    }
+
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 6:
+                    //Info
+                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
+                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
+                    System.out.println("Direcao atual: " + robo.getDirecao());
+                    
+                    try {
+                        System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Altitude: Sensor de altitude nao instalado");
+                    }
+                    try {
+                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
+                    } catch (Exception e) {
+                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
+                    }
+
+                    if(robo.status_missao()){
+                        System.out.println("Status da missao: ATIVO");
+                        System.out.println("\tPlaneta destino: " + robo.get_planeta());
+                        System.out.printf("\tPressao atual: %dkPa\n", robo.get_pressao());
+                        System.out.printf("\tVelocidade atual: %dm/s", robo.get_velocidade());
+
+                    } else {
+                        System.out.println("Status da missao: INATIVO");
+                    }
+
+
+                    break;
+
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -634,10 +650,11 @@ public class Console {
      * Menu que controla o RoboAereoTurista
      * @param robo
      */
-    private void controleRoboAereoTurista(RoboVoadorTurista robo){
+    private void controleRobo(RoboVoadorTurista robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -646,9 +663,10 @@ public class Console {
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Subir/Descer Robo            |");
             System.out.println("| [3] Visualizar arredores         |");
-            System.out.println("| [4] Info                         |");
+            System.out.println("| [4] Iniciar/Finalizar passeio    |");
             System.out.println("| [5] Monitorar sensores           |");
-            System.out.println("| [6] Iniciar/Finalizar passeio    |");
+            System.out.println("| [6] Info                         |");
+
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -697,6 +715,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -704,6 +724,52 @@ public class Console {
                     break;
 
                 case 4:
+                    //Iniciar/finalizar passeio
+                    if(robo.get_status()){
+                        robo.finalizar_passeio();
+                        System.out.println("Passeio finalizado");
+                    } else {
+                        int passageiros;
+                        String cidade;
+
+                        System.out.print("Indicar cidade destino: ");
+                        scanner.nextLine(); // Acontece automaticamente, o usuario nao consegue inserir uma entrada
+                        cidade = scanner.nextLine();
+
+                        System.out.print("Indicar numero de passageiros:");
+                        passageiros = scanner.nextInt();
+
+                        try{
+                            robo.inciar_passeio(passageiros, cidade);
+                            
+                            System.out.println("Passeio iniciado");
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                        
+                    }
+
+                    break;
+
+                case 5:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorAltitude() == null){
+                        System.out.println("Sensor de altitude nao instalado");
+                    } else {
+                        System.out.print("Sensor de altitude:\n\t");
+                        robo.get_SensorAltitude().monitorar();
+                    }
+
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 6:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -732,58 +798,13 @@ public class Console {
 
                     break;
 
-                case 5:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorAltitude() == null){
-                        System.out.println("Sensor de altitude nao instalado");
-                    } else {
-                        System.out.print("Sensor de altitude:\n\t");
-                        robo.get_SensorAltitude().monitorar();
-                    }
-
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
-                    case 6:
-                    if(robo.get_status()){
-                        robo.finalizar_passeio();
-                        System.out.println("Passeio finalizado");
-                    } else {
-                        int passageiros;
-                        String cidade;
-
-                        System.out.print("Indicar cidade destino: ");
-                        scanner.nextLine(); // Acontece automaticamente, o usuario nao consegue inserir uma entrada
-                        cidade = scanner.nextLine();
-
-                        System.out.print("Indicar numero de passageiros:");
-                        passageiros = scanner.nextInt();
-
-                        try{
-                            robo.inciar_passeio(passageiros, cidade);
-                            
-                            System.out.println("Passeio iniciado");
-
-                        } catch (Exception e) {
-                            System.out.println(e);
-                        }
-                        
-                    }
-
-                    break;
-
                 case 99:
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -791,10 +812,11 @@ public class Console {
      * Menu que controla o RoboTerrestreStandart
      * @param robo
      */
-    private void controleRoboTerrestreStandart(RoboTerrestre robo){
+    private void controleRobo(RoboTerrestre robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -803,8 +825,8 @@ public class Console {
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Visualizar arredores         |");
             System.out.println("| [3] Mudar velocidade maxima      |");
-            System.out.println("| [4] Info                         |");
-            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [4] Monitorar sensores           |");
+            System.out.println("| [5] Info                         |");
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -835,6 +857,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -842,6 +866,7 @@ public class Console {
                     break;
 
                 case 3:
+                    //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
                     resposta = scanner.nextInt();
 
@@ -850,6 +875,16 @@ public class Console {
                     break;
 
                 case 4:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 5:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -864,23 +899,14 @@ public class Console {
                     }
                     break;
 
-                case 5:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -888,10 +914,11 @@ public class Console {
      * Menu que controla o RoboTerrestreVeiculo
      * @param robo
      */
-    private void controleRoboTerrestreVeiculo(RoboVeiculo robo){
+    private void controleRobo(RoboVeiculo robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -903,8 +930,9 @@ public class Console {
             System.out.println("| [4] Visualizar arredores         |");
             System.out.println("| [5] Mudar velocidade maxima      |");
             System.out.println("| [6] Mudar numero de passageiros  |");
-            System.out.println("| [7] Info                         |");
-            System.out.println("| [8] Monitorar sensores           |");
+            System.out.println("| [7] Monitorar sensores           |");
+            System.out.println("| [8] Info                         |");
+
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -944,6 +972,7 @@ public class Console {
                     break;
 
                 case 2:
+                    //Mudar velocidade
                     System.out.print("Indicar nova velocidade: ");
                     resposta = scanner.nextInt();
 
@@ -952,6 +981,7 @@ public class Console {
                     break;
 
                 case 3:
+                    //Mudar direção
                     String virar;
                     System.out.println("Direcao atual: " + robo.getDirecao());
                     System.out.print("Virar para esquerda (E) ou direita (D): ");
@@ -976,6 +1006,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -983,6 +1015,7 @@ public class Console {
                     break;
 
                 case 5:
+                    //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
                     resposta = scanner.nextInt();
 
@@ -991,6 +1024,7 @@ public class Console {
                     break;
 
                 case 6:
+                    //Mudar quantidade de passageiros
                     System.out.print("Quantidade de passageiros saindo (negativo) ou entrando (positivo): ");
                     resposta = scanner.nextInt();
 
@@ -1003,6 +1037,16 @@ public class Console {
                     break;
 
                 case 7:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 8:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -1019,23 +1063,14 @@ public class Console {
                     }
                     break;
 
-                case 8:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        }
         System.out.println("");
     }
 
@@ -1044,10 +1079,11 @@ public class Console {
      * Menu que controla o RoboTerrestrePedestre
      * @param robo
      */
-    private void controleRoboTerrestrePedrestre(RoboPedestre robo){
+    private void controleRobo(RoboPedestre robo){
         int resposta;
+        boolean running = true;
 
-        do{
+        while(running){
             
             System.out.println("+----------------------------------+");
             System.out.println("|         escolha um opcao         |");
@@ -1057,8 +1093,9 @@ public class Console {
             System.out.println("| [2] Visualizar arredores         |");
             System.out.println("| [3] Mudar peso                   |");
             System.out.println("| [4] Mudar velocidade maxima      |");
-            System.out.println("| [5] Info                         |");
-            System.out.println("| [6] Monitorar sensores           |");
+            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [6] Info                         |");
+
             System.out.println("| [99] Voltar                      |");
 
             System.out.println("+----------------------------------+");
@@ -1102,6 +1139,8 @@ public class Console {
                     try {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
+                        System.out.println("");
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                     } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
@@ -1109,6 +1148,7 @@ public class Console {
                     break;
 
                 case 3:
+                    //Mudar peso
                     System.out.print("Indicar novo peso: ");
                     resposta = scanner.nextInt();
 
@@ -1117,6 +1157,7 @@ public class Console {
                     break;
 
                 case 4:
+                    //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
                     resposta = scanner.nextInt();
 
@@ -1125,6 +1166,16 @@ public class Console {
                     break;
 
                 case 5:
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    break;
+
+                case 6:
                     //Info
                     System.out.println("Nome: " + robo.getNome());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -1140,26 +1191,15 @@ public class Console {
                     }
                     break;
 
-                case 6:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    break;
-
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
             }
 
-        } while (resposta != 99);
+        } 
         System.out.println("");
     }
-
-
 
 }

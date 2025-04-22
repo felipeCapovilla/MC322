@@ -83,7 +83,7 @@ public class Robo
             ArrayList<Obstaculo> obstaculos = ambiente_atual.getObstaculos();
 
             for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                if(ambiente_atual.getObstaculos().get(i).estaDentro(X, Y) && obstaculos.get(i).getAltura() > Z){
+                if(!ambiente_atual.getObstaculos().get(i).Passavel() && ambiente_atual.getObstaculos().get(i).estaDentro(X, Y) && obstaculos.get(i).getAltura() > Z){
                     return true;
                 }
             }
@@ -117,6 +117,9 @@ public class Robo
         }
     }
 
+    /**
+     * Adicionar um sensor de temperatura no robo
+     */
     public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
@@ -124,20 +127,22 @@ public class Robo
     }
 
    
-
+    /**
+     * Adicionar um sensor de altitude no robo
+     */
     public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
     }
 
+    /**
+     * Adicionar um sensor espacial no robo
+     */
     public void adicionar_sensorEspacial(int raio_alcance, String modelo){
- 
-
         SensorEspacial novo_SensorEspacial = new SensorEspacial(raio_alcance,modelo);
         this.sensor_espacial = novo_SensorEspacial;
         sensores.add(novo_SensorEspacial);
- 
 
     }
 
@@ -224,6 +229,9 @@ public class Robo
         return this.sensor_altitude;
     }
 
+    /**
+     * Retorna o objeto sensorEspacial associado ao robo.
+     */
     public SensorEspacial get_SensorEspacial(){
         return this.sensor_espacial;
     }

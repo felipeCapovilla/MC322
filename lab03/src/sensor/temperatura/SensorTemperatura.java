@@ -4,7 +4,7 @@ import sensor.standart.*;
 
 public class SensorTemperatura extends Sensor{
 
-    private double temperatura;
+    private double temperatura; //em kelvin
     private final double precisao;
     private final double temperatura_maxima;
     private final double temperatura_minima;
@@ -63,7 +63,7 @@ public class SensorTemperatura extends Sensor{
      * Altera temperatura do sensor.
      */
     public void set_temperatura(double nova_temperatura){
-        this.temperatura = nova_temperatura;
+        this.temperatura = Math.max(0, nova_temperatura);
     }
     
     /**

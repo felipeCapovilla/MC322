@@ -11,7 +11,6 @@ public enum TipoObstaculo {
 
     /**
      * A altura representa o nível máximo que o objeto vai obstruir. <p>
-     * Ou seja, um objeto com altura 0 não significa que não imperá nada, mas sim que impedirá o nível 0 do ambiente
      */
     private final int alturaPadrao;
     private final boolean bloqueio;
@@ -21,10 +20,16 @@ public enum TipoObstaculo {
         this.bloqueio = bloqueio;
     }
 
+    /**
+     * Retorna o valor da variável alturaPadrao
+     */
     public int getAlturaPadrao() {
         return alturaPadrao;
     }
 
+    /**
+     * Retorna um booleano de se o obstaculo bloqueia a passagem
+     */
     public boolean isBloqueio() {
         return bloqueio;
     }

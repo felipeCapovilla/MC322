@@ -69,7 +69,7 @@ public class Obstaculo {
      * Retorna se o obstaculo é atravessável
      */
     public boolean Passavel(){
-        return tipoObstaculo.isBloqueio();
+        return !tipoObstaculo.isBloqueio();
     }
 
     public boolean estaDentro(int x, int y){

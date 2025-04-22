@@ -12,6 +12,9 @@ public enum Bussola {
         this.indice = indice;
     }
 
+    /**
+     * Retorna o indice da direção
+     */
     public int getIndice() {
         return indice;
     }
