@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ambiente.Ambiente;
 import ambiente.Obstaculo;
 import constantes.Bussola;
+import java.awt.geom.IllegalPathStateException;
 import java.util.Arrays;
 import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
@@ -59,6 +60,8 @@ public class Robo
                 throw new IllegalArgumentException("Posicao ja ocupada");
             }
                 
+        } else if((int) get_altitude() == -1){
+            throw  new IllegalPathStateException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
         } else {
             throw new IllegalArgumentException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
         }

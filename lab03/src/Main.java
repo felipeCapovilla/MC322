@@ -37,6 +37,8 @@ public class Main {
         RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",76,56,Bussola.OESTE,120,120);
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);
 
+        RoboAereo roboSemSensor = new RoboAereo("cegueta", 0, 0, Bussola.NORTE, 90, 99);
+
         
         //Ambiente
             //Adicionar os robos no ambiente
@@ -47,6 +49,7 @@ public class Main {
         ambiente.adicionarRobo(roboTerrestre);
         ambiente.adicionarRobo(roboTerrestreVeiculo);
         ambiente.adicionarRobo(roboTerrestrePedestre);
+        ambiente.adicionarRobo(roboSemSensor);
 
             //Adicionar Obstáculos no ambiente
         ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);

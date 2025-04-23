@@ -33,7 +33,7 @@ public class Sensor{
      * Metodo generico, ainda nao ha especificidade no sensor.
      */
     public void monitorar(){
-        System.out.printf("Monitorando ambiente num raio de %d metros.",this.raio_alcance);
+        System.out.printf("Monitorando ambiente num raio de %d metros.\n",this.raio_alcance);
     }
 
 

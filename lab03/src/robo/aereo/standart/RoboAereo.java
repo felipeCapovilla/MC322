@@ -1,6 +1,7 @@
 package robo.aereo.standart;
 
 import constantes.Bussola;
+import java.awt.geom.IllegalPathStateException;
 import robo.standart.*;
 import sensor.altitude.SensorAltitude;
 
@@ -32,6 +33,10 @@ public class RoboAereo extends Robo {
             throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar "+this.altitude_max+"m."); 
         }
 
+        if(this.get_SensorAltitude() == null){
+            throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
+        }
+
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() + metros)){
             this.altitude+=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
@@ -50,6 +55,10 @@ public class RoboAereo extends Robo {
     public void descer(int metros){
         if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
             throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
+        }
+
+        if(this.get_SensorAltitude() == null){
+            throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
         }
         
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() - metros)){

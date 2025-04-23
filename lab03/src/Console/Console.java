@@ -303,7 +303,7 @@ public class Console {
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 2:
@@ -327,6 +327,13 @@ public class Console {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
                     }
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
+                    }
+
                     break;
 
                 case 4:
@@ -395,7 +402,7 @@ public class Console {
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -411,7 +418,7 @@ public class Console {
                             robo.descer(-resposta);
                         }    
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                 
                     break;
@@ -442,6 +449,12 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
@@ -517,7 +530,7 @@ public class Console {
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -533,7 +546,7 @@ public class Console {
                             robo.descer(-resposta);
                         }    
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                 
                     break;
@@ -579,7 +592,7 @@ public class Console {
                             System.out.println("Missao iniciada");
 
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println(e.getMessage());
                         }
 
                         
@@ -601,6 +614,13 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
@@ -688,7 +708,7 @@ public class Console {
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     
                     break;
@@ -705,7 +725,7 @@ public class Console {
                             robo.descer(-resposta);
                         }    
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                 
                     break;
@@ -745,7 +765,7 @@ public class Console {
                             System.out.println("Passeio iniciado");
 
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println(e.getMessage());
                         }
                         
                     }
@@ -766,6 +786,13 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
@@ -799,6 +826,7 @@ public class Console {
                     break;
 
                 case 99:
+                    running = false;
                     break;
                 default:
                     System.out.println("Opcao nao disponivel");
@@ -849,7 +877,7 @@ public class Console {
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 2:
@@ -881,6 +909,13 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
@@ -965,7 +1000,7 @@ public class Console {
                             System.out.println("Opcao nao disponivel");
                         }
                     } catch(Exception e){
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     
 
@@ -1043,6 +1078,13 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
@@ -1130,7 +1172,7 @@ public class Console {
                             System.out.println("Opcao nao disponivel");
                         }
                     } catch (Exception e){
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
 
                     break;
@@ -1172,6 +1214,13 @@ public class Console {
                     } else {
                         System.out.print("Sensor de temperatura:\n\t");
                         robo.get_SensorTemperatura().monitorar();
+                    }
+
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
                     }
                     break;
 
