@@ -19,6 +19,24 @@ public class Console {
         this.ambiente = ambiente;
     }
 
+    private int scannerNumber(){
+        int resposta=0;
+        boolean passou = false;
+
+        while (!passou) { 
+            try {
+                resposta = scanner.nextInt();
+                passou = true;
+            } catch (Exception e) {
+                System.out.println("Insira um numero");
+                scanner.nextLine();
+            }
+            
+        }        
+
+        return resposta;
+    }
+
     ///////MENU PRINCIPAL
     /**
      * Menu principal do terminal
@@ -46,7 +64,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -91,13 +109,13 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
                     //Visualizar ambiente
                     System.out.print("altura desejada: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     imprimirMapa(resposta);
 
@@ -219,7 +237,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             if(resposta > 0 && resposta <= ambiente.get_robos_ativos()){
                 rotearRobo(ambiente.getListaRobos().get(resposta-1));
@@ -287,7 +305,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -296,9 +314,9 @@ public class Console {
                     int deltaY;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
 
                     try {
                         robo.mover(deltaX, deltaY);
@@ -386,7 +404,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -395,9 +413,9 @@ public class Console {
                     int deltaY;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
 
                     try {
                         robo.mover(deltaX, deltaY);
@@ -409,7 +427,7 @@ public class Console {
                 case 2:
                     //Subir/Descer robo
                     System.out.print("Deslocamento altitude: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     try {
                         if(resposta > 0){
@@ -514,7 +532,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -523,9 +541,9 @@ public class Console {
                     int deltaY;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
 
                     try {
                         robo.mover(deltaX, deltaY);
@@ -537,7 +555,7 @@ public class Console {
                 case 2:
                     //Subir/Descer robo
                     System.out.print("Deslocamento altitude: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     try {
                         if(resposta > 0){
@@ -578,13 +596,13 @@ public class Console {
                         planeta = scanner.nextLine();
 
                         System.out.print("Indicar velocidade:");
-                        velocidade = scanner.nextInt();
+                        velocidade = scannerNumber();
 
                         System.out.print("Indicar temperatura:");
-                        temperatura = scanner.nextInt();
+                        temperatura = scannerNumber();
 
                         System.out.print("Indicar pressao:");
-                        pressao = scanner.nextInt();
+                        pressao = scannerNumber();
 
                         try{
                             robo.iniciar_exploracao(pressao, temperatura, velocidade, planeta);
@@ -646,7 +664,7 @@ public class Console {
                         System.out.println("Status da missao: ATIVO");
                         System.out.println("\tPlaneta destino: " + robo.get_planeta());
                         System.out.printf("\tPressao atual: %dkPa\n", robo.get_pressao());
-                        System.out.printf("\tVelocidade atual: %dm/s", robo.get_velocidade());
+                        System.out.printf("\tVelocidade atual: %dm/s\n", robo.get_velocidade());
 
                     } else {
                         System.out.println("Status da missao: INATIVO");
@@ -693,7 +711,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -702,9 +720,9 @@ public class Console {
                     int deltaY;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
                     try {
                         robo.mover(deltaX, deltaY);
                     } catch (Exception e) {
@@ -716,7 +734,7 @@ public class Console {
                 case 2:
                     //Subir/Descer robo
                     System.out.print("Deslocamento altitude: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     try {
                         if(resposta > 0){
@@ -757,7 +775,7 @@ public class Console {
                         cidade = scanner.nextLine();
 
                         System.out.print("Indicar numero de passageiros:");
-                        passageiros = scanner.nextInt();
+                        passageiros = scannerNumber();
 
                         try{
                             robo.inciar_passeio(passageiros, cidade);
@@ -861,7 +879,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -870,9 +888,9 @@ public class Console {
                     int deltaY;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
 
                     try {
                         robo.mover(deltaX, deltaY);
@@ -896,7 +914,7 @@ public class Console {
                 case 3:
                     //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     robo.setVelocidadeMaxima(resposta);
 
@@ -974,7 +992,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -1009,7 +1027,7 @@ public class Console {
                 case 2:
                     //Mudar velocidade
                     System.out.print("Indicar nova velocidade: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     robo.mudarVelocidade(resposta);
 
@@ -1052,7 +1070,7 @@ public class Console {
                 case 5:
                     //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     robo.setVelocidadeMaxima(resposta);
 
@@ -1061,7 +1079,7 @@ public class Console {
                 case 6:
                     //Mudar quantidade de passageiros
                     System.out.print("Quantidade de passageiros saindo (negativo) ou entrando (positivo): ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     if(resposta < 0){
                         robo.passageirosSair(-resposta);
@@ -1144,7 +1162,7 @@ public class Console {
 
             //Resposta
             System.out.print("opcao escolhida: ");
-            resposta = scanner.nextInt();
+            resposta = scannerNumber();
 
             switch (resposta) {
                 case 1:
@@ -1154,9 +1172,9 @@ public class Console {
                     String correr;
 
                     System.out.print("Deslocamento horizontal: ");
-                    deltaX = scanner.nextInt();
+                    deltaX = scannerNumber();
                     System.out.print("Deslocamento vertical: ");
-                    deltaY = scanner.nextInt();
+                    deltaY = scannerNumber();
                     System.out.print("Correr? (Y/N)");
                     scanner.nextLine();
                     correr = scanner.nextLine();
@@ -1192,7 +1210,7 @@ public class Console {
                 case 3:
                     //Mudar peso
                     System.out.print("Indicar novo peso: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     robo.setPeso(resposta);
 
@@ -1201,7 +1219,7 @@ public class Console {
                 case 4:
                     //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
-                    resposta = scanner.nextInt();
+                    resposta = scannerNumber();
 
                     robo.setVelocidadeMaxima(resposta);
 
