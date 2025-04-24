@@ -2,6 +2,7 @@ package ambiente;
 
 import constantes.TipoObstaculo;
 import java.util.ArrayList;
+import java.util.Arrays;
 import robo.standart.Robo;
 
 public class Ambiente {
@@ -46,6 +47,21 @@ public class Ambiente {
         if(robo.get_posicao()[0] > this.largura || robo.get_posicao()[1] > this.comprimento)
             throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois esta fora dos limites do ambiente.");
 
+        //Detectar se há obstaculos na posição
+        for(int i=0;i<this.get_quantidade_obstaculos();i++){
+            if(!getObstaculos().get(i).Passavel() && getObstaculos().get(i).estaDentro(robo.get_posicao()[0], robo.get_posicao()[1]) && obstaculos.get(i).getAltura() > robo.get_altitude()){
+                throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois a posicao ja esta ocupada.");
+            }
+        }
+
+        //Detectar se há robos na posição
+        for(int i=0;i<this.get_robos_ativos();i++){
+            if(Arrays.equals(getListaRobos().get(i).get_posicao(), robo.get_posicao()) && listaRobos.get(i).get_altitude() == robo.get_altitude()){
+                throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois a posicao ja esta ocupada.");
+            }
+        }
+
+
         if(!listaRobos.contains(robo)){ //evitar duplicatas
             listaRobos.add(robo);
             robo.set_ambiente(this); //Insere o objeto ambiente como ambiente do robo.
@@ -73,6 +89,13 @@ public class Ambiente {
         for(Obstaculo obst : obstaculos){
             if(obst.estaDentro(posX, posY)){
                 throw new IllegalArgumentException("Posicao ja tem obstaculo");
+            }
+        }
+
+        //Verifica se há robo no espaço
+        for(Robo rob: listaRobos){
+            if(obstaculo.estaDentro(rob.get_posicao()[0], rob.get_posicao()[1])){
+                throw new IllegalArgumentException("Posicao ja tem robo");
             }
         }
 
@@ -107,6 +130,13 @@ public class Ambiente {
             throw new IllegalArgumentException("Posicao ja tem obstaculo");
         }
 
+        //Verifica se há robo no espaço
+        for(Robo rob: listaRobos){
+            if(obstaculo.estaDentro(rob.get_posicao()[0], rob.get_posicao()[1])){
+                throw new IllegalArgumentException("Posicao ja tem robo");
+            }
+        }
+
         //Adicionar obstáculo
         if(
             dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
@@ -137,6 +167,13 @@ public class Ambiente {
             }
 
             throw new IllegalArgumentException("Posicao ja tem obstaculo");
+        }
+
+        //Verifica se há robo no espaço
+        for(Robo rob: listaRobos){
+            if(obstaculo.estaDentro(rob.get_posicao()[0], rob.get_posicao()[1])){
+                throw new IllegalArgumentException("Posicao ja tem robo");
+            }
         }
 
         //Adicionar obstáculo

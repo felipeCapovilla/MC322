@@ -39,33 +39,6 @@ public class Main {
 
         RoboAereo roboSemSensor = new RoboAereo("noSense", 0, 0, Bussola.NORTE, 90, 99);
 
-        
-        //Ambiente
-            //Adicionar os robos no ambiente
-        ambiente.adicionarRobo(roboStandart);
-        ambiente.adicionarRobo(roboAereo);
-        ambiente.adicionarRobo(roboAereoExplorador);
-        ambiente.adicionarRobo(roboAereoTurista);
-        ambiente.adicionarRobo(roboTerrestre);
-        ambiente.adicionarRobo(roboTerrestreVeiculo);
-        ambiente.adicionarRobo(roboTerrestrePedestre);
-        ambiente.adicionarRobo(roboSemSensor);
-
-            //Adicionar Obstáculos no ambiente
-        ambiente.adicionarObstaculo(40, 40, 45, 45, TipoObstaculo.BURACO);
-
-        ambiente.adicionarObstaculo(1, 97, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(3, 97, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(2, 96, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(2, 98, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(70, 70, TipoObstaculo.ARBUSTO);
-
-        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
-        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
-        ambiente.adicionarObstaculo(75, 10, 90, 20, 40, TipoObstaculo.AVIAO);
-
-        
-
         //Robos
             //adicionar sensores
         roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
@@ -92,17 +65,48 @@ public class Main {
 
         roboTerrestreVeiculo.adicionar_sensorTemperatura(0, "TMP-23", 1, 400, 100);
         roboTerrestreVeiculo.adicionar_sensorEspacial(15, "EPC-01");
+            
         
+        //Ambiente
+            //Adicionar os robos no ambiente
+        ambiente.adicionarRobo(roboStandart);
+        ambiente.adicionarRobo(roboAereo);
+        ambiente.adicionarRobo(roboAereoExplorador);
+        ambiente.adicionarRobo(roboAereoTurista);
+        ambiente.adicionarRobo(roboTerrestre);
+        ambiente.adicionarRobo(roboTerrestreVeiculo);
+        ambiente.adicionarRobo(roboTerrestrePedestre);
+        ambiente.adicionarRobo(roboSemSensor);
+
+            //Adicionar Obstáculos no ambiente
+        ambiente.adicionarObstaculo(40, 40, 45, 45, TipoObstaculo.BURACO);
+
+        ambiente.adicionarObstaculo(1, 97, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(3, 97, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(2, 96, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(2, 98, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(70, 70, TipoObstaculo.ARBUSTO);
+
+        ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
+        ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
+        ambiente.adicionarObstaculo(75, 10, 90, 20, 40, TipoObstaculo.AVIAO);
+
 
         //Menu
         menu.mainMenu();
 
 
 
+        //TESTAR O MÉTODO DE ADICIONAR OBSTÁCULOS E ROBOS NO AMBIENTE
+            //Robo utilizado nos testes
+        Robo roboEsmagado = new Robo("nomeLegal", 0, 0, Bussola.SUL);
+        try {
+            //Verificar se não movimentou um robo para a posição (0,0)
+            ambiente.adicionarRobo(roboEsmagado);
+        } catch (Exception e) {
+        }
 
-
-
-        //Teste de adicionar obstáculo dentro de outro
+            //Teste de adicionar obstáculo dentro de outro
         try {
             ambiente.adicionarObstaculo(80, 15, TipoObstaculo.ARBUSTO); //Dentro do obstáculo avião
             System.out.println("Obstáculo adicionado dentro de outro");
@@ -121,4 +125,35 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+            //Teste de adicionar obstáculo na posição de um robo
+        
+        try {
+            ambiente.adicionarObstaculo(0, 0, TipoObstaculo.PESSOA); //Atravessando do obstáculo avião
+            System.out.println("Obstáculo adicionado atravessando outro");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+            //Teste de adicionar robo dentro de obstáculo
+        Robo roboNaoEntra = new Robo("coitadinho",20,25,Bussola.LESTE);
+        try {
+            ambiente.adicionarRobo(roboNaoEntra);
+            System.out.println("Robo adicionado dentro de obstáculo");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Teste de adicionar robo dentro de outro robo
+        Robo roboNaoEntra2 = new Robo("coitadinho",0,0,Bussola.LESTE);
+        try {
+            ambiente.adicionarRobo(roboNaoEntra2);
+            System.out.println("Robo adicionado dentro de outro robo");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        
+        
+
     }}
