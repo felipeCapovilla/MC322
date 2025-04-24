@@ -46,8 +46,8 @@ public class RoboVoadorExplorador extends RoboAereo {
         }
 
         //Se tudo estiver válido
+        set_temperatura(temperatura_atual);
         this.velocidade_atual = velocidade_atual; 
-        this.temperatura_atual = temperatura_atual; 
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
@@ -57,10 +57,11 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Finaliza a missao e libera o robo para uso.
      */
     public void finalizar_exploracao(){
+        set_temperatura(0);
+
         this.em_missao = false;
         this.planeta_atual = "";
         this.pressao_atual=0;
-        this.temperatura_atual=0;
         this.velocidade_atual=0;
     }
 
@@ -74,8 +75,14 @@ public class RoboVoadorExplorador extends RoboAereo {
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
             throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
+
+        if(this.get_SensorTemperatura() != null){
+            this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
+        } else {
+            throw new IllegalAccessError("Senssor temperatura nao instalado");
+        }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
-        this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
+
     }
 
     /**

@@ -29,15 +29,15 @@ public class Main {
         Ambiente ambiente = new Ambiente(100,100,100);
         Console menu = new Console(ambiente);
 
-        Robo roboStandart = new Robo("padraozinho",50,49,Bussola.LESTE);
-        RoboAereo roboAereo = new RoboAereo("padrao aereo",50,49,Bussola.OESTE,12,100);
+        Robo roboStandart = new Robo("padraozinho",50,50,Bussola.LESTE);
+        RoboAereo roboAereo = new RoboAereo("padrao aereo",2,97,Bussola.OESTE,1,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
-        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",97,1,Bussola.LESTE,2,50,100);
-        RoboTerrestre roboTerrestre = new RoboTerrestre("terra",15,16,Bussola.SUL,20);
-        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",76,56,Bussola.OESTE,120,120);
+        RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",80,65,Bussola.LESTE,41,50,100);
+        RoboTerrestre roboTerrestre = new RoboTerrestre("terra",30,30,Bussola.SUL,20);
+        RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",75,25,Bussola.OESTE,120,120);
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);
 
-        RoboAereo roboSemSensor = new RoboAereo("cegueta", 0, 0, Bussola.NORTE, 90, 99);
+        RoboAereo roboSemSensor = new RoboAereo("noSense", 0, 0, Bussola.NORTE, 90, 99);
 
         
         //Ambiente
@@ -52,18 +52,23 @@ public class Main {
         ambiente.adicionarRobo(roboSemSensor);
 
             //Adicionar Obstáculos no ambiente
-        ambiente.adicionarObstaculo(98, 1, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(10, 7, 20, 13, TipoObstaculo.BURACO);
+        ambiente.adicionarObstaculo(40, 40, 45, 45, TipoObstaculo.BURACO);
+
+        ambiente.adicionarObstaculo(1, 97, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(3, 97, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(2, 96, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(2, 98, TipoObstaculo.PESSOA);
+        ambiente.adicionarObstaculo(70, 70, TipoObstaculo.ARBUSTO);
+
         ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
         ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
-        ambiente.adicionarObstaculo(50, 50, TipoObstaculo.ARBUSTO);
         ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
 
         //Robos
             //adicionar sensores
         roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
         roboStandart.get_SensorTemperatura().set_temperatura(10);
-        roboStandart.adicionar_sensorEspacial(15, "EPC-01");
+        roboStandart.adicionar_sensorEspacial(10, "EPC-01");
 
         roboAereo.adicionar_sensorAltitude(20, "ALT-01", 1, 100);
         roboAereo.adicionar_sensorTemperatura(0, "TMP-76", 0.8, 900, 0);
@@ -71,7 +76,7 @@ public class Main {
 
         roboAereoExplorador.adicionar_sensorAltitude(10, "ALT-23", 0.1, 100);
         roboAereoExplorador.adicionar_sensorTemperatura(0, "TMP-09", 0.3, 400, 10);
-        roboAereoExplorador.adicionar_sensorEspacial(5, "EPC-01");
+        roboAereoExplorador.adicionar_sensorEspacial(15, "EPC-01");
 
         roboAereoTurista.adicionar_sensorAltitude(0, "ALT-30", 0.1, 100);
         roboAereoTurista.adicionar_sensorTemperatura(0, "TMP-92", 0.1, 100, 0);
