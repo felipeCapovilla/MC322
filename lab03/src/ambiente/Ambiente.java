@@ -95,14 +95,16 @@ public class Ambiente {
 
         //verificar se o obstáculo novo não se sobrepõe em outro já existente
         for(Obstaculo obst : obstaculos){
-            if(obst.estaDentro(posX1, posY1) || obst.estaDentro(posX2, posY2)){
-                //Novo obstaculo está dentro de um existente
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");
-
-            } else if (obstaculo.estaDentro(obst.getPontoMenor()[0], obst.getPontoMenor()[0]) || obstaculo.estaDentro(obst.getPontoMaior()[0], obst.getPontoMaior()[0])) {
-                //Obstáculo já existente está dentro do novo obstáculo
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");                
+            if(obst.getPontoMenor()[0] > obstaculo.getPontoMaior()[0] || obstaculo.getPontoMenor()[0] > obst.getPontoMaior()[0]){
+                //Verifica se um obstáculo está totalmente a direita ou esquerda do outro
+                continue;
             }
+            if (obst.getPontoMenor()[1] > obstaculo.getPontoMaior()[1] || obstaculo.getPontoMenor()[1] > obst.getPontoMaior()[1]) {
+                //Verifica se um obstáculo está totalmente acima ou abaixo do outro
+                continue;
+            }
+
+            throw new IllegalArgumentException("Posicao ja tem obstaculo");
         }
 
         //Adicionar obstáculo
@@ -125,14 +127,16 @@ public class Ambiente {
 
         //verificar se o obstáculo novo não se sobrepõe em outro já existente
         for(Obstaculo obst : obstaculos){
-            if(obst.estaDentro(posX1, posY1) || obst.estaDentro(posX2, posY2)){
-                //Novo obstaculo está dentro de um existente
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");
-
-            } else if (obstaculo.estaDentro(obst.getPontoMenor()[0], obst.getPontoMenor()[0]) || obstaculo.estaDentro(obst.getPontoMaior()[0], obst.getPontoMaior()[0])) {
-                //Obstáculo já existente está dentro do novo obstáculo
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");                
+            if(obst.getPontoMenor()[0] > obstaculo.getPontoMaior()[0] || obstaculo.getPontoMenor()[0] > obst.getPontoMaior()[0]){
+                //Verifica se um obstáculo está totalmente a direita ou esquerda do outro
+                continue;
             }
+            if (obst.getPontoMenor()[1] > obstaculo.getPontoMaior()[1] || obstaculo.getPontoMenor()[1] > obst.getPontoMaior()[1]) {
+                //Verifica se um obstáculo está totalmente acima ou abaixo do outro
+                continue;
+            }
+
+            throw new IllegalArgumentException("Posicao ja tem obstaculo");
         }
 
         //Adicionar obstáculo

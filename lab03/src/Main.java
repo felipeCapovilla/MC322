@@ -111,7 +111,13 @@ public class Main {
         }
         try {
             ambiente.adicionarObstaculo(65, 65,75,75, TipoObstaculo.PREDIO); //Ao redor do obstáculo arbusto
-            System.out.println("Obstáculo adicionado dentro de outro");
+            System.out.println("Obstáculo adicionado ao redor de outro");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            ambiente.adicionarObstaculo(70, 12,95,17, TipoObstaculo.PREDIO); //Atravessando do obstáculo avião
+            System.out.println("Obstáculo adicionado atravessando outro");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
