@@ -69,7 +69,14 @@ public class Ambiente {
     public void adicionarObstaculo(int posX, int posY, TipoObstaculo tipoObstaculo){
         Obstaculo obstaculo = new Obstaculo(posX, posY, tipoObstaculo);
 
-        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        //verificar se o obstáculo novo não se sobrepõe em outro já existente
+        for(Obstaculo obst : obstaculos){
+            if(obst.estaDentro(posX, posY)){
+                throw new IllegalArgumentException("Posicao ja tem obstaculo");
+            }
+        }
+
+        //Adicionar obstáculo
         if(
             dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], obstaculo.getAltura())
         ) {
@@ -86,7 +93,19 @@ public class Ambiente {
     public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo){
         Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, tipoObstaculo);
 
-        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        //verificar se o obstáculo novo não se sobrepõe em outro já existente
+        for(Obstaculo obst : obstaculos){
+            if(obst.estaDentro(posX1, posY1) || obst.estaDentro(posX2, posY2)){
+                //Novo obstaculo está dentro de um existente
+                throw new IllegalArgumentException("Posicao ja tem obstaculo");
+
+            } else if (obstaculo.estaDentro(obst.getPontoMenor()[0], obst.getPontoMenor()[0]) || obstaculo.estaDentro(obst.getPontoMaior()[0], obst.getPontoMaior()[0])) {
+                //Obstáculo já existente está dentro do novo obstáculo
+                throw new IllegalArgumentException("Posicao ja tem obstaculo");                
+            }
+        }
+
+        //Adicionar obstáculo
         if(
             dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
             dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getAltura())
@@ -104,7 +123,19 @@ public class Ambiente {
     public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo){
         Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, altura, tipoObstaculo);
 
-        //TODO: verificar se o obstáculo novo não se sobrepõe em outro já existente
+        //verificar se o obstáculo novo não se sobrepõe em outro já existente
+        for(Obstaculo obst : obstaculos){
+            if(obst.estaDentro(posX1, posY1) || obst.estaDentro(posX2, posY2)){
+                //Novo obstaculo está dentro de um existente
+                throw new IllegalArgumentException("Posicao ja tem obstaculo");
+
+            } else if (obstaculo.estaDentro(obst.getPontoMenor()[0], obst.getPontoMenor()[0]) || obstaculo.estaDentro(obst.getPontoMaior()[0], obst.getPontoMaior()[0])) {
+                //Obstáculo já existente está dentro do novo obstáculo
+                throw new IllegalArgumentException("Posicao ja tem obstaculo");                
+            }
+        }
+
+        //Adicionar obstáculo
         if(
             dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
             dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getAltura())

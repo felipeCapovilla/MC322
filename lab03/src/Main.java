@@ -62,7 +62,9 @@ public class Main {
 
         ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
         ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);
-        ambiente.adicionarObstaculo(70, 61, 90, 70, 40, TipoObstaculo.AVIAO);
+        ambiente.adicionarObstaculo(75, 10, 90, 20, 40, TipoObstaculo.AVIAO);
+
+        
 
         //Robos
             //adicionar sensores
@@ -96,4 +98,21 @@ public class Main {
         menu.mainMenu();
 
 
+
+
+
+
+        //Teste de adicionar obstáculo dentro de outro
+        try {
+            ambiente.adicionarObstaculo(80, 15, TipoObstaculo.ARBUSTO); //Dentro do obstáculo avião
+            System.out.println("Obstáculo adicionado dentro de outro");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            ambiente.adicionarObstaculo(65, 65,75,75, TipoObstaculo.PREDIO); //Ao redor do obstáculo arbusto
+            System.out.println("Obstáculo adicionado dentro de outro");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }}
