@@ -93,7 +93,7 @@ public class Robo implements Entidade
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
             for(Entidade ent: ambiente_atual.getEntidades()){
                 if(ent instanceof Obstaculo){
-                    if(!((Obstaculo) ent).Passavel() && ((Obstaculo) ent).estaDentro(X, Y) && ent.getZ() > Z){
+                    if(!((Obstaculo) ent).Passavel() && ((Obstaculo) ent).estaDentro(X, Y, Z)){
                         return true;
                     }
                 }

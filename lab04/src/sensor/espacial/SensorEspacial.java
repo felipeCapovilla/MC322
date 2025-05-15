@@ -74,7 +74,7 @@ public class SensorEspacial extends Sensor{
                     //Verificar obstáculo
                     ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                     for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(currentX, currentY) && obstaculos.get(i).getZ() > Z){
+                        if(obstaculos.get(i).estaDentro(currentX, currentY, Z)){
                             sprite = 'X';
                         }
                     }
@@ -132,7 +132,7 @@ public class SensorEspacial extends Sensor{
                 //Verificar obstáculo
                 ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                 for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                    if(obstaculos.get(i).estaDentro(X, Y) && obstaculos.get(i).getZ() > currentZ){
+                    if(obstaculos.get(i).estaDentro(X, Y, currentZ)){
                         sprite = 'X';
                     }
                 }
