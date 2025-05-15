@@ -182,13 +182,13 @@ public class Ambiente {
         //verificar se o obstáculo novo não se sobrepõe em outro já existente ou um robo
         for(Entidade ent : entidades){
             if(ent instanceof Obstaculo){
-                if(((Obstaculo) ent).estaDentro(posX, posY)){
+                if(((Obstaculo) ent).estaDentro(posX, posY, 0)){
                     Obstaculo obst = (Obstaculo) ent;
                     throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
                 }
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                if(obstaculo.estaDentro(ent.getX(), ent.getY(),0)){
                     throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
@@ -232,7 +232,7 @@ public class Ambiente {
                 throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                if(obstaculo.estaDentro(ent.getX(), ent.getY(), 0)){
                     throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
@@ -276,7 +276,7 @@ public class Ambiente {
                 throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                if(obstaculo.estaDentro(ent.getX(), ent.getY(), 0)){
                     throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }

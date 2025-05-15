@@ -59,13 +59,17 @@ public class Obstaculo implements Entidade{
      * @param altura
      * @param tipoObstaculo
      */
-    public Obstaculo (int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo){
+    public Obstaculo (int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo) throws IllegalArgumentException{
         this.posX1 = Math.min(posX1, posX2);
         this.posX2 = Math.max(posX1, posX2);
         this.posY1 = Math.min(posY1, posY2);
         this.posY2 = Math.max(posY1, posY2);
 
         this.tipoObstaculo = tipoObstaculo;
+
+        if(altura < 0){
+            throw new IllegalArgumentException("altura < 0");
+        }
         this.altura = altura;
     }
 
@@ -76,9 +80,13 @@ public class Obstaculo implements Entidade{
         return !tipoObstaculo.isBloqueio();
     }
 
-    public boolean estaDentro(int x, int y){
-        return ((posX1 <= x && posX2 >= x) 
-        && (posY1 <= y && posY2 >= y));
+    /**
+     * Retorna se um ponto está dentro do obstáculo
+     */
+    public boolean estaDentro(int x, int y, int z){
+        return (posX1 <= x && posX2 >= x) 
+            && (posY1 <= y && posY2 >= y)
+            && (z < altura && z >= 0);
     }
 
     /**
@@ -97,16 +105,25 @@ public class Obstaculo implements Entidade{
         return ponto;
     }
 
+    /**
+     * Retorna o tipo do obstáculo
+     */
     @Override
     public String toString(){
         return String.format(tipoObstaculo.toString());
     }
 
+    /**
+     * retorna o menor ponto X
+     */
     @Override
     public int getX() {
         return posX1;
     }
 
+    /**
+     * retorna o menor ponto Y
+     */
     @Override
     public int getY() {
         return posY1;
@@ -127,15 +144,11 @@ public class Obstaculo implements Entidade{
 
     @Override
     public String getDescricao() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
+        return "Obstáculo é um objeto imóvel que pode impedir a passagem de outras entidades";
     }
 
     @Override
     public char getRepresentacao() {
         return tipoEntidade.getRepresentacao();
     }
-
-
-
 }
