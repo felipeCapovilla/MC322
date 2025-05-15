@@ -30,8 +30,8 @@ public class SensorEspacial extends Sensor{
         }
 
         //Direita do sensor
-        if(get_raioAlcance() + X > ambiente.getLargura()-1){
-            rightSpace = ambiente.getLargura() - X - 1;
+        if(get_raioAlcance() + X > ambiente.get_largura()-1){
+            rightSpace = ambiente.get_largura() - X - 1;
         } else {
             rightSpace = get_raioAlcance();
         }
@@ -74,7 +74,7 @@ public class SensorEspacial extends Sensor{
                     //Verificar obstáculo
                     ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                     for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(currentX, currentY) && obstaculos.get(i).getAltura() > Z){
+                        if(obstaculos.get(i).estaDentro(currentX, currentY) && obstaculos.get(i).getZ() > Z){
                             sprite = 'X';
                         }
                     }
@@ -97,7 +97,7 @@ public class SensorEspacial extends Sensor{
         int upSpace, downSpace;
 
         //Acima do sensor
-        if(get_raioAlcance() + Z > ambiente.getAltura()){
+        if(get_raioAlcance() + Z > ambiente.get_altura()){
             upSpace = ambiente.get_comprimento() - Z - 1;
         } else {
             upSpace = get_raioAlcance();
@@ -132,7 +132,7 @@ public class SensorEspacial extends Sensor{
                 //Verificar obstáculo
                 ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                 for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                    if(obstaculos.get(i).estaDentro(X, Y) && obstaculos.get(i).getAltura() > currentZ){
+                    if(obstaculos.get(i).estaDentro(X, Y) && obstaculos.get(i).getZ() > currentZ){
                         sprite = 'X';
                     }
                 }

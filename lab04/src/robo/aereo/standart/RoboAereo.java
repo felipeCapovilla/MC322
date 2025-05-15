@@ -25,7 +25,7 @@ public class RoboAereo extends Robo {
     public void subir(int metros){
         
         if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
-            if(this.get_ambiente().getAltura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
+            if(this.get_ambiente().get_altura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
                 throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar os limites do ambiente.");
         }
 
@@ -102,10 +102,10 @@ public class RoboAereo extends Robo {
             System.out.println("A altitude do robo não pode ser < 0m. Ajustando altura para 0m.");
             this.altitude = 0;
             this.get_SensorAltitude().set_altitude(0);
-        } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().getAltura()){
-            System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().getAltura()+"m.");
-            this.altitude = this.get_ambiente().getAltura();
-            this.get_SensorAltitude().set_altitude(this.get_ambiente().getAltura());
+        } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().get_altura()){
+            System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().get_altura()+"m.");
+            this.altitude = this.get_ambiente().get_altura();
+            this.get_SensorAltitude().set_altitude(this.get_ambiente().get_altura());
         }else if(altitude > altitude_max){
             System.out.println("A altitude não pode ultrapassar o limite do robo. Altura ajustada para "+this.altitude_max+"m.");
             this.altitude = altitude_max;

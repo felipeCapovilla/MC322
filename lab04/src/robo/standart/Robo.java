@@ -1,24 +1,28 @@
 package robo.standart;
 
-import java.util.ArrayList;
-
 import ambiente.Ambiente;
 import ambiente.Obstaculo;
 import constantes.Bussola;
+import constantes.TipoEntidade;
+import interfaces.Entidade;
 import java.awt.geom.IllegalPathStateException;
-import java.util.Arrays;
-import sensor.standart.Sensor;
-import sensor.temperatura.SensorTemperatura;
+import java.util.ArrayList;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
+import sensor.standart.Sensor;
+import sensor.temperatura.SensorTemperatura;
 
 
-public class Robo
+public class Robo implements Entidade
 {
     private Ambiente ambiente_atual;
     private String nome;
     private int posicaoX;
     private int posicaoY;
+    private int posicaoZ;
+
+    private final TipoEntidade tipoEntidade = TipoEntidade.ROBO;
+
     private SensorTemperatura sensor_temperatura;
     private SensorAltitude sensor_altitude;
     private SensorEspacial sensor_espacial;
@@ -37,6 +41,7 @@ public class Robo
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
+        posicaoZ = 0;
         this.ambiente_atual = null;
         this.direcao = direcao;
         sensores = new ArrayList<Sensor>();
@@ -83,11 +88,11 @@ public class Robo
      */
     private boolean identificar_obstaculos(int X, int Y, int Z){
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            ArrayList<Obstaculo> obstaculos = ambiente_atual.getObstaculos();
-
-            for(int i=0;i<this.ambiente_atual.get_quantidade_obstaculos();i++){
-                if(!ambiente_atual.getObstaculos().get(i).Passavel() && ambiente_atual.getObstaculos().get(i).estaDentro(X, Y) && obstaculos.get(i).getAltura() > Z){
-                    return true;
+            for(Entidade ent: ambiente_atual.getEntidades()){
+                if(ent instanceof Obstaculo){
+                    if(!((Obstaculo) ent).Passavel() && ((Obstaculo) ent).estaDentro(X, Y) && ent.getZ() > Z){
+                        return true;
+                    }
                 }
             }
 
@@ -103,13 +108,11 @@ public class Robo
      */
     private boolean identificar_robos(int X, int Y, int Z){
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            int[] pos = {X, Y};
-            ArrayList<Robo> listaRobos = ambiente_atual.getListaRobos();
-            
-            for(int i=0;i<this.ambiente_atual.get_robos_ativos();i++){
-
-                if(Arrays.equals(ambiente_atual.getListaRobos().get(i).get_posicao(), pos) && listaRobos.get(i).get_altitude() == Z){
-                    return true;
+            for(Entidade ent: ambiente_atual.getEntidades()){
+                if(ent instanceof Robo){
+                    if(ent.getX() == X && ent.getY() == Y && ent.getZ() == Z){
+                        return true;
+                    }
                 }
             }
 
@@ -257,6 +260,43 @@ public class Robo
     @Override
     public String toString() {
         return String.format("%s [%s]", getClass().getSimpleName(), nome);
+    }
+
+
+    @Override
+    public int getX() {
+        return this.posicaoX;
+    }
+
+
+    @Override
+    public int getY() {
+        return this.posicaoY;
+    }
+
+
+    @Override
+    public int getZ() {
+        return posicaoZ;
+    }
+
+
+    @Override
+    public TipoEntidade getTipo() {
+        return tipoEntidade;
+    }
+
+
+    @Override
+    public String getDescricao() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
+    }
+
+
+    @Override
+    public char getRepresentacao() {
+        return tipoEntidade.getRepresentacao();
     }
 
 

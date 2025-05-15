@@ -1,8 +1,10 @@
 package ambiente;
 
+import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
+import interfaces.Entidade;
 
-public class Obstaculo {
+public class Obstaculo implements Entidade{
     final private int posX1, posY1;
     final private int posX2, posY2;
     /**
@@ -11,6 +13,8 @@ public class Obstaculo {
      */
     final private int altura;
     final private TipoObstaculo tipoObstaculo;
+
+    private final TipoEntidade tipoEntidade = TipoEntidade.OBSTACULO;
 
     /**
      * Obstaculo puntiforme com altura padrão
@@ -93,18 +97,43 @@ public class Obstaculo {
         return ponto;
     }
 
-    /**
-     * Retorna o valor da variável altura
-     */
-    public int getAltura() {
-        return altura;
-    }
-
-    
-
     @Override
     public String toString(){
         return String.format(tipoObstaculo.toString());
+    }
+
+    @Override
+    public int getX() {
+        return posX1;
+    }
+
+    @Override
+    public int getY() {
+        return posY1;
+    }
+
+    /**
+     * Retorna o valor da variável altura
+     */
+    @Override
+    public int getZ() {
+        return  altura;
+    }
+
+    @Override
+    public TipoEntidade getTipo() {
+        return tipoEntidade;
+    }
+
+    @Override
+    public String getDescricao() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
+    }
+
+    @Override
+    public char getRepresentacao() {
+        return tipoEntidade.getRepresentacao();
     }
 
 
