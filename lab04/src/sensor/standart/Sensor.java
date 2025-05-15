@@ -11,7 +11,7 @@ public abstract class Sensor{
 
 
     public Sensor(int raio_alcance, String modelo){
-        this.raio_alcance = raio_alcance;
+        this.raio_alcance = (raio_alcance < 0)? -raio_alcance:raio_alcance;
         this.modelo = modelo;
         quantidade_sensores++;
     }
@@ -20,13 +20,16 @@ public abstract class Sensor{
      * Sobrecarrega o construtor no caso de ausencia de modelo.
      */
     public Sensor(int raio_alcance){
-        this.raio_alcance = raio_alcance;
+        this.raio_alcance = (raio_alcance < 0)? -raio_alcance:raio_alcance;
         quantidade_sensores++;
         this.modelo = String.format("GGG-%02d",quantidade_sensores);
     }
 
     //Metodos
 
+    /**
+     * Monitora o estado do sensor
+     */
     public void monitorar(){}
 
 

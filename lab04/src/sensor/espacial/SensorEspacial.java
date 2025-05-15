@@ -1,9 +1,7 @@
 package sensor.espacial;
 
 import ambiente.Ambiente;
-import ambiente.Obstaculo;
-import java.util.ArrayList;
-import robo.standart.Robo;
+import exceptions.*;
 import sensor.standart.Sensor;
 
 public class SensorEspacial extends Sensor{
@@ -19,7 +17,16 @@ public class SensorEspacial extends Sensor{
      * @param Y posição Y do sensor
      * @param Z posição Z do sensor
      */
-    public void monitorarPlano(Ambiente ambiente, int X, int Y, int Z){
+    public void monitorarPlano(Ambiente ambiente, int X, int Y, int Z) throws NullPointerException, PointOutOfMapException{
+        //Casos de Excessão
+        if(ambiente == null){
+            throw new NullPointerException();
+        }
+        if (X < 0 || Y < 0 || Z < 0 || X >= ambiente.get_largura() || Y >= ambiente.get_comprimento() || Z >= ambiente.get_altura()) {
+            throw new PointOutOfMapException(String.format("(%d,%d,%d)", X,Y,Z));
+        }
+
+        //Código
         int rightSpace, leftSpace, upSpace, downSpace;
 
         //Esquerda do sensor
@@ -55,31 +62,13 @@ public class SensorEspacial extends Sensor{
         System.out.println("Plano:");
         for(int currentY = Y + upSpace; currentY >= Y - downSpace; currentY--){
             for(int currentX = X - leftSpace; currentX <= X + rightSpace; currentX++){
+
+
                 if(currentX == X & currentY == Y){
                     System.out.print('R'); //Posicao do sensor
                 } else{ //arredores do sensor
-                    //Vazio
-                    char sprite = '.';
     
-                    //Verificar robos
-                    ArrayList<Robo> listaRobos = ambiente.getListaRobos();
-                    for(int i = 0; sprite != '@' && i < listaRobos.size(); i++){
-                        int[] pos = listaRobos.get(i).get_posicao();
-    
-                        if(pos[0] == currentX && pos[1] == currentY && listaRobos.get(i).get_altitude() == Z){
-                            sprite = '@';
-                        }
-                    }
-    
-                    //Verificar obstáculo
-                    ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
-                    for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(currentX, currentY, Z)){
-                            sprite = 'X';
-                        }
-                    }
-    
-                    System.out.print(sprite);
+                    System.out.print(ambiente.getMapa()[currentX][currentY][Z].getRepresentacao());
                 }
             }
             System.out.println(""); // Quebrar linha
@@ -93,7 +82,16 @@ public class SensorEspacial extends Sensor{
      * @param Y posição Y do sensor
      * @param Z posição Z do sensor
      */
-    public void monitorarAltura(Ambiente ambiente, int X, int Y, int Z){
+    public void monitorarAltura(Ambiente ambiente, int X, int Y, int Z) throws NullPointerException, PointOutOfMapException{
+        //Casos de Excessão
+        if(ambiente == null){
+            throw new NullPointerException();
+        }
+        if (X < 0 || Y < 0 || Z < 0 || X >= ambiente.get_largura() || Y >= ambiente.get_comprimento() || Z >= ambiente.get_altura()) {
+            throw new PointOutOfMapException(String.format("(%d,%d,%d)", X,Y,Z));
+        }
+
+        //Código
         int upSpace, downSpace;
 
         //Acima do sensor
@@ -116,32 +114,16 @@ public class SensorEspacial extends Sensor{
             if(currentZ == Z){
                 System.out.println("\tR"); //Posicao do sensor
             } else{ //arredores do sensor
-                //Vazio
-                char sprite = '.';
 
-                //Verificar robos
-                ArrayList<Robo> listaRobos = ambiente.getListaRobos();
-                for(int i = 0; sprite != '@' && i < listaRobos.size(); i++){
-                    int[] pos = listaRobos.get(i).get_posicao();
-
-                    if(pos[0] == X && pos[1] == Y && listaRobos.get(i).get_altitude() == currentZ){
-                        sprite = '@';
-                    }
-                }
-
-                //Verificar obstáculo
-                ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
-                for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                    if(obstaculos.get(i).estaDentro(X, Y, currentZ)){
-                        sprite = 'X';
-                    }
-                }
-
-                System.out.println("\t" + sprite);
+                System.out.println("\t" + ambiente.getMapa()[X][Y][currentZ].getRepresentacao());
             }
         }
         System.out.println("");
 
+    }
 
+    @Override
+    public void monitorar(){
+        System.out.printf("Monitorando ambiente num raio de %d metros.\n", get_raioAlcance());
     }
 }

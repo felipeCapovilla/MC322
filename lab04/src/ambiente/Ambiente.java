@@ -2,8 +2,7 @@ package ambiente;
 
 import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
-import exceptions.ColisaoException;
-import exceptions.PointOutOfMapException;
+import exceptions.*;
 import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -294,11 +293,7 @@ public class Ambiente {
     public void removerObstaculo(int posX, int posY, int posZ){
         for (Obstaculo obst : getObstaculos()) {
             
-            if(
-                (obst.getPontoMenor()[0] <= posX && obst.getPontoMaior()[0] >= posX) &&
-                (obst.getPontoMenor()[1] <= posY && obst.getPontoMaior()[1] >= posY) &&
-                (obst.getZ() > posZ)
-             ) {
+            if(obst.estaDentro(posX, posY, posZ)) {
                 removerEntidade(obst);
                 this.quantidade_obstaculos--;
             
@@ -310,7 +305,11 @@ public class Ambiente {
     /**
      * Move uma entidade no ambiente
      */
-    public void moverEntidade(Entidade ent, int novoX, int novoY, int novoZ) throws ColisaoException{
+    public void moverEntidade(Entidade ent, int novoX, int novoY, int novoZ) throws ColisaoException, PointOutOfMapException{
+        if(!dentroDosLimites(novoX, novoY, novoZ)){
+            throw new PointOutOfMapException(String.format("(%d,%d,%d)", novoX, novoY, novoZ));
+        }
+
         if(!estaOcupado(novoX, novoY, novoZ)){
             //TODO ajustar para obstáculos passáveis
             mapa[ent.getX()][ent.getY()][ent.getZ()] = TipoEntidade.VAZIO;
@@ -330,9 +329,9 @@ public class Ambiente {
      * Imprime o mapa do ambiente na altura desejada
      * @param altura
      */
-    public void visualizarAmbiente(int z){
+    public void visualizarAmbiente(int z) throws ValueOutOfBoundsException{
         if(z < 0 || z >= altura){
-            throw new IllegalArgumentException("Fora dos limites");
+            throw new ValueOutOfBoundsException("altura = " + z);
         } else{
 
         }
@@ -436,6 +435,10 @@ public class Ambiente {
             .filter(obstaculoAtual -> obstaculoAtual instanceof Obstaculo) //Filtra os elemento para pegar apenas os Obstaculo
             .map(obstaculoAtual -> (Obstaculo) obstaculoAtual) //Cast dos elementos filtrados
             .collect(Collectors.toCollection(ArrayList::new)); //Volta a ser um ArrayList
+    }
+
+    public TipoEntidade[][][] getMapa() {
+        return mapa;
     }
 
 }

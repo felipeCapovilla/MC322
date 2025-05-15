@@ -2,6 +2,7 @@ package ambiente;
 
 import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
+import exceptions.*;
 import interfaces.Entidade;
 
 public class Obstaculo implements Entidade{
@@ -59,7 +60,7 @@ public class Obstaculo implements Entidade{
      * @param altura
      * @param tipoObstaculo
      */
-    public Obstaculo (int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo) throws IllegalArgumentException{
+    public Obstaculo (int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo) throws ValueOutOfBoundsException{
         this.posX1 = Math.min(posX1, posX2);
         this.posX2 = Math.max(posX1, posX2);
         this.posY1 = Math.min(posY1, posY2);
@@ -68,7 +69,7 @@ public class Obstaculo implements Entidade{
         this.tipoObstaculo = tipoObstaculo;
 
         if(altura < 0){
-            throw new IllegalArgumentException("altura < 0");
+            throw new ValueOutOfBoundsException("altura < 0");
         }
         this.altura = altura;
     }

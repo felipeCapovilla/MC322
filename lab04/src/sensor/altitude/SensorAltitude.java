@@ -1,5 +1,6 @@
 package sensor.altitude;
 
+import exceptions.*;
 import sensor.standart.Sensor;
 
 
@@ -13,19 +14,42 @@ public class SensorAltitude extends Sensor{
 
     //Construtor.
 
-    public SensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
-        
+    /**
+     * Construtor do Sensor Temperatura
+     * @param raio_alcance input > 0
+     * @param modelo
+     * @param precisao input > 0
+     * @param altura_maxima input > 0
+     */
+    public SensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima) throws ValueOutOfBoundsException{
         super(raio_alcance,modelo);
+
+        if(precisao < 0){
+            throw new ValueOutOfBoundsException("precisao < 0");
+        } else if(altura_maxima < 0){
+            throw new ValueOutOfBoundsException("altura_maxima < 0");
+        }
+
         this.altitude_atual = 0;
         this.precisao = precisao;
         this.altura_maxima = altura_maxima;
 
     }
     
-    //Sobrecarga o construtor no caso de ausencia de 'precisao'.
-    public SensorAltitude(int raio_alcance, String modelo, double altura_maxima){
+    /**
+     * Construtor do Sensor Temperatura, sem especificar precisao
+     * @param raio_alcance input > 0
+     * @param modelo
+     * @param altura_maxima input > 0
+     */
+    public SensorAltitude(int raio_alcance, String modelo, double altura_maxima) throws ValueOutOfBoundsException{
         
         super(raio_alcance,modelo);
+
+        if(altura_maxima < 0){
+            throw new ValueOutOfBoundsException("altura_maxima < 0");
+        }
+
         this.altitude_atual = 0;
         this.precisao = 0.05*altitude_atual; //Usa precisao generica: 0,5% do valor medido.
         this.altura_maxima = altura_maxima;
@@ -37,10 +61,12 @@ public class SensorAltitude extends Sensor{
     /**
      * Altera a altura atual do sensor, quando robo muda altitude.
      */
-    public void set_altitude(double nova_altitude){
-        if(nova_altitude > this.altura_maxima){ //Se a altura a ser setada for maior que a altura maxima.
-            this.altitude_atual = this.altura_maxima; 
-        }else{
+    public void set_altitude(double nova_altitude) throws ValueOutOfBoundsException{
+        if(nova_altitude > this.altura_maxima){
+            throw new ValueOutOfBoundsException("altura > " + altura_maxima); 
+        }else if (nova_altitude < 0) {
+            throw new ValueOutOfBoundsException("altura < 0");
+        }else {
             this.altitude_atual = nova_altitude;
         }
         

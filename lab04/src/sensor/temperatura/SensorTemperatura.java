@@ -1,5 +1,6 @@
 package sensor.temperatura;
 
+import exceptions.*;
 import sensor.standart.*;
 
 public class SensorTemperatura extends Sensor{
@@ -11,16 +12,46 @@ public class SensorTemperatura extends Sensor{
 
     //Construtores.
 
-    public SensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima,double temperatura_minima){
+    /**
+     * Construtor de Sensor Temperatura
+     * @param raio_alcance input > 0
+     * @param modelo 
+     * @param precisao input > 0
+     * @param temperatura_maxima input > 0 (Kelvin)
+     * @param temperatura_minima input > 0 (Kelvin)
+     */
+    public SensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima,double temperatura_minima) throws ValueOutOfBoundsException{
         super(raio_alcance,modelo);
+        if(precisao < 0){
+            throw new ValueOutOfBoundsException("precisao < 0");
+        } else if(temperatura_maxima < 0){
+            throw new ValueOutOfBoundsException("temperatura_maxima < 0");
+        } else if(temperatura_minima < 0){
+            throw new ValueOutOfBoundsException("temperatura_minima < 0");
+        }
+
         this.precisao = precisao;
         this.temperatura =0;
         this.temperatura_maxima = temperatura_maxima;
         this.temperatura_minima = temperatura_minima;
     }
-    //Sobrecarrega construtor no caso de ausencia de precisao.
-    public SensorTemperatura(int raio_alcance, String modelo,double temperatura_maxima,double temperatura_minima){
+
+    /**
+     * Construtor de Sensor Temperatura, sem especificar precisao
+     * @param raio_alcance input > 0
+     * @param modelo 
+     * @param temperatura_maxima input > 0 (Kelvin)
+     * @param temperatura_minima input > 0 (Kelvin)
+     */
+    public SensorTemperatura(int raio_alcance, String modelo,double temperatura_maxima,double temperatura_minima) throws ValueOutOfBoundsException{
         super(raio_alcance,modelo);
+
+        if(temperatura_maxima < 0){
+            throw new ValueOutOfBoundsException("temperatura_maxima < 0");
+        } else if(temperatura_minima < 0){
+            throw new ValueOutOfBoundsException("temperatura_minima < 0");
+        }
+
         this.temperatura = 0;
         this.precisao = 0.05*temperatura; //Considera 5% da quantidade medida.
         this.temperatura_maxima=temperatura_maxima;
@@ -60,10 +91,14 @@ public class SensorTemperatura extends Sensor{
     }
 
     /**
-     * Altera temperatura do sensor.
+     * Altera temperatura do sensor. <p/>
+     * nova_temperatura > 0
      */
-    public void set_temperatura(double nova_temperatura){
-        this.temperatura = Math.max(0, nova_temperatura);
+    public void set_temperatura(double nova_temperatura) throws ValueOutOfBoundsException{
+        if(nova_temperatura < 0){
+            throw new ValueOutOfBoundsException("temperatura < 0");
+        }
+        this.temperatura = nova_temperatura;
     }
     
     /**

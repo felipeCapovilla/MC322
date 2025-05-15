@@ -2,8 +2,8 @@ package robo.standart;
 
 import ambiente.Ambiente;
 import ambiente.Obstaculo;
-import constantes.Bussola;
-import constantes.TipoEntidade;
+import constantes.*;
+import exceptions.*;
 import interfaces.Entidade;
 import java.awt.geom.IllegalPathStateException;
 import java.util.ArrayList;
@@ -56,8 +56,12 @@ public class Robo implements Entidade
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY) { 
-        if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,(int) get_altitude())){
+    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException{ 
+        if(ambiente_atual == null){
+            throw new NullPointerException();
+        }
+
+        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,(int) get_altitude())){
             if(detectarColisoes(posicaoX + deltaX, posicaoY + deltaY, (int) get_altitude())){
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
                 ambiente_atual.moverEntidade(this, posicaoX+deltaX, posicaoY+deltaY, posicaoZ);
@@ -65,13 +69,13 @@ public class Robo implements Entidade
                 posicaoX += deltaX;
                 posicaoY += deltaY;
             } else {
-                throw new IllegalArgumentException("Posicao ja ocupada");
+                throw new ColisaoException("Posicao ja ocupada");
             }
                 
         } else if((int) get_altitude() == -1){
             throw  new IllegalPathStateException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
         } else {
-            throw new IllegalArgumentException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
+            throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
         }
         
     }
