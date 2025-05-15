@@ -1,6 +1,7 @@
 package Console;
 
 import ambiente.*;
+import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.Scanner;
 import robo.aereo.explorador.RoboVoadorExplorador;
@@ -117,24 +118,29 @@ public class Console {
                     System.out.print("altura desejada: ");
                     resposta = scannerNumber();
 
-                    imprimirMapa(resposta);
+                    //imprimirMapa(resposta);
+                    ambiente.visualizarAmbiente(resposta);
 
                     break;
                 case 2:
                     //informações do ambiente
-                    System.out.printf("- Dimensões (C x L x A): %d x %d x %d\n", ambiente.get_comprimento(), ambiente.getLargura(), ambiente.getAltura());
+                    System.out.printf("- Dimensões (C x L x A): %d x %d x %d\n", ambiente.get_comprimento(), ambiente.get_largura(), ambiente.get_altura());
                     System.out.println("- Lista de obstáculos:");
 
-                    for(Obstaculo obst : ambiente.getObstaculos()){
-                        System.out.printf("\t ->%S\n", obst);
+                    //TODO otimizar
+                    for(Entidade ent : ambiente.getEntidades()){
+                        if(ent instanceof Obstaculo){
+                            System.out.printf("\t ->%S\n", ent);
+                        }
                     }
 
                     System.out.println("- Lista de Robos:");
 
-                    for(Robo robo : ambiente.getListaRobos()){
-                        System.out.printf("\t ->%S\n", robo);
+                    for(Entidade ent : ambiente.getEntidades()){
+                        if(ent instanceof Robo){
+                            System.out.printf("\t ->%S\n", ent);
+                        }
                     }
-
 
                     break;
                 case 99:
@@ -153,11 +159,11 @@ public class Console {
      * @param altura
      */
     private void imprimirMapa(int altura){
-        int largura = ambiente.getLargura(); //X
+        int largura = ambiente.get_largura(); //X
         int comprimento = ambiente.get_comprimento(); //Y
         char sprite;
 
-        if(altura < 0 || altura >= ambiente.getAltura()){
+        if(altura < 0 || altura >= ambiente.get_altura()){
             System.out.println("Altura inválida");
         } else {
             for(int y = comprimento-1; y>=0; y--){
@@ -178,7 +184,7 @@ public class Console {
                     //Verificar obstáculo
                     ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
                     for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(x, y) && (obstaculos.get(i).getAltura() > altura)){
+                        if(obstaculos.get(i).estaDentro(x, y) && (obstaculos.get(i).getZ() > altura)){
                             sprite = 'X';
                         }
                     }
