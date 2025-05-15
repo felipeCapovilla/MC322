@@ -1,8 +1,6 @@
 package Console;
 
 import ambiente.*;
-import interfaces.Entidade;
-import java.util.ArrayList;
 import java.util.Scanner;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
@@ -118,7 +116,6 @@ public class Console {
                     System.out.print("altura desejada: ");
                     resposta = scannerNumber();
 
-                    //imprimirMapa(resposta);
                     ambiente.visualizarAmbiente(resposta);
 
                     break;
@@ -128,18 +125,14 @@ public class Console {
                     System.out.println("- Lista de obstáculos:");
 
                     //TODO otimizar
-                    for(Entidade ent : ambiente.getEntidades()){
-                        if(ent instanceof Obstaculo){
-                            System.out.printf("\t ->%S\n", ent);
-                        }
+                    for(Obstaculo obst : ambiente.getObstaculos()){
+                        System.out.printf("\t ->%S\n", obst);
                     }
 
                     System.out.println("- Lista de Robos:");
 
-                    for(Entidade ent : ambiente.getEntidades()){
-                        if(ent instanceof Robo){
-                            System.out.printf("\t ->%S\n", ent);
-                        }
+                    for(Robo robo : ambiente.getListaRobos()){
+                        System.out.printf("\t ->%S\n", robo);
                     }
 
                     break;
@@ -152,58 +145,6 @@ public class Console {
 
         }
         System.out.println("");
-    }
-
-    /**
-     * Imprime o mapa do ambiente na altura desejada
-     * @param altura
-     */
-    private void imprimirMapa(int altura){
-        int largura = ambiente.get_largura(); //X
-        int comprimento = ambiente.get_comprimento(); //Y
-        char sprite;
-
-        if(altura < 0 || altura >= ambiente.get_altura()){
-            System.out.println("Altura inválida");
-        } else {
-            for(int y = comprimento-1; y>=0; y--){
-                for(int x = 0; x < largura; x++){
-                    //Vazio
-                    sprite = '.';
-    
-                    //Verificar robos
-                    ArrayList<Robo> listaRobos = ambiente.getListaRobos();
-                    for(int i = 0; sprite != '@' && i < listaRobos.size(); i++){
-                        int[] pos = listaRobos.get(i).get_posicao();
-    
-                        if(pos[0] == x && pos[1] == y && listaRobos.get(i).get_altitude() == altura){
-                            sprite = '@';
-                        }
-                    }
-    
-                    //Verificar obstáculo
-                    ArrayList<Obstaculo> obstaculos = ambiente.getObstaculos();
-                    for(int i = 0; sprite != 'X' && sprite != '@' && i < obstaculos.size(); i++){
-                        if(obstaculos.get(i).estaDentro(x, y) && (obstaculos.get(i).getZ() > altura)){
-                            sprite = 'X';
-                        }
-                    }
-    
-                    System.out.print(sprite);
-                }
-                System.out.println(""); //Quebra de linha
-            }
-
-            System.out.println("LEGENDA");
-            System.out.println(". - espaco vazio");
-            System.out.println("X - obstaculo");
-            System.out.println("@ - robo");
-
-
-
-            System.out.println("");
-        }
-
     }
 
 

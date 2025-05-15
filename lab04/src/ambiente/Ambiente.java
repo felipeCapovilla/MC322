@@ -2,6 +2,8 @@ package ambiente;
 
 import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
+import exceptions.ColisaoException;
+import exceptions.PointOutOfMapException;
 import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -18,6 +20,9 @@ public class Ambiente {
 
     private final ArrayList<Entidade> entidades;
 
+    /**
+     * [X] [Y] [Z]
+     */
     private TipoEntidade[][][] mapa; // [largura][comprimento][altura]
     
 
@@ -54,7 +59,11 @@ public class Ambiente {
         }
     }
 
-    private void adicionarNoMapa(Entidade ent){
+    /**
+     * Adiciona o caracter da entidade no mapa
+     * @param ent entidade adicionada
+     */
+    private void adicionarNoMapa(Entidade ent) throws NullPointerException{
         if(ent != null){
             if(ent instanceof Obstaculo){
                 Obstaculo obst = (Obstaculo) ent;
@@ -70,6 +79,8 @@ public class Ambiente {
             } else {
                 mapa[ent.getX()][ent.getY()][ent.getZ()] = ent.getTipo();
             }
+        } else {
+            throw new NullPointerException();
         }
     }
 
@@ -78,7 +89,7 @@ public class Ambiente {
      * Returns: <p/>
      * true se não contém o elemento
      */
-    public boolean  adicionarEntidade(Entidade ent){
+    public boolean  adicionarEntidade(Entidade ent) throws NullPointerException{
         if(!entidades.contains(ent)){
             entidades.add(ent);
 
@@ -117,19 +128,26 @@ public class Ambiente {
      * Verifica se o ponto está ocupado
      */
     public boolean estaOcupado(int x, int y, int z){
+        //TODO ajustar para obstáculos passáveis
         return (mapa[x][y][z] != TipoEntidade.VAZIO);
     }
 
     /**
      * Adiciona um objeto da classe Robo na lista de robos no ambiente
      */
-    public void adicionarRobo(Robo robo){
+    public void adicionarRobo(Robo robo) throws NullPointerException, PointOutOfMapException, ColisaoException{
+        //Parametro ponteiro null
+        if(robo == null){
+            throw new NullPointerException();
+        }
+
+        //Fora dos limites do mapa
         if(!dentroDosLimites(robo.getX(), robo.getY(), robo.getZ()))
-            throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois esta fora dos limites do ambiente.");
+            throw new PointOutOfMapException(String.format("%s (%d,%d,%d)", robo.getNome(), robo.getX(), robo.getY(), robo.getZ()));
 
         //Detectar se está ocupado
         if(estaOcupado(robo.getX(), robo.getY(), robo.getZ())){
-            throw new IllegalArgumentException("O robo '"+ robo.getNome()+"' não pode ser adicionado ao ambiente pois a posicao ja esta ocupada.");
+            throw new ColisaoException(String.format("%s (%d,%d,%d)", robo.getNome(), robo.getX(), robo.getY(), robo.getZ()));
         }
 
         if(adicionarEntidade(robo)){
@@ -151,38 +169,52 @@ public class Ambiente {
     /**
      * Adiciona um obstáculo puntiforme com altura padrão no ambiente na posição introduzida
      */
-    public void adicionarObstaculo(int posX, int posY, TipoObstaculo tipoObstaculo){
+    public void adicionarObstaculo(int posX, int posY, TipoObstaculo tipoObstaculo) throws ColisaoException, PointOutOfMapException{
         Obstaculo obstaculo = new Obstaculo(posX, posY, tipoObstaculo);
+
+        //Verificar se esta dentro dos limites do embiente
+        if(!dentroDosLimites(obstaculo.getX(), obstaculo.getY(), obstaculo.getZ())){
+            throw new PointOutOfMapException(String.format("(%d,%d,%d)", obstaculo.getX(), obstaculo.getY(), obstaculo.getZ()));
+        }
+
+
 
         //verificar se o obstáculo novo não se sobrepõe em outro já existente ou um robo
         for(Entidade ent : entidades){
             if(ent instanceof Obstaculo){
                 if(((Obstaculo) ent).estaDentro(posX, posY)){
-                    throw new IllegalArgumentException("Posicao ja tem obstaculo");
+                    Obstaculo obst = (Obstaculo) ent;
+                    throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
                 }
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(((Robo) ent).get_posicao()[0], ((Robo) ent).get_posicao()[1])){
-                    throw new IllegalArgumentException("Posicao ja tem robo");
+                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }
 
         //Adicionar obstáculo
-        if(dentroDosLimites(obstaculo.getX(), obstaculo.getY(), obstaculo.getZ())) {
-            if(adicionarEntidade(obstaculo)){
-                this.quantidade_obstaculos++;
-            }
-        } else{
-            throw new IllegalArgumentException("Posição inválida");
+        if(adicionarEntidade(obstaculo)){
+            this.quantidade_obstaculos++;
         }
+
     }
 
     /**
      * Adiciona um obstáculo extenso com altura padrão no ambiente na posição introduzida
      */
-    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo){
+    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo) throws ColisaoException, PointOutOfMapException{
         Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, tipoObstaculo);
+
+        //Verificar se esta dentro dos limites do embiente
+        if(!(
+            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
+            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getZ())
+        )) {
+            throw new PointOutOfMapException(String.format("(%d,%d,0) to (%d,%d,%d)", obstaculo.getX(), obstaculo.getY(), obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1],obstaculo.getZ()));
+        } 
+
 
         //verificar se o obstáculo novo não se sobrepõe em outro já existente ou um robo
         for(Entidade ent : entidades){
@@ -195,34 +227,38 @@ public class Ambiente {
                     //Verifica se um obstáculo está totalmente acima ou abaixo do outro
                     continue;
                 }
-    
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");
+                
+                Obstaculo obst = (Obstaculo )ent;
+                throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(((Robo) ent).get_posicao()[0], ((Robo) ent).get_posicao()[1])){
-                    throw new IllegalArgumentException("Posicao ja tem robo");
+                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }
 
         //Adicionar obstáculo
-        if(
-            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
-            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getZ())
-        ) {
-            if(adicionarEntidade(obstaculo)){
-                this.quantidade_obstaculos++;
-            }
-        } else{
-            throw new IllegalArgumentException("Posição inválida");
+        if(adicionarEntidade(obstaculo)){
+            this.quantidade_obstaculos++;
         }
+       
     }
 
     /**
      * Adiciona um obstáculo extenso com altura personalizada no ambiente na posição introduzida
      */
-    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo){
+    public void adicionarObstaculo(int posX1, int posY1, int posX2, int posY2, int altura, TipoObstaculo tipoObstaculo) throws ColisaoException, PointOutOfMapException{
         Obstaculo obstaculo = new Obstaculo(posX1, posY1, posX2, posY2, altura, tipoObstaculo);
+
+        //Verificar se esta dentro dos limites do embiente
+        if(!(
+            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
+            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getZ())
+        )) {
+            throw new PointOutOfMapException(String.format("(%d,%d,0) to (%d,%d,%d)", obstaculo.getX(), obstaculo.getY(), obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1],obstaculo.getZ()));
+        } 
+
 
         //verificar se o obstáculo novo não se sobrepõe em outro já existente ou um robo
         for(Entidade ent : entidades){
@@ -235,55 +271,53 @@ public class Ambiente {
                     //Verifica se um obstáculo está totalmente acima ou abaixo do outro
                     continue;
                 }
-    
-                throw new IllegalArgumentException("Posicao ja tem obstaculo");
+                
+                Obstaculo obst = (Obstaculo )ent;
+                throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
 
             } else if(ent instanceof Robo){
-                if(obstaculo.estaDentro(((Robo) ent).get_posicao()[0], ((Robo) ent).get_posicao()[1])){
-                    throw new IllegalArgumentException("Posicao ja tem robo");
+                if(obstaculo.estaDentro(ent.getX(), ent.getY())){
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }
 
         //Adicionar obstáculo
-        if(
-            dentroDosLimites(obstaculo.getPontoMenor()[0], obstaculo.getPontoMenor()[1], 0) &&
-            dentroDosLimites(obstaculo.getPontoMaior()[0], obstaculo.getPontoMaior()[1], obstaculo.getZ())
-        ) {
-            if(adicionarEntidade(obstaculo)){
-                this.quantidade_obstaculos++;
-            }
-        } else{
-            throw new IllegalArgumentException("Posição inválida");
+        if(adicionarEntidade(obstaculo)){
+            this.quantidade_obstaculos++;
         }
     }
 
     /**
      * Remove um obstáculo na posição introduzida
      */
-    public void removerObstaculo(int posX, int posY, int posz){
-        for (Entidade ent : entidades) {
-            if(ent instanceof Obstaculo){
-                if(
-                (((Obstaculo) ent).getPontoMenor()[0] <= posX && ((Obstaculo) ent).getPontoMaior()[0] >= posX) &&
-                (((Obstaculo) ent).getPontoMenor()[1] <= posY && ((Obstaculo) ent).getPontoMaior()[1] >= posY) &&
-                (((Obstaculo) ent).getZ() > posz)
+    public void removerObstaculo(int posX, int posY, int posZ){
+        for (Obstaculo obst : getObstaculos()) {
+            
+            if(
+                (obst.getPontoMenor()[0] <= posX && obst.getPontoMaior()[0] >= posX) &&
+                (obst.getPontoMenor()[1] <= posY && obst.getPontoMaior()[1] >= posY) &&
+                (obst.getZ() > posZ)
              ) {
-                removerEntidade(ent);
+                removerEntidade(obst);
                 this.quantidade_obstaculos--;
             
                 break;
             }
-            }
-            
         }
     }
 
-    public void moverEntidade(Entidade ent, int novoX, int novoY, int novoZ){
+    /**
+     * Move uma entidade no ambiente
+     */
+    public void moverEntidade(Entidade ent, int novoX, int novoY, int novoZ) throws ColisaoException{
         if(!estaOcupado(novoX, novoY, novoZ)){
+            //TODO ajustar para obstáculos passáveis
             mapa[ent.getX()][ent.getY()][ent.getZ()] = TipoEntidade.VAZIO;
 
             mapa[novoX][novoY][novoZ] = ent.getTipo();
+        } else {
+            throw new ColisaoException(String.format("(%d,%d,%d)", novoX, novoY, novoZ));
         }
     }
 
