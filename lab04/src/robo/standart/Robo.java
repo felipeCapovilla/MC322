@@ -44,7 +44,7 @@ public class Robo implements Entidade
         posicaoZ = 0;
         this.ambiente_atual = null;
         this.direcao = direcao;
-        sensores = new ArrayList<Sensor>();
+        sensores = new ArrayList<>();
         this.sensor_altitude = null;
         this.sensor_temperatura = null;
         this.sensor_espacial = null;
@@ -59,6 +59,9 @@ public class Robo implements Entidade
     public void mover(int deltaX, int deltaY) { 
         if(ambiente_atual!=null &&ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,(int) get_altitude())){
             if(detectarColisoes(posicaoX + deltaX, posicaoY + deltaY, (int) get_altitude())){
+                //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
+                ambiente_atual.moverEntidade(this, posicaoX+deltaX, posicaoY+deltaY, posicaoZ);
+
                 posicaoX += deltaX;
                 posicaoY += deltaY;
             } else {

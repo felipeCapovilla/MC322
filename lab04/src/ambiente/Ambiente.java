@@ -291,13 +291,29 @@ public class Ambiente {
     public void executarSensores(){}
     public void verificarColisoes(){}
 
+
+    /**
+     * Imprime o mapa do ambiente na altura desejada
+     * @param altura
+     */
     public void visualizarAmbiente(int z){
-        for(int y = 0; y < comprimento; y++){
+        if(z < 0 || z >= altura){
+            throw new IllegalArgumentException("Fora dos limites");
+        } else{
+
+        }
+        for(int y = comprimento-1; y >= 0; y--){
             for(int x = 0; x < largura; x++){
                 System.out.print(mapa[x][y][z].getRepresentacao());
             }
             System.out.println("");
         }
+        System.out.println("LEGENDA");
+        System.out.println(TipoEntidade.VAZIO.getRepresentacao() + " - espaco vazio");
+        System.out.println(TipoEntidade.OBSTACULO.getRepresentacao() + " - obstaculo");
+        System.out.println(TipoEntidade.ROBO.getRepresentacao() + " - robo");
+
+
         System.out.println("");
     }
 
