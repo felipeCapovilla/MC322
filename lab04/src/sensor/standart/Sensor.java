@@ -1,12 +1,11 @@
 package sensor.standart;
 
 
-public class Sensor{
+public abstract class Sensor{
 
     private final int raio_alcance;
     private final String modelo;
     private static int quantidade_sensores;
-
 
     //Construtores
 
@@ -28,13 +27,7 @@ public class Sensor{
 
     //Metodos
 
-
-    /**
-     * Metodo generico, ainda nao ha especificidade no sensor.
-     */
-    public void monitorar(){
-        System.out.printf("Monitorando ambiente num raio de %d metros.\n",this.raio_alcance);
-    }
+    public void monitorar(){}
 
 
     //Metodos get's. 
@@ -43,7 +36,7 @@ public class Sensor{
     /**
      * Returona quantidade de sensores ativos.
      */
-    public int get_quantidadeSensores(){
+    public static int get_quantidadeSensores(){
         return quantidade_sensores;
     }
 
