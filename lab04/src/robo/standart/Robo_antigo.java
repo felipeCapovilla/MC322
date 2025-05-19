@@ -13,15 +13,13 @@ import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
 
 
-public abstract class Robo{
-    
+public class Robo implements Entidade
+{
     private Ambiente ambiente_atual;
-    private final String id;
-    private int posX;
-    private int posY;
-    private int posZ;
-    private EstadoRobo estado;
-
+    private String nome;
+    private int posicaoX;
+    private int posicaoY;
+    private int posicaoZ;
 
     private final TipoEntidade tipoEntidade = TipoEntidade.ROBO;
 
@@ -35,39 +33,41 @@ public abstract class Robo{
      */
     private Bussola direcao;
 
-    public Robo(String id, int posX, int posY, Bussola direcao){
-        this.id = id;
-        this.posX = posX;
-        this.posY = posY;
-        this.posZ = 0;
+
+    /**
+     * Construtor da classe Robo.
+     */
+    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
+        this.nome = nome;
+        this.posicaoX = posicaoX;
+        this.posicaoY = posicaoY;
+        this.posicaoZ = 0;
         this.ambiente_atual = null;
         this.direcao = direcao;
         this.sensores = new ArrayList<>();
         this.sensor_altitude = null;
         this.sensor_temperatura = null;
         this.sensor_espacial = null;
-        this.estado = EstadoRobo.DESLIGADO;
     }
 
-
+    
     /**
      * Adiciona a variacao das coordenadas no valor da coordenada atual.
      * @param deltaX
      * @param deltaY
      */
-
     public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException{ 
-        if(this.ambiente_atual == null){
+        if(ambiente_atual == null){
             throw new NullPointerException();
         }
 
-        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY,(int) get_altitude())){
+        if(ambiente_atual.dentroDosLimites(posicaoX + deltaX, posicaoY + deltaY,(int) get_altitude())){
             if(detectarColisoes(posicaoX + deltaX, posicaoY + deltaY, (int) get_altitude())){
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
-                ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ);
+                ambiente_atual.moverEntidade(this, posicaoX+deltaX, posicaoY+deltaY, posicaoZ);
 
-                this.posX += deltaX;
-                this.posY += deltaY;
+                posicaoX += deltaX;
+                posicaoY += deltaY;
             } else {
                 throw new ColisaoException("Posicao ja ocupada");
             }
@@ -78,20 +78,6 @@ public abstract class Robo{
             throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
         }
         
-    }    
-
-    /**
-     * Altera o estado do Robo para LIGADO.
-     */
-    public void ligar(){
-        this.estado = EstadoRobo.LIGADO;
-    }
-
-    /**
-     * Altera o estado do Robo para DESLIGADO.
-     */
-    public void desligar(){
-        this.estado = EstadoRobo.DESLIGADO
     }
 
     /**
@@ -152,6 +138,8 @@ public abstract class Robo{
         this.sensor_temperatura = novo_sensorTemperatura;
         sensores.add(novo_sensorTemperatura);
     }
+
+   
     /**
      * Adicionar um sensor de altitude no robo
      */
@@ -160,6 +148,7 @@ public abstract class Robo{
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
     }
+
     /**
      * Adicionar um sensor espacial no robo
      */
@@ -200,7 +189,7 @@ public abstract class Robo{
      * @return vetor com duas posicoes, que sao (x,y) do robo.
      */
     public int[] get_posicao(){
-        return new int[]{this.posX, this.posY};
+        return new int[]{this.posicaoX, this.posicaoY};
     }
 
     /**
@@ -213,8 +202,8 @@ public abstract class Robo{
     /**
      * Retorna o valor da variável nome
      */
-    public String getID(){
-        return this.id;
+    public String getNome(){
+        return this.nome;
     }
 
     /**
@@ -232,6 +221,13 @@ public abstract class Robo{
         return this.ambiente_atual;
     }
     
+    /**
+     * define o valor da variável nome
+     */
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+
     /**
      * Retorna o objeto sensorTemperatura associado ao robo.
      */
@@ -276,43 +272,39 @@ public abstract class Robo{
 
     @Override
     public int getX() {
-        return this.posX;
+        return this.posicaoX;
     }
 
 
     @Override
     public int getY() {
-        return this.posY;
+        return this.posicaoY;
     }
 
 
     @Override
     public int getZ() {
-        return this.posZ;
+        return posicaoZ;
     }
 
 
     @Override
     public TipoEntidade getTipo() {
-        return this.tipoEntidade;
+        return tipoEntidade;
     }
 
-    public EstadoRobo getEstado(){
-        return this.estado;
+
+    @Override
+    public String getDescricao() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
     }
 
-    public void setEstado_robo(EstadoRobo novoEstado){
-        this.estado = novoEstado;
-    }
 
     @Override
     public char getRepresentacao() {
         return tipoEntidade.getRepresentacao();
     }
 
-    //Metodos abstratos.
-
-    public abstract void executarTarefa();
 
 }
-
