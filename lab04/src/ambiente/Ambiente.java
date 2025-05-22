@@ -19,6 +19,7 @@ public class Ambiente {
 
     private final ArrayList<Entidade> entidades;
 
+
     /**
      * [X] [Y] [Z]
      */
@@ -142,11 +143,11 @@ public class Ambiente {
 
         //Fora dos limites do mapa
         if(!dentroDosLimites(robo.getX(), robo.getY(), robo.getZ()))
-            throw new PointOutOfMapException(String.format("%s (%d,%d,%d)", robo.getNome(), robo.getX(), robo.getY(), robo.getZ()));
+            throw new PointOutOfMapException(String.format("%s (%d,%d,%d)", robo.getID(), robo.getX(), robo.getY(), robo.getZ()));
 
         //Detectar se está ocupado
         if(estaOcupado(robo.getX(), robo.getY(), robo.getZ())){
-            throw new ColisaoException(String.format("%s (%d,%d,%d)", robo.getNome(), robo.getX(), robo.getY(), robo.getZ()));
+            throw new ColisaoException(String.format("%s (%d,%d,%d)", robo.getID(), robo.getX(), robo.getY(), robo.getZ()));
         }
 
         if(adicionarEntidade(robo)){
@@ -188,7 +189,7 @@ public class Ambiente {
 
             } else if(ent instanceof Robo){
                 if(obstaculo.estaDentro(ent.getX(), ent.getY(),0)){
-                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getID(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }
@@ -232,7 +233,7 @@ public class Ambiente {
 
             } else if(ent instanceof Robo){
                 if(obstaculo.estaDentro(ent.getX(), ent.getY(), 0)){
-                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getID(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }
@@ -276,7 +277,7 @@ public class Ambiente {
 
             } else if(ent instanceof Robo){
                 if(obstaculo.estaDentro(ent.getX(), ent.getY(), 0)){
-                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getNome(), ent.getX(), ent.getY(), ent.getZ()));
+                    throw new ColisaoException(String.format("%s (%d,%d,%d)",((Robo) ent).getID(), ent.getX(), ent.getY(), ent.getZ()));
                 }
             }
         }

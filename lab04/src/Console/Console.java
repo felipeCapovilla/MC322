@@ -195,7 +195,7 @@ public class Console {
                 System.out.println("Opcao nao disponivel");
             }
 
-        };
+        }
         System.out.println("");
     }
 
@@ -223,107 +223,7 @@ public class Console {
         } else if(_robo.getClass() == RoboPedestre.class){
             controleRobo((RoboPedestre) _robo);
 
-        } else {
-            controleRobo(_robo);
         }
-    }
-
-    /**
-     * Menu que controla o RoboStandart
-     * @param robo RoboStandart
-     */
-    private void controleRobo(Robo robo){
-        int resposta;
-        boolean running = true;
-
-        while(running){
-            
-            System.out.println("+----------------------------------+");
-            System.out.println("|         escolha um opcao         |");
-
-            //Opções
-            System.out.println("| [1] Mover Robo                   |");
-            System.out.println("| [2] Visualizar arredores         |");
-            System.out.println("| [3] Monitorar sensores           |");
-            System.out.println("| [4] Info                         |");
-            System.out.println("| [99] Voltar                      |");
-
-            System.out.println("+----------------------------------+");
-
-            //Resposta
-            System.out.print("opcao escolhida: ");
-            resposta = scannerNumber();
-
-            switch (resposta) {
-                case 1:
-                    //Mover robo
-                    int deltaX;
-                    int deltaY;
-
-                    System.out.print("Deslocamento horizontal: ");
-                    deltaX = scannerNumber();
-                    System.out.print("Deslocamento vertical: ");
-                    deltaY = scannerNumber();
-
-                    try {
-                        robo.mover(deltaX, deltaY);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-                case 2:
-                    //Visualizar arredores
-                    try {
-                        System.out.println("Espaco: ");
-                        robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
-                        System.out.println("");
-                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
-                    } catch (Exception e) {
-                        System.out.println("Sensor espacial nao instalado");
-                    }
-
-                    break;
-
-                case 3:
-                    //Monitora os sensores do robo
-                    if(robo.get_SensorTemperatura() == null){
-                        System.out.println("Sensor de temperatura nao instalado");
-                    } else {
-                        System.out.print("Sensor de temperatura:\n\t");
-                        robo.get_SensorTemperatura().monitorar();
-                    }
-                    if(robo.get_SensorEspacial() == null){
-                        System.out.println("Sensor espacial nao instalado");
-                    } else {
-                        System.out.print("Sensor espacial:\n\t");
-                        robo.get_SensorEspacial().monitorar();
-                    }
-
-                    break;
-
-                case 4:
-                    //Info
-                    System.out.println("Nome: " + robo.getNome());
-                    System.out.println("Modelo: " + robo.getClass().getSimpleName());
-                    System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
-                    System.out.println("Direcao atual: " + robo.getDirecao());
-
-                    try {
-                        System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());
-                    } catch (Exception e) {
-                        System.out.println("Temperatura: Sensor de temperatura nao instalado");
-                    }
-                    break;
-
-                case 99:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Opcao nao disponivel");
-            }
-
-        }
-        System.out.println("");
     }
 
     /**
@@ -394,7 +294,8 @@ public class Console {
                         System.out.println("Espaco: ");
                         robo.get_SensorEspacial().monitorarPlano(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());
                         System.out.println("");
-                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());                    } catch (Exception e) {
+                        robo.get_SensorEspacial().monitorarAltura(ambiente, robo.get_posicao()[0], robo.get_posicao()[1], (int) robo.get_altitude());                    
+                    } catch (Exception e) {
                         System.out.println("Sensor espacial nao instalado");
                     }
 
@@ -425,7 +326,7 @@ public class Console {
 
                 case 5:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
@@ -591,7 +492,7 @@ public class Console {
 
                 case 6:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
@@ -763,7 +664,7 @@ public class Console {
 
                 case 6:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
@@ -886,7 +787,7 @@ public class Console {
 
                 case 5:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
@@ -1055,7 +956,7 @@ public class Console {
 
                 case 8:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
@@ -1191,7 +1092,7 @@ public class Console {
 
                 case 6:
                     //Info
-                    System.out.println("Nome: " + robo.getNome());
+                    System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());

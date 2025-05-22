@@ -29,8 +29,7 @@ public class Main {
         Ambiente ambiente = new Ambiente(100,100,100);
         Console menu = new Console(ambiente);
 
-        Robo roboStandart = new Robo("padraozinho",50,50,Bussola.LESTE);
-        RoboAereo roboAereo = new RoboAereo("padrao aereo",2,97,Bussola.OESTE,1,100);
+        RoboAereo roboAereo = new RoboAereo("padrao aereo",2,97,Bussola.OESTE,5,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
         RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",80,65,Bussola.LESTE,41,50,100);
         RoboTerrestre roboTerrestre = new RoboTerrestre("terra",30,30,Bussola.SUL,20);
@@ -41,10 +40,6 @@ public class Main {
 
         //Robos
             //adicionar sensores
-        roboStandart.adicionar_sensorTemperatura(0, "GGG-01", 0.5, 200, 25);
-        roboStandart.get_SensorTemperatura().set_temperatura(10);
-        roboStandart.adicionar_sensorEspacial(10, "EPC-01");
-
         roboAereo.adicionar_sensorAltitude(20, "ALT-01", 1, 100);
         roboAereo.adicionar_sensorTemperatura(0, "TMP-76", 0.8, 900, 0);
         roboAereo.adicionar_sensorEspacial(15, "EPC-01");
@@ -69,7 +64,6 @@ public class Main {
         
         //Ambiente
             //Adicionar os robos no ambiente
-        ambiente.adicionarRobo(roboStandart);
         ambiente.adicionarRobo(roboAereo);
         ambiente.adicionarRobo(roboAereoExplorador);
         ambiente.adicionarRobo(roboAereoTurista);
@@ -99,7 +93,7 @@ public class Main {
 
         //TESTAR O MÉTODO DE ADICIONAR OBSTÁCULOS E ROBOS NO AMBIENTE
             //Robo utilizado nos testes
-        Robo roboEsmagado = new Robo("nomeLegal", 0, 0, Bussola.SUL);
+        Robo roboEsmagado = new RoboTerrestre("nomeLegal", 0, 0, Bussola.SUL, 50);
         try {
             //Verificar se não movimentou um robo para a posição (0,0)
             ambiente.adicionarRobo(roboEsmagado);
@@ -135,7 +129,7 @@ public class Main {
         }
 
             //Teste de adicionar robo dentro de obstáculo
-        Robo roboNaoEntra = new Robo("coitadinho",20,25,Bussola.LESTE);
+        Robo roboNaoEntra = new RoboTerrestre("coitadinho",20,25,Bussola.LESTE, 50);
         try {
             ambiente.adicionarRobo(roboNaoEntra);
             System.out.println("Robo adicionado dentro de obstáculo");
@@ -144,7 +138,7 @@ public class Main {
         }
 
         //Teste de adicionar robo dentro de outro robo
-        Robo roboNaoEntra2 = new Robo("coitadinho",0,0,Bussola.LESTE);
+        Robo roboNaoEntra2 = new RoboTerrestre("coitadinho",0,0,Bussola.LESTE, 50);
         try {
             ambiente.adicionarRobo(roboNaoEntra2);
             System.out.println("Robo adicionado dentro de outro robo");

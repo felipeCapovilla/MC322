@@ -10,7 +10,7 @@ public class RoboTerrestre extends Robo{
      * Construtor da classe RoboTerrestre.
      */
     public RoboTerrestre(String nome,int posicaoX, int posicaoY ,Bussola direcao, int velocidadeMaxima){
-        super(nome,posicaoX, posicaoY,direcao);
+        super(nome,posicaoX, posicaoY, 0,direcao);
         this.velocidadeMaxima = velocidadeMaxima;
     }
 
@@ -46,5 +46,17 @@ public class RoboTerrestre extends Robo{
      */
     public void setVelocidadeMaxima(int velocidadeMaxima) {
         this.velocidadeMaxima = Math.max(0, velocidadeMaxima);
+    }
+
+    @Override
+    public String getDescricao() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
+    }
+
+    @Override
+    public void executarTarefa() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
 }

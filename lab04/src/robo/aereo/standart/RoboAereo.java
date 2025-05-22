@@ -12,7 +12,7 @@ public class RoboAereo extends Robo {
 
     public RoboAereo(String nome,int posicaoX, int posicaoY,Bussola direcao, int altitude,int altitude_max){
         
-        super(nome,posicaoX, posicaoY,direcao); //Chama o construtor da super-classe Robo.
+        super(nome,posicaoX, posicaoY, altitude, direcao); //Chama o construtor da super-classe Robo.
         this.altitude = altitude;
         this.altitude_max = altitude_max;
     }
@@ -26,11 +26,11 @@ public class RoboAereo extends Robo {
         
         if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
             if(this.get_ambiente().get_altura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
-                throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar os limites do ambiente.");
+                throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar os limites do ambiente.");
         }
 
         if(this.altitude + metros > this.altitude_max){ //Verifica se a altura pode ser atingida por conta das limitações do robo.
-            throw new IllegalArgumentException("A altitude do robo '"+this.getNome()+"' não pode ultrapassar "+this.altitude_max+"m."); 
+            throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar "+this.altitude_max+"m."); 
         }
 
         if(this.get_SensorAltitude() == null){
@@ -121,6 +121,20 @@ public class RoboAereo extends Robo {
      */
     public int get_altitude_max() {
         return altitude_max;
+    }
+
+
+    @Override
+    public String getDescricao() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
+    }
+
+
+    @Override
+    public void executarTarefa() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
 
 }

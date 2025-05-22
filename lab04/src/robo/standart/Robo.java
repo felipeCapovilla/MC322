@@ -13,7 +13,7 @@ import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
 
 
-public abstract class Robo{
+public abstract class Robo implements Entidade{
     
     private Ambiente ambiente_atual;
     private final String id;
@@ -35,11 +35,11 @@ public abstract class Robo{
      */
     private Bussola direcao;
 
-    public Robo(String id, int posX, int posY, Bussola direcao){
+    public Robo(String id, int posX, int posY, int posZ, Bussola direcao){
         this.id = id;
         this.posX = posX;
         this.posY = posY;
-        this.posZ = 0;
+        this.posZ = posZ;
         this.ambiente_atual = null;
         this.direcao = direcao;
         this.sensores = new ArrayList<>();
@@ -61,8 +61,8 @@ public abstract class Robo{
             throw new NullPointerException();
         }
 
-        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY,(int) get_altitude())){
-            if(detectarColisoes(posicaoX + deltaX, posicaoY + deltaY, (int) get_altitude())){
+        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY,(int) getZ())){
+            if(detectarColisoes(posX + deltaX, posY + deltaY, (int) getZ())){
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
                 ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ);
 
@@ -72,10 +72,10 @@ public abstract class Robo{
                 throw new ColisaoException("Posicao ja ocupada");
             }
                 
-        } else if((int) get_altitude() == -1){
+        } else if((int) getZ() == -1){
             throw  new IllegalPathStateException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
         } else {
-            throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posicaoX + "," + posicaoY + ")");
+            throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posX + "," + posY + ")");
         }
         
     }    
@@ -91,7 +91,7 @@ public abstract class Robo{
      * Altera o estado do Robo para DESLIGADO.
      */
     public void desligar(){
-        this.estado = EstadoRobo.DESLIGADO
+        this.estado = EstadoRobo.DESLIGADO;
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class Robo{
 
             return false;
         } else {
-            System.out.printf("Robo %s não está em um ambiente\n", nome);
+            System.out.printf("Robo %s não está em um ambiente\n", id);
             return false;
         }
     }
@@ -139,7 +139,7 @@ public abstract class Robo{
 
             return false;
         } else {
-            System.out.printf("Robo %s não está em um ambiente\n", nome);
+            System.out.printf("Robo %s não está em um ambiente\n", id);
             return false;
         }
     }
@@ -270,7 +270,7 @@ public abstract class Robo{
 
     @Override
     public String toString() {
-        return String.format("%s [%s]", getClass().getSimpleName(), nome);
+        return String.format("%s [%s]", getClass().getSimpleName(), id);
     }
 
 

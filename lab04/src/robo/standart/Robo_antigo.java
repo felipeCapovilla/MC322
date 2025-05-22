@@ -13,7 +13,7 @@ import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
 
 
-public class Robo implements Entidade
+public class Robo_antigo implements Entidade
 {
     private Ambiente ambiente_atual;
     private String nome;
@@ -37,7 +37,7 @@ public class Robo implements Entidade
     /**
      * Construtor da classe Robo.
      */
-    public Robo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
+    public Robo_antigo(String nome, int posicaoX, int posicaoY, Bussola direcao) {
         this.nome = nome;
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
