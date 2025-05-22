@@ -106,11 +106,25 @@ public class Ambiente {
      * true se contém o elemento
      */
     public boolean removerEntidade(Entidade ent){
+        if(ent == null){
+            return false;
+        }
+
+
         if(entidades.contains(ent)){
-            mapa[ent.getX()][ent.getY()][ent.getZ()] = TipoEntidade.VAZIO;
+
+            //Remove Obstáculos 1x1
+            if(ent instanceof Obstaculo){
+                for(int curZ = 0; curZ < ent.getZ(); curZ++){
+                    mapa[ent.getX()][ent.getY()][curZ] = TipoEntidade.VAZIO;
+                }
+            } else {
+                //Remove outras entidades
+                mapa[ent.getX()][ent.getY()][ent.getZ()] = TipoEntidade.VAZIO;
+            }
+            
 
             entidades.remove(ent);
-
             return true;
         }
 

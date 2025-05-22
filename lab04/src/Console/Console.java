@@ -1,6 +1,7 @@
 package Console;
 
 import ambiente.*;
+import constantes.TipoObstaculo;
 import java.util.Scanner;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
@@ -999,9 +1000,9 @@ public class Console {
             //Opções
             System.out.println("| [1] Mover Robo                   |");
             System.out.println("| [2] Visualizar arredores         |");
-            System.out.println("| [3] Mudar peso                   |");
-            System.out.println("| [4] Mudar velocidade maxima      |");
-            System.out.println("| [5] Monitorar sensores           |");
+            System.out.println("| [3] Mudar velocidade maxima      |");
+            System.out.println("| [4] Monitorar sensores           |");
+            System.out.println("| [5] Iniciar Tarefa               |");
             System.out.println("| [6] Info                         |");
 
             System.out.println("| [99] Voltar                      |");
@@ -1056,15 +1057,6 @@ public class Console {
                     break;
 
                 case 3:
-                    //Mudar peso
-                    System.out.print("Indicar novo peso: ");
-                    resposta = scannerNumber();
-
-                    robo.setPeso(resposta);
-
-                    break;
-
-                case 4:
                     //Mudar velocidade máxima
                     System.out.print("Indicar nova velocidade maxima: ");
                     resposta = scannerNumber();
@@ -1073,7 +1065,7 @@ public class Console {
 
                     break;
 
-                case 5:
+                case 4:
                     //Monitora os sensores do robo
                     if(robo.get_SensorTemperatura() == null){
                         System.out.println("Sensor de temperatura nao instalado");
@@ -1090,6 +1082,16 @@ public class Console {
                     }
                     break;
 
+                case 5:
+                    //Iniciar tarefa
+                    if(!robo.isTarefaAtiva()){
+                        robo.executarTarefa();
+                    } else {
+                        System.out.println("Tarefa já iniciada");
+                    }                    
+
+                    break;
+
                 case 6:
                     //Info
                     System.out.println("Nome: " + robo.getID());
@@ -1104,6 +1106,25 @@ public class Console {
                     } catch (Exception e) {
                         System.out.println("Temperatura: Sensor de temperatura nao instalado");
                     }
+
+                    if(robo.isTarefaAtiva()){
+                        System.out.println("Status da tarefa: ATIVO");
+                        System.out.println("\tCaixas coletadas: " + robo.getCaixasPegas());
+                        System.out.println("\tCaixas faltando: " + (robo.getCaixasTotal() - robo.getCaixasPegas()));
+
+                        for(Obstaculo obst : ambiente.getObstaculos()){
+                            if(obst.getTipoObstaculo() == TipoObstaculo.CAIXA){
+                                System.out.println(String.format("\t- CAIXA em: (%d,%d)", obst.getX(), obst.getY()));
+                            }
+                        }
+
+                        
+
+                    } else {
+                        System.out.println("Status da tarefa: INATIVO");
+                    }
+
+
                     break;
 
                 case 99:

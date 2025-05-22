@@ -1,17 +1,28 @@
 package robo.terrestre.pedestre;
 
+import ambiente.Obstaculo;
 import constantes.Bussola;
+import constantes.TipoEntidade;
+import constantes.TipoObstaculo;
+import exceptions.ColisaoException;
+import exceptions.PointOutOfMapException;
+import java.util.Random;
 import robo.terrestre.standart.*;
 
 public class RoboPedestre extends RoboTerrestre{
     
     private int peso;
 
+    //Variáveis da tarefa
+    private int numCaixasTotal = 0;
+    private int numCaixasPegas = 0;
+
+    //private ArrayList<Obstaculo> caixasNoMapa = new ArrayList<>();
+
 
     public RoboPedestre(String nome,int posicaoX, int posicaoY, Bussola direcao, int velocidadeMaxima){
         super (nome,posicaoX, posicaoY, direcao,velocidadeMaxima);
         peso = 0;
-
     }
 
     /**
@@ -40,10 +51,88 @@ public class RoboPedestre extends RoboTerrestre{
             deltaX = (int)((deltaX/velAtual) * (getVelocidadeMaxima()*fator_movimento));
             deltaY = (int)((deltaY/velAtual) * (getVelocidadeMaxima()*fator_movimento));
 
-        } 
+        }
+
+        //Tarefa
+        if(isTarefaAtiva()){
+            if(get_ambiente().getMapa()[getX()+deltaX][getY()+deltaY][getZ()] == TipoEntidade.OBSTACULO){
+                for (Obstaculo obst : get_ambiente().getObstaculos()) {
+                    if(obst.estaDentro(getX()+deltaX,getY()+deltaY,getZ())){
+                        System.err.println("Caixa coletada!");
+                        numCaixasPegas++;
+                        setPeso( getPeso() + 5);
+
+                        get_ambiente().removerEntidade(obst);
+                    }
+                }
+            }
+
+            if(numCaixasPegas == numCaixasTotal){
+                finalizarTarefa();
+            }
+        }
         
+        //Movimentação
         super.mover(deltaX, deltaY);
     }
+
+
+    @Override
+    public void executarTarefa(){
+        setTarefaAtiva(true);
+        Random random = new Random();
+
+        numCaixasTotal = random.nextInt(7) + 1;
+        numCaixasPegas = 0;
+
+        int caiX;
+        int caiY;
+        boolean running;
+
+        for(int i = 0; i<numCaixasTotal; i++){
+            do { 
+                try {
+                    caiX = random.nextInt(get_ambiente().get_largura());
+                    caiY = random.nextInt(get_ambiente().get_comprimento());
+
+                    get_ambiente().adicionarObstaculo(caiX, caiY, TipoObstaculo.CAIXA);
+
+                    running = false;
+                } catch (ColisaoException | PointOutOfMapException e) {
+                    running = true;
+                }
+            } while (running);
+        }
+
+        System.out.println("Tarefa Iniciada!");
+        detectarCaixas();
+    }
+
+    public void finalizarTarefa(){
+        System.out.println("Tarefa Finalizada!");
+        setTarefaAtiva(false);
+        setPeso(0);
+    }
+
+    private void detectarCaixas(){
+        for(Obstaculo obst : get_ambiente().getObstaculos()){
+            if(obst.getTipoObstaculo() == TipoObstaculo.CAIXA){
+                System.out.println(String.format("CAIXA EM: (%d,%d)", obst.getX(), obst.getY()));
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * define o valor da variável largura <p>
@@ -62,6 +151,14 @@ public class RoboPedestre extends RoboTerrestre{
      */
     public int getPeso() {
         return peso;
+    }
+
+    public int getCaixasTotal() {
+        return numCaixasTotal;
+    }
+
+    public int getCaixasPegas() {
+        return numCaixasPegas;
     }
 
 }

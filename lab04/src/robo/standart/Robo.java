@@ -5,7 +5,6 @@ import ambiente.Obstaculo;
 import constantes.*;
 import exceptions.*;
 import interfaces.Entidade;
-import java.awt.geom.IllegalPathStateException;
 import java.util.ArrayList;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
@@ -21,6 +20,8 @@ public abstract class Robo implements Entidade{
     private int posY;
     private int posZ;
     private EstadoRobo estado;
+
+    private boolean tarefaAtiva = false;
 
 
     private final TipoEntidade tipoEntidade = TipoEntidade.ROBO;
@@ -61,8 +62,8 @@ public abstract class Robo implements Entidade{
             throw new NullPointerException();
         }
 
-        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY,(int) getZ())){
-            if(detectarColisoes(posX + deltaX, posY + deltaY, (int) getZ())){
+        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY, getZ())){
+            if(detectarColisoes(posX + deltaX, posY + deltaY, getZ())){
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
                 ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ);
 
@@ -73,7 +74,7 @@ public abstract class Robo implements Entidade{
             }
                 
         } else if((int) getZ() == -1){
-            throw  new IllegalPathStateException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
+            throw  new SensorMissingException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
         } else {
             throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posX + "," + posY + ")");
         }
@@ -313,6 +314,14 @@ public abstract class Robo implements Entidade{
     //Metodos abstratos.
 
     public abstract void executarTarefa();
+
+    public boolean isTarefaAtiva() {
+        return tarefaAtiva;
+    }
+
+    public void setTarefaAtiva(boolean tarefaAtiva) {
+        this.tarefaAtiva = tarefaAtiva;
+    }
 
 }
 

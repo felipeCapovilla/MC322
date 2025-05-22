@@ -15,6 +15,7 @@ public class Obstaculo implements Entidade{
     final private int altura;
     final private TipoObstaculo tipoObstaculo;
 
+
     private final TipoEntidade tipoEntidade = TipoEntidade.OBSTACULO;
 
     /**
@@ -136,6 +137,10 @@ public class Obstaculo implements Entidade{
     @Override
     public int getZ() {
         return  altura;
+    }
+
+    public TipoObstaculo getTipoObstaculo() {
+        return tipoObstaculo;
     }
 
     @Override
