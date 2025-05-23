@@ -20,6 +20,7 @@ public class RoboAereo extends Robo implements Battery {
         
         super(nome,posicaoX, posicaoY, altitude, direcao); //Chama o construtor da super-classe Robo.
         this.altitude = altitude;
+        
         this.altitude_max = altitude_max;
     }
 
@@ -48,6 +49,7 @@ public class RoboAereo extends Robo implements Battery {
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() + metros)){
             descarregar(pesoBateria);
 
+            mover(0, 0, altitude);
             this.altitude+=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
@@ -76,6 +78,7 @@ public class RoboAereo extends Robo implements Battery {
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() - metros)){
             descarregar(pesoBateria);
 
+            mover(0, 0, -metros);
             this.altitude-=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
@@ -83,13 +86,12 @@ public class RoboAereo extends Robo implements Battery {
         }
     }
 
-    @Override
     public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException {
         int pesoBateria = 5;//quanto gasta de bateria
 
         if(pesoBateria <= bateria){
             //Evitar de mover mesmo com bateria baixa ou perder bateria em um movimento inválido
-            super.mover(deltaX, deltaY);
+            super.mover(deltaX, deltaY, 0);
             descarregar(pesoBateria);
         } else {
             descarregar(pesoBateria);//joga o erro de lowBattery

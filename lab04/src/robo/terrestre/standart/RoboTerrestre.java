@@ -19,7 +19,6 @@ public class RoboTerrestre extends Robo{
      * @param deltaX
      * @param deltaY
      */
-    @Override
     public void mover(int deltaX, int deltaY){
         double velAtual = Math.sqrt((deltaX*deltaX + deltaY*deltaY));
 
@@ -28,7 +27,7 @@ public class RoboTerrestre extends Robo{
             deltaY = (int)((deltaY/velAtual) * velocidadeMaxima);
         } 
 
-        super.mover(deltaX, deltaY);
+        super.mover(deltaX, deltaY, 0);
         
     }
 
@@ -59,4 +58,6 @@ public class RoboTerrestre extends Robo{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
+
+
 }
