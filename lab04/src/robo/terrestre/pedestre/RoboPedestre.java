@@ -54,7 +54,7 @@ public class RoboPedestre extends RoboTerrestre{
         }
 
         //Tarefa
-        if(isTarefaAtiva()){
+        if(isTarefaAtiva() && get_ambiente().dentroDosLimites(getX()+deltaX, getY()+deltaY, getZ())){
             if(get_ambiente().getMapa()[getX()+deltaX][getY()+deltaY][getZ()] == TipoEntidade.OBSTACULO){
                 for (Obstaculo obst : get_ambiente().getObstaculos()) {
                     if(obst.estaDentro(getX()+deltaX,getY()+deltaY,getZ())){

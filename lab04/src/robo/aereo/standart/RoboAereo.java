@@ -1,14 +1,20 @@
 package robo.aereo.standart;
 
 import constantes.Bussola;
+import exceptions.ColisaoException;
+import exceptions.LowBatteryException;
+import exceptions.PointOutOfMapException;
+import interfaces.Battery;
 import java.awt.geom.IllegalPathStateException;
 import robo.standart.*;
 import sensor.altitude.SensorAltitude;
 
-public class RoboAereo extends Robo {
+public class RoboAereo extends Robo implements Battery {
     
     private int altitude;
     private final int altitude_max;
+    private int bateria = 100;
+    private final int carregarBateria = 20;
 
     public RoboAereo(String nome,int posicaoX, int posicaoY,Bussola direcao, int altitude,int altitude_max){
         
@@ -23,11 +29,13 @@ public class RoboAereo extends Robo {
      * @param metros Indica quantos metros ele deve subir.
      */
     public void subir(int metros){
+        int pesoBateria = 10;//quanto gasta de bateria
         
         if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
             if(this.get_ambiente().get_altura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
                 throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar os limites do ambiente.");
-        }
+        }  
+
 
         if(this.altitude + metros > this.altitude_max){ //Verifica se a altura pode ser atingida por conta das limitações do robo.
             throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar "+this.altitude_max+"m."); 
@@ -38,6 +46,8 @@ public class RoboAereo extends Robo {
         }
 
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() + metros)){
+            descarregar(pesoBateria);
+
             this.altitude+=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
@@ -53,6 +63,8 @@ public class RoboAereo extends Robo {
      * @param metros Indica quantos metros ele vai descer.
      */
     public void descer(int metros){
+        int pesoBateria = 10;//quanto gasta de bateria
+
         if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
             throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
         }
@@ -62,12 +74,28 @@ public class RoboAereo extends Robo {
         }
         
         if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() - metros)){
+            descarregar(pesoBateria);
+
             this.altitude-=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
             throw new IllegalArgumentException("Posicao ja ocupada");
         }
     }
+
+    @Override
+    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException {
+        int pesoBateria = 5;//quanto gasta de bateria
+
+        if(pesoBateria <= bateria){
+            //Evitar de mover mesmo com bateria baixa ou perder bateria em um movimento inválido
+            super.mover(deltaX, deltaY);
+            descarregar(pesoBateria);
+        } else {
+            descarregar(pesoBateria);//joga o erro de lowBattery
+        }
+    }
+
 
     /**
      * Sobreescreve o metodo adicionar_sensorAltitude pois aqui o robo ja pode ter altitude, a qual e passada pelo sensor.
@@ -135,6 +163,21 @@ public class RoboAereo extends Robo {
     public void executarTarefa() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
+    }
+
+
+    @Override
+    public void carregar() {
+        bateria = Math.min(bateria + carregarBateria, 100);
+    }
+
+    @Override
+    public void descarregar(int descarga) throws LowBatteryException{
+        if(bateria >= descarga){
+            bateria -= descarga;
+        } else {
+            throw new LowBatteryException(bateria + "%");
+        }
     }
 
 }
