@@ -58,7 +58,7 @@ public class Console {
             //Opções
             System.out.println("| [1] Ver Ambiente                 |");
             System.out.println("| [2] Ver Robos                    |");
-            System.out.println("| [99] Sair                        |");
+            System.out.println("| [0] Sair                         |");
 
             System.out.println("+----------------------------------+");
 
@@ -75,7 +75,7 @@ public class Console {
                     //roboMenu
                     roboMenu();
                     break;
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -103,7 +103,7 @@ public class Console {
             //Opções
             System.out.println("| [1] Visualizar Ambiente          |");
             System.out.println("| [2] Info                         |");
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -137,7 +137,7 @@ public class Console {
                     }
 
                     break;
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -179,7 +179,7 @@ public class Console {
 
             }
 
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -190,7 +190,7 @@ public class Console {
             if(resposta > 0 && resposta <= ambiente.get_robos_ativos()){
                 rotearRobo(ambiente.getListaRobos().get(resposta-1));
 
-            } else if(resposta == 99){
+            } else if(resposta == 0){
                 running = false;
             } else{
                 System.out.println("Opcao nao disponivel");
@@ -245,8 +245,9 @@ public class Console {
             System.out.println("| [2] Subir/Descer Robo            |");
             System.out.println("| [3] Visualizar arredores         |");
             System.out.println("| [4] Monitorar sensores           |");
-            System.out.println("| [5] Info                         |");
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [5] Carregar                     |");
+            System.out.println("| [6] Info                         |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -326,11 +327,17 @@ public class Console {
                     break;
 
                 case 5:
+                    robo.carregar();
+
+                    break;
+
+                case 6:
                     //Info
                     System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.println("Bateria: " + robo.getBateria() + "%");
                     
                     try {
                         System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
@@ -344,7 +351,7 @@ public class Console {
                     }
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -374,8 +381,9 @@ public class Console {
             System.out.println("| [3] Visualizar arredores         |");
             System.out.println("| [4] Iniciar/Finalizar missao     |");
             System.out.println("| [5] Monitorar sensores           |");
-            System.out.println("| [6] Info                         |");
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [6] Carregar                     |");
+            System.out.println("| [7] Info                         |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -492,11 +500,17 @@ public class Console {
                     break;
 
                 case 6:
+                    //Carregar
+                    robo.carregar();
+                    break;
+
+                case 7:
                     //Info
                     System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.println("Bateria: " + robo.getBateria() + "%");
                     
                     try {
                         System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
@@ -522,7 +536,7 @@ public class Console {
 
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -552,9 +566,10 @@ public class Console {
             System.out.println("| [3] Visualizar arredores         |");
             System.out.println("| [4] Iniciar/Finalizar passeio    |");
             System.out.println("| [5] Monitorar sensores           |");
-            System.out.println("| [6] Info                         |");
+            System.out.println("| [6] Carregar                     |");
+            System.out.println("| [7] Info                         |");
 
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -664,11 +679,17 @@ public class Console {
                     break;
 
                 case 6:
+                    //Carregar
+                    robo.carregar();
+                    break;
+
+                case 7:
                     //Info
                     System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
                     System.out.printf("Posicao atual: (%d,%d)\n", robo.get_posicao()[0], robo.get_posicao()[1]);
                     System.out.println("Direcao atual: " + robo.getDirecao());
+                    System.out.println("Bateria: " + robo.getBateria() + "%");
                     
                     try {
                         System.out.printf("Altitude: (%.2f\u00b1%.2f)m\n", robo.get_SensorAltitude().get_altitude(), robo.get_SensorAltitude().get_incerteza());
@@ -692,7 +713,7 @@ public class Console {
 
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -722,7 +743,7 @@ public class Console {
             System.out.println("| [3] Mudar velocidade maxima      |");
             System.out.println("| [4] Monitorar sensores           |");
             System.out.println("| [5] Info                         |");
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -801,7 +822,7 @@ public class Console {
                     }
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -835,7 +856,7 @@ public class Console {
             System.out.println("| [7] Monitorar sensores           |");
             System.out.println("| [8] Info                         |");
 
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -972,7 +993,7 @@ public class Console {
                     }
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:
@@ -1005,7 +1026,7 @@ public class Console {
             System.out.println("| [5] Iniciar Tarefa               |");
             System.out.println("| [6] Info                         |");
 
-            System.out.println("| [99] Voltar                      |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -1127,7 +1148,7 @@ public class Console {
 
                     break;
 
-                case 99:
+                case 0:
                     running = false;
                     break;
                 default:

@@ -180,4 +180,9 @@ public class RoboAereo extends Robo implements Battery {
         }
     }
 
+    @Override
+    public int getBateria() {
+        return bateria;
+    }
+
 }

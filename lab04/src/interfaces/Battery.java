@@ -12,6 +12,8 @@ public interface Battery {
      */
     public void descarregar(int descarga);
 
+    public int getBateria();
+
 
 
 }

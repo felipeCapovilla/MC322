@@ -1,16 +1,16 @@
 package central_comunicacao;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.utils.ArrayList;
 
 public class CentralComunicacao{
 
-    private ArrayList<String> mensagens;
-    private ArrayList<String> remetentes_associados; //Array com remetentes das mensagens.
+    private final ArrayList<String> mensagens;
+    private final ArrayList<String> remetentes_associados; //Array com remetentes das mensagens.
 
     public CentralComunicacao(){
-        this.mensagens = new ArrayList<String>();
-        this.remetentes_associados = new ArrayList<String>();
+        this.mensagens = new ArrayList<>();
+        this.remetentes_associados = new ArrayList<>();
     }
 
     /**
@@ -36,7 +36,7 @@ public class CentralComunicacao{
      * Retorna a quantidade de mensagens acumuladas na central.
      */
     public int get_quantidadeMensagens(){
-        return mensagens.size()
+        return mensagens.size();
     }
 
 
@@ -47,7 +47,7 @@ public class CentralComunicacao{
         int indice = mensagens.indexOf(mensagem);
         
         if(indice == -1){ //Mensagem nao encontrada.
-            throw new NoSuchElementException("Mensagem nao encontrada.")
+            throw new NoSuchElementException("Mensagem nao encontrada.");
         }
 
         return remetentes_associados.get(indice);
