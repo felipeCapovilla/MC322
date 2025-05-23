@@ -1,6 +1,7 @@
 package robo.terrestre.veiculo;
 
 import constantes.*;
+import exceptions.*;
 import interfaces.*;
 import robo.standart.Robo;
 import robo.terrestre.standart.RoboTerrestre;
@@ -12,7 +13,7 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
 
     private final int vidaMax = 5;
     private int vida;
-    private final int dano = 1;
+    private final int dano = 6;
 
     
     public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo){
@@ -28,7 +29,11 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
      * Muda a velocidade do veiculo
      * @param velocidade
      */
-    public void mudarVelocidade(int velocidade){
+    public void mudarVelocidade(int velocidade) throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
         if(velocidade < 0){
             this.velocidade = 0;
         } else if(velocidade > getVelocidadeMaxima()){
@@ -42,7 +47,15 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
      * Vira a direção do robo para direita ou esquerda em relação à direção atual
      * @param direita direita(true) ou esquerda(false)
      */
-    public void virar(boolean direita){
+    public void virar(boolean direita) throws ZeroLifePointsException, RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
+        if(vida <= 0){
+            throw new ZeroLifePointsException();
+        }
+
         int index = getDirecao().getIndice();
 
         //direita(1) e esquerda(-1)
@@ -56,7 +69,12 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
      * Overload <p>
      * Adiciona a velocidade no valor da coordenada atual, apenas no sentido da direção.
      */
-    public void mover(boolean frente){
+    public void mover(boolean frente) throws ZeroLifePointsException, NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{
+        if(vida <= 0){
+            throw new ZeroLifePointsException();
+        }
+
+
         int marcha = (frente)? 1:-1;
         int indecDirecao = getDirecao().getIndice();
 
@@ -103,9 +121,15 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
      * true = ataque com sucesso <p/>
      * false = atalho falhou
      */
-    public boolean atacarFrente() throws NullPointerException{
+    public boolean atacarFrente() throws NullPointerException, ZeroLifePointsException, RoboDesligadoException{
         if(get_ambiente() == null){
             throw new NullPointerException();
+        }
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+        if(vida <= 0){
+            throw new ZeroLifePointsException();
         }
 
         int atkX = getX();
@@ -155,7 +179,11 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
     /**
      * Repara 2 ponto de vida para o robo
      */
-    public void reparar(){
+    public void reparar() throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
         int curaVida = 2;
 
         repairLife(curaVida);

@@ -1,6 +1,9 @@
 package robo.terrestre.standart;
 
 import constantes.Bussola;
+import exceptions.ColisaoException;
+import exceptions.PointOutOfMapException;
+import exceptions.RoboDesligadoException;
 import robo.standart.Robo;
 
 public class RoboTerrestre extends Robo{
@@ -19,7 +22,7 @@ public class RoboTerrestre extends Robo{
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY){
+    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{
         double velAtual = Math.sqrt((deltaX*deltaX + deltaY*deltaY));
 
         if(velAtual >= velocidadeMaxima){ //altera o deslocamento para o máximo possível que é menor do que a velocidade máxima
@@ -55,7 +58,7 @@ public class RoboTerrestre extends Robo{
 
     @Override
     public void executarTarefa() {
-        // TODO Auto-generated method stub
+        // Robo Terrestre não implementa tarefa
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
 

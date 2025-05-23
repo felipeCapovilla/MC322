@@ -23,7 +23,6 @@ public abstract class Robo implements Entidade{
 
     private boolean tarefaAtiva = false;
 
-
     private final TipoEntidade tipoEntidade = TipoEntidade.ROBO;
 
     private SensorTemperatura sensor_temperatura;
@@ -57,10 +56,14 @@ public abstract class Robo implements Entidade{
      * @param deltaY
      */
 
-    public void mover(int deltaX, int deltaY, int deltaZ) throws NullPointerException, ColisaoException, PointOutOfMapException{ 
+    public void mover(int deltaX, int deltaY, int deltaZ) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{ 
         if(this.ambiente_atual == null){
             throw new NullPointerException();
         }
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
 
         if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY, posZ+deltaZ)){
             if(detectarColisoes(posX + deltaX, posY + deltaY, posZ + deltaZ)){
@@ -94,6 +97,13 @@ public abstract class Robo implements Entidade{
      */
     public void desligar(){
         this.estado = EstadoRobo.DESLIGADO;
+    }
+
+    /**
+     * Retorna se o robo está ligado
+     */
+    public boolean isLigado(){
+        return estado == EstadoRobo.LIGADO;
     }
 
     /**
@@ -197,13 +207,6 @@ public abstract class Robo implements Entidade{
     public void set_sensorEspacial(SensorEspacial novo_sensor){
         this.sensor_espacial = novo_sensor;
     }
-    
-    /**
-     * @return vetor com duas posicoes, que sao (x,y) do robo.
-     */
-    public int[] get_posicao(){
-        return new int[]{this.posX, this.posY};
-    }
 
     /**
      * Retorna a altura do robo
@@ -237,21 +240,32 @@ public abstract class Robo implements Entidade{
     /**
      * Retorna o objeto sensorTemperatura associado ao robo.
      */
-    public SensorTemperatura get_SensorTemperatura(){
+    public SensorTemperatura get_SensorTemperatura() throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
         return this.sensor_temperatura;
     }
 
     /**
      * Retorna o objeto sensorAltitude associado ao robo.
      */
-    public SensorAltitude get_SensorAltitude(){
+    public SensorAltitude get_SensorAltitude() throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
         return this.sensor_altitude;
     }
 
     /**
      * Retorna o objeto sensorEspacial associado ao robo.
      */
-    public SensorEspacial get_SensorEspacial(){
+    public SensorEspacial get_SensorEspacial() throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
+
         return this.sensor_espacial;
     }
 

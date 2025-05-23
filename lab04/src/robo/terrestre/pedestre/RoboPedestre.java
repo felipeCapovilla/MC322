@@ -1,15 +1,13 @@
 package robo.terrestre.pedestre;
 
 import ambiente.Obstaculo;
-import constantes.Bussola;
-import constantes.TipoEntidade;
-import constantes.TipoObstaculo;
-import exceptions.ColisaoException;
-import exceptions.PointOutOfMapException;
+import constantes.*;
+import exceptions.*;
+import interfaces.Destructible;
 import java.util.Random;
 import robo.terrestre.standart.*;
 
-public class RoboPedestre extends RoboTerrestre{
+public class RoboPedestre extends RoboTerrestre implements Destructible{
     
     private int peso;
 
@@ -17,12 +15,17 @@ public class RoboPedestre extends RoboTerrestre{
     private int numCaixasTotal = 0;
     private int numCaixasPegas = 0;
 
+    //Variáveis da interface
+    private final int vidaMax = 5;
+    private int vida;
+
     //private ArrayList<Obstaculo> caixasNoMapa = new ArrayList<>();
 
 
     public RoboPedestre(String nome,int posicaoX, int posicaoY, Bussola direcao, int velocidadeMaxima){
         super (nome,posicaoX, posicaoY, direcao,velocidadeMaxima);
         peso = 0;
+        vida = vidaMax;
     }
 
     /**
@@ -33,7 +36,11 @@ public class RoboPedestre extends RoboTerrestre{
      * caminhar-> até 0.6 * velocidade máxima
      * @param correr correr(true) ou caminhar(false)
      */
-    public void mover(boolean correr, int deltaX, int deltaY){
+    public void mover(boolean correr, int deltaX, int deltaY) throws ZeroLifePointsException, NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{
+        if(vida <= 0){
+            throw new ZeroLifePointsException();
+        }
+
         //Decide para correr ou caminhar
         double fator_movimento = (correr)? 1 : 0.6;
 
@@ -76,7 +83,20 @@ public class RoboPedestre extends RoboTerrestre{
         super.mover(deltaX, deltaY);
     }
 
+    /**
+     * Repara 2 ponto de vida para o robo
+     */
+    public void reparar() throws RoboDesligadoException{
+        if(!isLigado()){
+            throw new RoboDesligadoException();
+        }
 
+        int curaVida = 2;
+
+        repairLife(curaVida);
+    }
+
+    //Tarefa
     @Override
     public void executarTarefa(){
         setTarefaAtiva(true);
@@ -124,16 +144,6 @@ public class RoboPedestre extends RoboTerrestre{
 
 
 
-
-
-
-
-
-
-
-
-
-
     /**
      * define o valor da variável largura <p>
      * <p>
@@ -159,6 +169,22 @@ public class RoboPedestre extends RoboTerrestre{
 
     public int getCaixasPegas() {
         return numCaixasPegas;
+    }
+
+    //Interface
+    @Override
+    public void takeDamage(int damage) {
+        vida = Math.max(0, vida-damage);
+    }
+
+    @Override
+    public void repairLife(int repair) {
+        vida = Math.min(vidaMax, vida + repair);
+    }
+
+    @Override
+    public int getVida(){
+        return vida;
     }
 
 }

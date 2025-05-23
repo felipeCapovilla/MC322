@@ -1,10 +1,8 @@
 package robo.aereo.standart;
 
-import constantes.Bussola;
-import exceptions.ColisaoException;
-import exceptions.LowBatteryException;
-import exceptions.PointOutOfMapException;
-import interfaces.Battery;
+import constantes.*;
+import exceptions.*;
+import interfaces.*;
 import java.awt.geom.IllegalPathStateException;
 import robo.standart.*;
 import sensor.altitude.SensorAltitude;
@@ -29,7 +27,7 @@ public class RoboAereo extends Robo implements Battery {
      * Adiciona a altura atual do robo.
      * @param metros Indica quantos metros ele deve subir.
      */
-    public void subir(int metros){
+    public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException{
         int pesoBateria = 10;//quanto gasta de bateria
         
         if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
@@ -46,7 +44,7 @@ public class RoboAereo extends Robo implements Battery {
             throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
         }
 
-        if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() + metros)){
+        if(detectarColisoes(getX(), getY(), (int) get_altitude() + metros)){
             descarregar(pesoBateria);
 
             mover(0, 0, altitude);
@@ -64,7 +62,7 @@ public class RoboAereo extends Robo implements Battery {
      * Subtrai a altura atual do robo.
      * @param metros Indica quantos metros ele vai descer.
      */
-    public void descer(int metros){
+    public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException{
         int pesoBateria = 10;//quanto gasta de bateria
 
         if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
@@ -75,7 +73,7 @@ public class RoboAereo extends Robo implements Battery {
             throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
         }
         
-        if(detectarColisoes(get_posicao()[0], get_posicao()[1], (int) get_altitude() - metros)){
+        if(detectarColisoes(getX(), getY(), (int) get_altitude() - metros)){
             descarregar(pesoBateria);
 
             mover(0, 0, -metros);
@@ -86,7 +84,10 @@ public class RoboAereo extends Robo implements Battery {
         }
     }
 
-    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException {
+    /**
+     * Move o Robo no plano XY
+     */
+    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException {
         int pesoBateria = 5;//quanto gasta de bateria
 
         if(pesoBateria <= bateria){
