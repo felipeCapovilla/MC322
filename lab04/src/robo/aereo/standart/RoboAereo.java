@@ -154,14 +154,6 @@ public class RoboAereo extends Robo implements Battery {
         return altitude_max;
     }
 
-
-    @Override
-    public String getDescricao() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
-    }
-
-
     @Override
     public void executarTarefa() {
         // TODO Auto-generated method stub

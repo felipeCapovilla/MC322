@@ -51,12 +51,6 @@ public class RoboTerrestre extends Robo{
     }
 
     @Override
-    public String getDescricao() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDescricao'");
-    }
-
-    @Override
     public void executarTarefa() {
         // Robo Terrestre não implementa tarefa
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");

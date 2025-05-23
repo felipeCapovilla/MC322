@@ -338,5 +338,10 @@ public abstract class Robo implements Entidade{
         this.tarefaAtiva = tarefaAtiva;
     }
 
+    @Override
+    public String getDescricao() {
+        return "Robo é uma entidade móvel que pode realizar diversas funções";
+    }
+
 }
 
