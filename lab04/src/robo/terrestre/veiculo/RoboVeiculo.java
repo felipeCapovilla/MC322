@@ -3,6 +3,7 @@ package robo.terrestre.veiculo;
 import constantes.*;
 import exceptions.*;
 import interfaces.*;
+import java.util.Random;
 import robo.standart.Robo;
 import robo.terrestre.standart.RoboTerrestre;
 
@@ -11,9 +12,14 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
     private final int passageiros_maximo;
     private int velocidade;
 
+    //Variáveis da interface
     private final int vidaMax = 5;
     private int vida;
-    private final int dano = 6;
+    private int dano = 1;
+
+    //Variáveis da tarefa
+    private int atkTotal = 0;
+    private int atkSucesso = 0;
 
     
     public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo){
@@ -164,6 +170,16 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
                         //Robo na área de ataque é destruível
                         atacar((Destructible) robo, dano);
 
+
+                        //Verificar Tarefa
+                        if(isTarefaAtiva()){
+                            atkSucesso++;
+
+                            if(atkSucesso == atkTotal){
+                                finalizarTarefa();
+                            }
+                        }
+
                         return true;
                     } else {
                         //Robo na área de ataque não é destruível
@@ -215,6 +231,30 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
         return vida;
     }
 
+    //Tarefa
+    @Override
+    public void executarTarefa(){
+        setTarefaAtiva(true);
+        Random random = new Random();
+
+        atkTotal = random.nextInt(4) + 1;
+        atkSucesso = 0;
+
+        System.out.println("Tarefa Iniciada!");
+        System.out.println(String.format("Realize %d Ataques com sucesso", atkTotal));
+    }
+
+    public void finalizarTarefa(){
+        System.out.println("Tarefa Finalizada!");
+        System.out.println("ATK damage +1");
+        setTarefaAtiva(false);
+        dano++;
+    }
+
+
+
+
+
     //GETs e SETs
 
     /**
@@ -243,6 +283,20 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
             this.passageiros = passageiros;    
         }
         
+    }
+
+    /**
+     * Retorna a quantidade de ataques necessários para a tarefa
+     */
+    public int getAtkTotal() {
+        return atkTotal;
+    }
+
+    /**
+     * Retorna a quantidade de ataques com sucesso dados na tarefa
+     */
+    public int getAtkSucesso() {
+        return atkSucesso;
     }
 
 }

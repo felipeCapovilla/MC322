@@ -1,7 +1,6 @@
 package Console;
 
 import ambiente.*;
-import constantes.*;
 import java.util.Scanner;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
@@ -957,12 +956,14 @@ public class Console {
                 System.out.println("| [4] Visualizar arredores         |");
                 System.out.println("| [5] Mudar velocidade maxima      |");
                 System.out.println("| [6] Mudar numero de passageiros  |");
-                System.out.println("| [7] Atacar                       |");
-                System.out.println("| [8] Reparar                      |");
+                System.out.println("| [7] Iniciar Tarefa               |");
 
-                System.out.println("| [9] Monitorar sensores           |");
-                System.out.println("| [10] Info                        |");
-                System.out.println("| [11] Desligar Robo                |");
+                System.out.println("| [8] Atacar                       |");
+                System.out.println("| [9] Reparar                      |");
+
+                System.out.println("| [10] Monitorar sensores          |");
+                System.out.println("| [11] Info                        |");
+                System.out.println("| [12] Desligar Robo               |");
 
                 System.out.println("| [0] Voltar                       |");
 
@@ -1066,8 +1067,18 @@ public class Console {
                         }
 
                         break;
-                    
+
                     case 7:
+                        //Iniciar tarefa
+                        if(!robo.isTarefaAtiva()){
+                            robo.executarTarefa();
+                        } else {
+                            System.out.println("Tarefa já iniciada");
+                        }                    
+
+                        break;
+                    
+                    case 8:
                         //Atacar
                         if(robo.atacarFrente()){
                             System.out.println("Ataque realizado com sucesso!");
@@ -1076,13 +1087,13 @@ public class Console {
                         }
                         break;
 
-                    case 8:
+                    case 9:
                         //Reparar
                         robo.reparar();
                         System.out.println("Vida reparada!");
                         break;
 
-                    case 9:
+                    case 10:
                         //Monitora os sensores do robo
                         if(robo.get_SensorTemperatura() == null){
                             System.out.println("Sensor de temperatura nao instalado");
@@ -1099,7 +1110,7 @@ public class Console {
                         }
                         break;
 
-                    case 10:
+                    case 11:
                         //Info
                         System.out.println("Status: " + robo.getEstado());
                         System.out.println("Nome: " + robo.getID());
@@ -1116,9 +1127,18 @@ public class Console {
                         } catch (Exception e) {
                             System.out.println("Temperatura: Sensor de temperatura nao instalado");
                         }
+
+                        if(robo.isTarefaAtiva()){
+                            System.out.println("Status da tarefa: ATIVO");
+                            System.out.println(String.format("\tAtaques bem-sucedidos: %d/%d", robo.getAtkSucesso(), robo.getAtkTotal()));
+
+                        } else {
+                            System.out.println("Status da tarefa: INATIVO");
+                        }
+
                         break;
 
-                    case 11:
+                    case 12:
                         //Desligar Robo
                         robo.desligar();
                         System.out.println("Robo Desligado");
@@ -1282,14 +1302,10 @@ public class Console {
                             System.out.println("\tCaixas coletadas: " + robo.getCaixasPegas());
                             System.out.println("\tCaixas faltando: " + (robo.getCaixasTotal() - robo.getCaixasPegas()));
 
-                            for(Obstaculo obst : ambiente.getObstaculos()){
-                                if(obst.getTipoObstaculo() == TipoObstaculo.CAIXA){
-                                    System.out.println(String.format("\t -CAIXA em: (%d,%d)", obst.getX(), obst.getY()));
-                                }
+                            for(Obstaculo obst : robo.getCaixas()){
+                                System.out.println(String.format("\t -CAIXA em: (%d,%d)", obst.getX(), obst.getY()));
+                                
                             }
-
-                            
-
                         } else {
                             System.out.println("Status da tarefa: INATIVO");
                         }

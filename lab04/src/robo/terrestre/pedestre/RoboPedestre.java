@@ -4,7 +4,9 @@ import ambiente.Obstaculo;
 import constantes.*;
 import exceptions.*;
 import interfaces.Destructible;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Collectors;
 import robo.terrestre.standart.*;
 
 public class RoboPedestre extends RoboTerrestre implements Destructible{
@@ -61,15 +63,18 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
         }
 
         //Tarefa
+        //obs.: Verifica se está dentro dos limite porque a verificação própria do método mover é feita no método super, depois deste bloco de código
         if(isTarefaAtiva() && get_ambiente().dentroDosLimites(getX()+deltaX, getY()+deltaY, getZ())){
             if(get_ambiente().getMapa()[getX()+deltaX][getY()+deltaY][getZ()] == TipoEntidade.OBSTACULO){
-                for (Obstaculo obst : get_ambiente().getObstaculos()) {
+                for (Obstaculo obst : getCaixas()) {
                     if(obst.estaDentro(getX()+deltaX,getY()+deltaY,getZ())){
                         System.err.println("Caixa coletada!");
                         numCaixasPegas++;
                         setPeso( getPeso() + 5);
 
                         get_ambiente().removerEntidade(obst);
+                        
+                        break;
                     }
                 }
             }
@@ -134,11 +139,15 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
         setPeso(0);
     }
 
+    public ArrayList<Obstaculo> getCaixas(){
+        return get_ambiente().getObstaculos().stream()
+            .filter((obst) -> obst.getTipoObstaculo() == TipoObstaculo.CAIXA)
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     private void detectarCaixas(){
-        for(Obstaculo obst : get_ambiente().getObstaculos()){
-            if(obst.getTipoObstaculo() == TipoObstaculo.CAIXA){
-                System.out.println(String.format("CAIXA EM: (%d,%d)", obst.getX(), obst.getY()));
-            }
+        for(Obstaculo obst : getCaixas()){
+            System.out.println(String.format("CAIXA EM: (%d,%d)", obst.getX(), obst.getY()));    
         }
     }
 
