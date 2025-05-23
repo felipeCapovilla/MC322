@@ -12,6 +12,9 @@ public interface Battery {
      */
     public void descarregar(int descarga);
 
+    /**
+     * Retorna o nível da bateria
+     */
     public int getBateria();
 
 

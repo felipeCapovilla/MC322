@@ -1,12 +1,18 @@
 package robo.terrestre.veiculo;
 
-import constantes.Bussola;
+import constantes.*;
+import interfaces.*;
+import robo.standart.Robo;
 import robo.terrestre.standart.RoboTerrestre;
 
-public class RoboVeiculo extends RoboTerrestre{
+public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker{
     private int passageiros;
     private final int passageiros_maximo;
     private int velocidade;
+
+    private final int vidaMax = 5;
+    private int vida;
+    private final int dano = 1;
 
     
     public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo){
@@ -14,6 +20,7 @@ public class RoboVeiculo extends RoboTerrestre{
         this.passageiros_maximo = passageiros_maximo;
         passageiros = 0;
         velocidade = 0;
+        vida = vidaMax;
 
     }
 
@@ -89,6 +96,95 @@ public class RoboVeiculo extends RoboTerrestre{
      */
     public void passageirosEntrar(int num_passageiros){
         passageiros = Math.min(passageiros_maximo, passageiros+num_passageiros); //não entra mais passageiros que a capacidade máxima
+    }
+
+    /**
+     * Ataca um robo Destructble na direção atual <p/>
+     * true = ataque com sucesso <p/>
+     * false = atalho falhou
+     */
+    public boolean atacarFrente() throws NullPointerException{
+        if(get_ambiente() == null){
+            throw new NullPointerException();
+        }
+
+        int atkX = getX();
+        int atkY = getY();
+
+        switch (getDirecao()) {
+            case Bussola.NORTE:
+                atkY++;
+                break;
+            case Bussola.SUL:
+                atkY--;
+                break;
+            case Bussola.LESTE:
+                atkX++;
+                break;
+            case Bussola.OESTE:
+                atkX--;
+                break;
+            default:
+                throw new AssertionError("Direção inválida");
+        }
+
+        if(!get_ambiente().dentroDosLimites(atkX, atkY, 0)){
+            return false;
+        }
+
+        if(get_ambiente().getMapa()[atkX][atkY][0] == TipoEntidade.ROBO){
+            //Verifica se há um robo na área de ataque
+            for (Robo robo : get_ambiente().getListaRobos()) {
+                if(robo.getX() == atkX && robo.getY() == atkY && robo.getZ() == 0){
+                    if(robo instanceof Destructible){
+                        //Robo na área de ataque é destruível
+                        atacar((Destructible) robo, dano);
+
+                        return true;
+                    } else {
+                        //Robo na área de ataque não é destruível
+                        break;
+                    }
+                }       
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Repara 2 ponto de vida para o robo
+     */
+    public void reparar(){
+        int curaVida = 2;
+
+        repairLife(curaVida);
+    }
+
+
+
+
+
+    //Interfaces
+
+    @Override
+    public void atacar(Destructible ent, int damage) {
+        ent.takeDamage(damage);
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        vida = Math.max(0, vida-damage);
+    }
+
+    @Override
+    public void repairLife(int repair) {
+        vida = Math.min(vidaMax, vida + repair);
+    }
+
+    @Override
+    public int getVida(){
+        return vida;
     }
 
     //GETs e SETs

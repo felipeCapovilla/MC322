@@ -33,7 +33,10 @@ public class Main {
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
         RoboVoadorExplorador roboAereoExplorador = new RoboVoadorExplorador("explorador",80,65,Bussola.LESTE,41,50,100);
         RoboTerrestre roboTerrestre = new RoboTerrestre("terra",30,30,Bussola.SUL,20);
+        
         RoboVeiculo roboTerrestreVeiculo = new RoboVeiculo("carro",75,25,Bussola.OESTE,120,120);
+        RoboVeiculo roboTerrestreVeiculo2 = new RoboVeiculo("marquinhos",74,25,Bussola.LESTE,120,120);
+
         RoboPedestre roboTerrestrePedestre = new RoboPedestre("andarilho", 1, 1, Bussola.SUL, 20);
 
         RoboAereo roboSemSensor = new RoboAereo("noSense", 0, 0, Bussola.NORTE, 90, 99);
@@ -71,6 +74,7 @@ public class Main {
         ambiente.adicionarRobo(roboTerrestreVeiculo);
         ambiente.adicionarRobo(roboTerrestrePedestre);
         ambiente.adicionarRobo(roboSemSensor);
+        ambiente.adicionarRobo(roboTerrestreVeiculo2);
 
             //Adicionar Obstáculos no ambiente
         ambiente.adicionarObstaculo(40, 40, 45, 45, TipoObstaculo.BURACO);

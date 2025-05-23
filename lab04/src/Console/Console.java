@@ -1,7 +1,7 @@
 package Console;
 
 import ambiente.*;
-import constantes.TipoObstaculo;
+import constantes.*;
 import java.util.Scanner;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
@@ -853,8 +853,11 @@ public class Console {
             System.out.println("| [4] Visualizar arredores         |");
             System.out.println("| [5] Mudar velocidade maxima      |");
             System.out.println("| [6] Mudar numero de passageiros  |");
-            System.out.println("| [7] Monitorar sensores           |");
-            System.out.println("| [8] Info                         |");
+            System.out.println("| [7] Atacar                       |");
+            System.out.println("| [8] Reparar                      |");
+
+            System.out.println("| [9] Monitorar sensores           |");
+            System.out.println("| [10] Info                        |");
 
             System.out.println("| [0] Voltar                       |");
 
@@ -958,8 +961,23 @@ public class Console {
                     }
 
                     break;
-
+                
                 case 7:
+                    //Atacar
+                    if(robo.atacarFrente()){
+                        System.out.println("Ataque realizado com sucesso!");
+                    }else {
+                        System.out.println("Ataque falhou");
+                    }
+                    break;
+
+                case 8:
+                    //Reparar
+                    robo.reparar();
+                    System.out.println("Vida reparada!");
+                    break;
+
+                case 9:
                     //Monitora os sensores do robo
                     if(robo.get_SensorTemperatura() == null){
                         System.out.println("Sensor de temperatura nao instalado");
@@ -976,7 +994,7 @@ public class Console {
                     }
                     break;
 
-                case 8:
+                case 10:
                     //Info
                     System.out.println("Nome: " + robo.getID());
                     System.out.println("Modelo: " + robo.getClass().getSimpleName());
@@ -985,6 +1003,7 @@ public class Console {
                     System.out.printf("Velocidade atual: %dm/s\n", robo.getVelocidade());
                     System.out.printf("Velocidade maxima: %dm/s\n", robo.getVelocidadeMaxima());
                     System.out.println("Numeros passageiros: "+ robo.getPassageiros());
+                    System.out.println("Vida: " + robo.getVida());
 
                     try {
                         System.out.printf("Temperatura: (%.2f\u00b1%.2f)K\n", robo.get_SensorTemperatura().get_temperaturaKelvin(), robo.get_SensorTemperatura().get_incerteza());

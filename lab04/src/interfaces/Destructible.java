@@ -13,4 +13,9 @@ public interface Destructible {
      */
     public void repairLife(int repair);
 
+    /**
+     * Retorna quanta vida a entidade possui
+     */
+    public int getVida();
+
 }
