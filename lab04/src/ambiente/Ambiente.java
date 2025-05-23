@@ -337,7 +337,58 @@ public class Ambiente {
 
     //TODO ver o que significa
     public void executarSensores(){}
-    public void verificarColisoes(){}
+
+    /**
+     * Verifica se há colisões entre as entidades
+     */
+    public void verificarColisoes(){
+        for (Entidade entPrincipal : entidades) {
+            for (Entidade entComparada : entidades) {
+
+                if(!entPrincipal.equals(entComparada)){
+
+                    if(entPrincipal instanceof Obstaculo){
+                        if(entComparada instanceof Obstaculo){
+                            if(((Obstaculo )entPrincipal).getPontoMenor()[0] > ((Obstaculo) entComparada).getPontoMaior()[0] || ((Obstaculo) entComparada).getPontoMenor()[0] > ((Obstaculo )entPrincipal).getPontoMaior()[0]){
+                                //Verifica se um obstáculo está totalmente a direita ou esquerda do outro
+                                continue;
+                            }
+                            if (((Obstaculo )entPrincipal).getPontoMenor()[1] > ((Obstaculo) entComparada).getPontoMaior()[1] || ((Obstaculo) entComparada).getPontoMenor()[1] > ((Obstaculo )entPrincipal).getPontoMaior()[1]) {
+                                //Verifica se um obstáculo está totalmente acima ou abaixo do outro
+                                continue;
+                            }
+
+                            Obstaculo obst = (Obstaculo )entPrincipal;
+                            throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
+
+                        } else {
+                            if(((Obstaculo) entPrincipal).estaDentro(entComparada.getX(), entComparada.getY(), entComparada.getZ())){
+
+                                Obstaculo obst = (Obstaculo )entPrincipal;
+                                throw new ColisaoException(String.format("%s (%d,%d,0) to (%d,%d,%d)",obst.getTipo().toString(), obst.getX(), obst.getY(), obst.getPontoMaior()[0], obst.getPontoMaior()[1] ,obst.getZ()));
+                            }
+                        }
+
+                    } else {
+                        if(entComparada instanceof Obstaculo){
+
+                            if(((Obstaculo) entComparada).estaDentro(entPrincipal.getX(), entPrincipal.getY(), entPrincipal.getZ())){
+
+                                throw new ColisaoException(String.format("%s (%d,%d,%d)", ((Robo) entPrincipal).getID(), entPrincipal.getX(), entPrincipal.getY(), entPrincipal.getZ()));
+                            }
+
+                        } else {
+                            if((entPrincipal.getX() == entComparada.getX()) && (entPrincipal.getY() == entComparada.getY()) && (entPrincipal.getZ() == entComparada.getZ())){
+                                throw new ColisaoException(String.format("%s (%d,%d,%d)", ((Robo) entPrincipal).getID(), entPrincipal.getX(), entPrincipal.getY(), entPrincipal.getZ()));
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 
 
     /**
