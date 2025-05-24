@@ -1,5 +1,7 @@
 package interfaces;
 
+import central_comunicacao.CentralComunicacao;
+
 public interface Comunicavel{
 
     /**
@@ -11,4 +13,14 @@ public interface Comunicavel{
      * Receber a mensagem.
      */
     void receberMensagem(String mensagem);
+
+    /**
+     * Seta o interemediario pelo qual vai ser mediado a comunicacao.
+     */
+    void set_CentralComunicao(CentralComunicacao nova_central);
+
+    /**
+     * Retorna qual a central de comunicacao esta sendo usada.
+     */
+    CentralComunicacao get_centralComunicacao();
 }

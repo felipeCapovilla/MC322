@@ -7,9 +7,11 @@ import exceptions.RoboDesligadoException;
 import exceptions.ValueOutOfBoundsException;
 import robo.standart.Robo;
 
-public class RoboTerrestre extends Robo{
+public class RoboTerrestre extends Robo implements Comunicavel{
     private int velocidadeMaxima;
-    
+    private CentralComunicacao central_comunicacao;
+    private ArrayList <String> mensagens_recebidas;
+
     /**
      * Construtor da classe RoboTerrestre.
      */
@@ -22,7 +24,8 @@ public class RoboTerrestre extends Robo{
 
         this.velocidadeMaxima = velocidadeMaxima;
     }
-
+        this.central_comunicacao = null;
+        this.mensagens_recebidas = new ArrayList<String>();
     /**
      * Adiciona a variacao das coordenadas no valor da coordenada atual, sendo a variação máxima igual à velocidadeMaxima.
      * @param deltaX
@@ -61,6 +64,33 @@ public class RoboTerrestre extends Robo{
         // Robo Terrestre não implementa tarefa
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
+
+
+    //Funcoes da interface COMUNICAVEL.
+
+    @Override
+    public void set_CentralComunicao(CentralComunicacao nova_central){
+        this.central_comunicacao = nova_central;
+    }
+
+    @Override
+    public CentralComunicacao get_CentralComunicacao(){
+        return this.central_comunicacao;
+    }
+
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem){
+        if(this.central_comunicacao == null){
+            throw new IllegalArgumentException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
+        }
+        this.central_comunicacao.registrarMensagem(this.nome,mensagem);
+        destinatario.receberMensagem(mensagem);
+    }
+
+    @Override
+    public void receberMensagem(String mensagem){
+        mensagens_recebidas.add(mensagem);
+    } 
 
 
 }

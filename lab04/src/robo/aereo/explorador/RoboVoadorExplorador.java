@@ -1,13 +1,12 @@
 package robo.aereo.explorador;
 
-
+import central_comunicacao.CentralComunicacao;
+import interfaces.*;
 import constantes.Bussola;
-import exceptions.SensorMissingException;
-import exceptions.ValueOutOfBoundsException;
 import robo.aereo.standart.*;
 import sensor.temperatura.SensorTemperatura;
 
-public class RoboVoadorExplorador extends RoboAereo {
+public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
 
     private int temperatura_atual;
     private int pressao_atual;
@@ -15,16 +14,13 @@ public class RoboVoadorExplorador extends RoboAereo {
     private int velocidade_atual;
     private String planeta_atual;
     private boolean em_missao;
+    private CentralComunicacao central_comunicacao;
+    private ArrayList <String> mensagens_recebidas;
 
-
-    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max) throws ValueOutOfBoundsException{
+    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max){
         
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max); //Inicializa as variaveis da classe herdada.
-        if(velocidade_max < 0){
-            throw new ValueOutOfBoundsException("Velocidade máxima: "+ velocidade_max);
-        }
-
-
+        
         this.velocidade_max = velocidade_max;
         
         //Inicia o robo como 'inativo'.
@@ -33,6 +29,8 @@ public class RoboVoadorExplorador extends RoboAereo {
         this.velocidade_atual =0;
         this.planeta_atual = "";
         this.em_missao = false;
+        this.central_comunicacao = null;
+        this.mensagens_recebidas = new ArrayList<String>();
     }
 
     /** 
@@ -42,11 +40,18 @@ public class RoboVoadorExplorador extends RoboAereo {
      * @param velocidade_atual Velocidade atual.
      * @param planeta Qual planeta esta o robo.
     */
-    public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta) throws ValueOutOfBoundsException{
+    public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
+
+        //Verificação de valores inválidos
+        if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
+            throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar "+this.velocidade_max+"m/s"); //Se nao: lança erro.
+        } else if (temperatura_atual < 0) { //Verifica se a temperatura é plausivel.
+            throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lança erro.
+        }
 
         //Se tudo estiver válido
         set_temperatura(temperatura_atual);
-        set_velocidade(velocidade_atual);
+        this.velocidade_atual = velocidade_atual; 
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
@@ -70,15 +75,15 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a temperatura atual percebida pelo robo.
      * @param nova_temperatura Nova temperatura a ser setada.
      */
-    public void set_temperatura(int nova_temperatura) throws ValueOutOfBoundsException{ 
+    public void set_temperatura(int nova_temperatura){ 
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
-            throw new ValueOutOfBoundsException("Temperatura: <0K"); //Se nao: lanca erro.
+            throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
         }
 
         if(this.get_SensorTemperatura() != null){
             this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
         } else {
-            throw new SensorMissingException("Senssor temperatura");
+            throw new IllegalAccessError("Senssor temperatura nao instalado");
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
 
@@ -108,9 +113,9 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a velocidade atual do robo.
      * @param nova_velocidade O novo valor da velocidade.
      */
-    public void set_velocidade(int nova_velocidade) throws ValueOutOfBoundsException{ 
+    public void set_velocidade(int nova_velocidade){ 
         if(nova_velocidade > this.velocidade_max){ //Verifica se nova_velocidade e permitida dentros dos limites.
-            throw new ValueOutOfBoundsException("Velocidade acima da máxima: "+ (velocidade_atual - this.velocidade_max) +"m/s"); //Se nao: lança erro.
+            throw new IllegalArgumentException("A velocidade maxima nao deve exceder "+this.velocidade_max+"m/s."); //Se nao: gera erro.
         }
         this.velocidade_atual = nova_velocidade; //Se sim: seta velocidade.
     }
@@ -147,7 +152,6 @@ public class RoboVoadorExplorador extends RoboAereo {
         return this.planeta_atual;
     }
 
-
      /**
      * Retorna se o robo esta sendo usado.
      */
@@ -155,8 +159,33 @@ public class RoboVoadorExplorador extends RoboAereo {
         return this.em_missao;
     }
 
+    //Implementacao dos metodos da interface COMUNICAVEL
 
-    
+    @Override
+    public void set_CentralComunicao(CentralComunicacao nova_central){
+        this.central_comunicacao = nova_central;
+    }
+
+    @Override
+    public CentralComunicacao get_CentralComunicacao(){
+        return this.central_comunicacao;
+    }
+
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem){
+        if(this.central_comunicacao == null){
+            throw new IllegalArgumentException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
+        }
+        this.central_comunicacao.registrarMensagem(this.nome,mensagem);
+        destinatario.receberMensagem(mensagem);
+    }
+
+    @Override
+    public void receberMensagem(String mensagem){
+        mensagens_recebidas.add(mensagem);
+    } 
+
+
 }
 
 
