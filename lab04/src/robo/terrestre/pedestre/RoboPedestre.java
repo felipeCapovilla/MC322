@@ -102,6 +102,9 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
     }
 
     //Tarefa
+    /**
+     * Cria 1-8 caixas no ambiente para serem coletadas pelo robo
+     */
     @Override
     public void executarTarefa(){
         setTarefaAtiva(true);
@@ -123,7 +126,7 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
                     get_ambiente().adicionarObstaculo(caiX, caiY, TipoObstaculo.CAIXA);
 
                     running = false;
-                } catch (ColisaoException | PointOutOfMapException e) {
+                } catch (ColisaoException e) {
                     running = true;
                 }
             } while (running);
@@ -133,18 +136,27 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
         detectarCaixas();
     }
 
+    /**
+     * Finaliza a tarefa do robo
+     */
     public void finalizarTarefa(){
         System.out.println("Tarefa Finalizada!");
         setTarefaAtiva(false);
         setPeso(0);
     }
 
+    /**
+     * Retorna uma lista com as caixas existentes no ambiente
+     */
     public ArrayList<Obstaculo> getCaixas(){
         return get_ambiente().getObstaculos().stream()
             .filter((obst) -> obst.getTipoObstaculo() == TipoObstaculo.CAIXA)
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Imprime as localizações das caixas no ambiente
+     */
     private void detectarCaixas(){
         for(Obstaculo obst : getCaixas()){
             System.out.println(String.format("CAIXA EM: (%d,%d)", obst.getX(), obst.getY()));    
@@ -172,10 +184,16 @@ public class RoboPedestre extends RoboTerrestre implements Destructible{
         return peso;
     }
 
+    /**
+     * Retorna a quantidade de caixas que precisam ser coletadas
+     */
     public int getCaixasTotal() {
         return numCaixasTotal;
     }
 
+    /**
+     * Retorna a quantidade de caixas coletadas
+     */
     public int getCaixasPegas() {
         return numCaixasPegas;
     }

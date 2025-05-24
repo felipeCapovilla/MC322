@@ -3,7 +3,6 @@ package robo.aereo.standart;
 import constantes.*;
 import exceptions.*;
 import interfaces.*;
-import java.awt.geom.IllegalPathStateException;
 import robo.standart.*;
 import sensor.altitude.SensorAltitude;
 
@@ -14,11 +13,18 @@ public class RoboAereo extends Robo implements Battery {
     private int bateria = 100;
     private final int carregarBateria = 20;
 
-    public RoboAereo(String nome,int posicaoX, int posicaoY,Bussola direcao, int altitude,int altitude_max){
+    public RoboAereo(String nome,int posicaoX, int posicaoY,Bussola direcao, int altitude,int altitude_max) throws ValueOutOfBoundsException{
         
         super(nome,posicaoX, posicaoY, altitude, direcao); //Chama o construtor da super-classe Robo.
+
+        if(altitude < 0){
+            throw new ValueOutOfBoundsException("altitude: " + altitude);
+        }
+        if(altitude_max < 0){
+            throw new ValueOutOfBoundsException("altitude máxima: " + altitude_max);
+        }
+
         this.altitude = altitude;
-        
         this.altitude_max = altitude_max;
     }
 
@@ -27,21 +33,15 @@ public class RoboAereo extends Robo implements Battery {
      * Adiciona a altura atual do robo.
      * @param metros Indica quantos metros ele deve subir.
      */
-    public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException{
+    public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException, ValueOutOfBoundsException{
         int pesoBateria = 10;//quanto gasta de bateria
         
-        if(this.get_ambiente() != null){ //Faz a verificação ambiente apenas se o robo estiver em um.
-            if(this.get_ambiente().get_altura() <= this.altitude+metros) //Verifica se a altura pode ser atingida devido as limitações do ambiente.
-                throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar os limites do ambiente.");
-        }  
-
-
         if(this.altitude + metros > this.altitude_max){ //Verifica se a altura pode ser atingida por conta das limitações do robo.
-            throw new IllegalArgumentException("A altitude do robo '"+this.getID()+"' não pode ultrapassar "+this.altitude_max+"m."); 
+            throw new ValueOutOfBoundsException("altitude acima da máxima: " + ((altitude + metros) - this.altitude_max)+"m."); 
         }
 
         if(this.get_SensorAltitude() == null){
-            throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
+            throw new SensorMissingException("Sensor de altitude");
         }
 
         if(detectarColisoes(getX(), getY(), (int) get_altitude() + metros)){
@@ -51,7 +51,7 @@ public class RoboAereo extends Robo implements Battery {
             this.altitude+=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
-            throw new IllegalArgumentException("Posicao ja ocupada");
+            throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
         }
         
     }
@@ -62,15 +62,11 @@ public class RoboAereo extends Robo implements Battery {
      * Subtrai a altura atual do robo.
      * @param metros Indica quantos metros ele vai descer.
      */
-    public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException{
+    public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException{
         int pesoBateria = 10;//quanto gasta de bateria
 
-        if(this.altitude - metros < 0){ //Verifica viabilidade de nova altitude descendente.
-            throw new IllegalArgumentException("A altitude do robo não pode ser < 0m.");
-        }
-
         if(this.get_SensorAltitude() == null){
-            throw new IllegalPathStateException("Sensor de altitude não instalado, nao e seguro movimento vertical");
+            throw new SensorMissingException("Sensor de altitude");
         }
         
         if(detectarColisoes(getX(), getY(), (int) get_altitude() - metros)){
@@ -80,7 +76,7 @@ public class RoboAereo extends Robo implements Battery {
             this.altitude-=metros; //Adiciona a altitude.
             this.get_SensorAltitude().set_altitude(this.altitude);
         } else {
-            throw new IllegalArgumentException("Posicao ja ocupada");
+            throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
         }
     }
 
@@ -114,7 +110,6 @@ public class RoboAereo extends Robo implements Battery {
     /**
      * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
      */
-    @Override
     public double get_altitude() {
 
         if(get_SensorAltitude() != null && this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.

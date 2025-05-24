@@ -2,6 +2,8 @@ package robo.aereo.explorador;
 
 
 import constantes.Bussola;
+import exceptions.SensorMissingException;
+import exceptions.ValueOutOfBoundsException;
 import robo.aereo.standart.*;
 import sensor.temperatura.SensorTemperatura;
 
@@ -15,10 +17,14 @@ public class RoboVoadorExplorador extends RoboAereo {
     private boolean em_missao;
 
 
-    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max){
+    public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max) throws ValueOutOfBoundsException{
         
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max); //Inicializa as variaveis da classe herdada.
-        
+        if(velocidade_max < 0){
+            throw new ValueOutOfBoundsException("Velocidade máxima: "+ velocidade_max);
+        }
+
+
         this.velocidade_max = velocidade_max;
         
         //Inicia o robo como 'inativo'.
@@ -36,18 +42,11 @@ public class RoboVoadorExplorador extends RoboAereo {
      * @param velocidade_atual Velocidade atual.
      * @param planeta Qual planeta esta o robo.
     */
-    public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta){
-
-        //Verificação de valores inválidos
-        if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
-            throw new IllegalArgumentException("A velocidade do Robo não pode ultrapassar "+this.velocidade_max+"m/s"); //Se nao: lança erro.
-        } else if (temperatura_atual < 0) { //Verifica se a temperatura é plausivel.
-            throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lança erro.
-        }
+    public void iniciar_exploracao(int pressao_atual, int temperatura_atual, int velocidade_atual, String planeta) throws ValueOutOfBoundsException{
 
         //Se tudo estiver válido
         set_temperatura(temperatura_atual);
-        this.velocidade_atual = velocidade_atual; 
+        set_velocidade(velocidade_atual);
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
@@ -71,15 +70,15 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a temperatura atual percebida pelo robo.
      * @param nova_temperatura Nova temperatura a ser setada.
      */
-    public void set_temperatura(int nova_temperatura){ 
+    public void set_temperatura(int nova_temperatura) throws ValueOutOfBoundsException{ 
         if(nova_temperatura < 0){ //Verifica se a temperatura é plausivel.
-            throw new IllegalArgumentException("A temperatura nao pode ser menor que 0K"); //Se nao: lanca erro.
+            throw new ValueOutOfBoundsException("Temperatura: <0K"); //Se nao: lanca erro.
         }
 
         if(this.get_SensorTemperatura() != null){
             this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
         } else {
-            throw new IllegalAccessError("Senssor temperatura nao instalado");
+            throw new SensorMissingException("Senssor temperatura");
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
 
@@ -109,9 +108,9 @@ public class RoboVoadorExplorador extends RoboAereo {
      * Altera a velocidade atual do robo.
      * @param nova_velocidade O novo valor da velocidade.
      */
-    public void set_velocidade(int nova_velocidade){ 
+    public void set_velocidade(int nova_velocidade) throws ValueOutOfBoundsException{ 
         if(nova_velocidade > this.velocidade_max){ //Verifica se nova_velocidade e permitida dentros dos limites.
-            throw new IllegalArgumentException("A velocidade maxima nao deve exceder "+this.velocidade_max+"m/s."); //Se nao: gera erro.
+            throw new ValueOutOfBoundsException("Velocidade acima da máxima: "+ (velocidade_atual - this.velocidade_max) +"m/s"); //Se nao: lança erro.
         }
         this.velocidade_atual = nova_velocidade; //Se sim: seta velocidade.
     }

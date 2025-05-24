@@ -2,6 +2,7 @@ package robo.aereo.turista;
 
 
 import constantes.Bussola;
+import exceptions.ValueOutOfBoundsException;
 import robo.aereo.standart.*;
 public class RoboVoadorTurista extends RoboAereo{
 
@@ -10,8 +11,12 @@ public class RoboVoadorTurista extends RoboAereo{
     private String cidade_turistica;
     private boolean em_passeio;
 
-    public RoboVoadorTurista(String nome,int posicaoX, int posicaoY, Bussola direcao, int altitude,int altitude_max,int capacidade_maxima){
+    public RoboVoadorTurista(String nome,int posicaoX, int posicaoY, Bussola direcao, int altitude,int altitude_max,int capacidade_maxima) throws ValueOutOfBoundsException{
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max);
+
+        if(capacidade_maxima < 0){
+            throw new ValueOutOfBoundsException("Capacidade máxima: "+ capacidade_maxima);
+        }
 
         this.capacidade_maxima = capacidade_maxima;
         this.numero_passageiros = 0;
@@ -26,10 +31,11 @@ public class RoboVoadorTurista extends RoboAereo{
      * @param numero_passageiros Indica a quantidade de passageiros atual presentes.
      * @param cidade_turistica Indica o destino do passeio turistico do Robo.
      */
-    public void inciar_passeio(int numero_passageiros, String cidade_turistica){
+    public void inciar_passeio(int numero_passageiros, String cidade_turistica) throws ValueOutOfBoundsException{
         if(numero_passageiros > this.capacidade_maxima){ //Verifica se a quantidade de passageiros e permitida.
-            throw new IllegalArgumentException("A capacidade maxima de "+this.capacidade_maxima+" passageiros, foi excedida. \n Circulação não permitida.");
+            throw new ValueOutOfBoundsException("Capacidade acima da máxima: "+(numero_passageiros - this.capacidade_maxima));
         }
+
         this.numero_passageiros = numero_passageiros;
         this.cidade_turistica = cidade_turistica;
         this.em_passeio = true;

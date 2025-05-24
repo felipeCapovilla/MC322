@@ -22,8 +22,13 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
     private int atkSucesso = 0;
 
     
-    public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo){
+    public RoboVeiculo(String nome,int posicaoX, int posicaoY,Bussola direcao, int velocidadeMaxima, int passageiros_maximo) throws ValueOutOfBoundsException{
         super (nome,posicaoX, posicaoY,direcao, velocidadeMaxima);
+
+        if(passageiros_maximo < 0){
+            throw new ValueOutOfBoundsException("passageiros máximo: " + passageiros_maximo);
+        }
+
         this.passageiros_maximo = passageiros_maximo;
         passageiros = 0;
         velocidade = 0;
@@ -45,7 +50,7 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
         } else if(velocidade > getVelocidadeMaxima()){
             this.velocidade = getVelocidadeMaxima();
         } else {
-            this.velocidade = velocidade;    
+            this.velocidade = velocidade;   
         }
     }
 
@@ -232,6 +237,9 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
     }
 
     //Tarefa
+    /**
+     * Robo precisa realizar 1-5 ataques bem-sucedidos
+     */
     @Override
     public void executarTarefa(){
         setTarefaAtiva(true);
@@ -244,14 +252,15 @@ public class RoboVeiculo extends RoboTerrestre implements Destructible, Attacker
         System.out.println(String.format("Realize %d Ataques com sucesso", atkTotal));
     }
 
+    /**
+     * Finaliza a tarefa do robo
+     */
     public void finalizarTarefa(){
         System.out.println("Tarefa Finalizada!");
         System.out.println("ATK damage +1");
         setTarefaAtiva(false);
         dano++;
     }
-
-
 
 
 

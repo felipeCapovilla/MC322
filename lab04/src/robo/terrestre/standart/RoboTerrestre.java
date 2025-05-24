@@ -4,6 +4,7 @@ import constantes.Bussola;
 import exceptions.ColisaoException;
 import exceptions.PointOutOfMapException;
 import exceptions.RoboDesligadoException;
+import exceptions.ValueOutOfBoundsException;
 import robo.standart.Robo;
 
 public class RoboTerrestre extends Robo{
@@ -12,8 +13,13 @@ public class RoboTerrestre extends Robo{
     /**
      * Construtor da classe RoboTerrestre.
      */
-    public RoboTerrestre(String nome,int posicaoX, int posicaoY ,Bussola direcao, int velocidadeMaxima){
+    public RoboTerrestre(String nome,int posicaoX, int posicaoY ,Bussola direcao, int velocidadeMaxima) throws ValueOutOfBoundsException{
         super(nome,posicaoX, posicaoY, 0,direcao);
+
+        if(velocidadeMaxima < 0){
+            throw new ValueOutOfBoundsException(String.format("velocidade máxima: %d", velocidadeMaxima));
+        }
+
         this.velocidadeMaxima = velocidadeMaxima;
     }
 
@@ -51,7 +57,7 @@ public class RoboTerrestre extends Robo{
     }
 
     @Override
-    public void executarTarefa() {
+    public void executarTarefa() throws UnsupportedOperationException{
         // Robo Terrestre não implementa tarefa
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }

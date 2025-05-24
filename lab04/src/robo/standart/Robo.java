@@ -55,7 +55,6 @@ public abstract class Robo implements Entidade{
      * @param deltaX
      * @param deltaY
      */
-
     public void mover(int deltaX, int deltaY, int deltaZ) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{ 
         if(this.ambiente_atual == null){
             throw new NullPointerException();
@@ -119,40 +118,35 @@ public abstract class Robo implements Entidade{
     /**
      * Identifica se a posicao esta ocupado por um obstaculo
      */
-    private boolean identificar_obstaculos(int X, int Y, int Z){
+    private boolean identificar_obstaculos(int X, int Y, int Z) throws NullPointerException{
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            for(Entidade ent: ambiente_atual.getEntidades()){
-                if(ent instanceof Obstaculo){
-                    if(!((Obstaculo) ent).Passavel() && ((Obstaculo) ent).estaDentro(X, Y, Z)){
-                        return true;
-                    }
+            for(Obstaculo obst: ambiente_atual.getObstaculos()){
+                if(!obst.Passavel() && obst.estaDentro(X, Y, Z)){
+                    return true;
                 }
+                
             }
 
             return false;
         } else {
-            System.out.printf("Robo %s não está em um ambiente\n", id);
-            return false;
+            throw new NullPointerException();
         }
     }
 
     /**
      * Identifica se a posicao esta ocupado por um robo
      */
-    private boolean identificar_robos(int X, int Y, int Z){
+    private boolean identificar_robos(int X, int Y, int Z) throws NullPointerException{
         if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            for(Entidade ent: ambiente_atual.getEntidades()){
-                if(ent instanceof Robo){
-                    if(ent.getX() == X && ent.getY() == Y && ent.getZ() == Z){
-                        return true;
-                    }
+            for(Robo robo: ambiente_atual.getListaRobos()){
+                if(robo.getX() == X && robo.getY() == Y && robo.getZ() == Z){
+                    return true;
                 }
             }
 
             return false;
         } else {
-            System.out.printf("Robo %s não está em um ambiente\n", id);
-            return false;
+            throw new NullPointerException();
         }
     }
 
@@ -206,13 +200,6 @@ public abstract class Robo implements Entidade{
      */
     public void set_sensorEspacial(SensorEspacial novo_sensor){
         this.sensor_espacial = novo_sensor;
-    }
-
-    /**
-     * Retorna a altura do robo
-     */
-    public double get_altitude(){
-        return 0;
     }
 
     /**
@@ -313,10 +300,16 @@ public abstract class Robo implements Entidade{
         return this.tipoEntidade;
     }
 
+    /**
+     * Retorna o Estado do Robo
+     */
     public EstadoRobo getEstado(){
         return this.estado;
     }
 
+    /**
+     * define o Estado do robo
+     */
     public void setEstado_robo(EstadoRobo novoEstado){
         this.estado = novoEstado;
     }
@@ -328,12 +321,21 @@ public abstract class Robo implements Entidade{
 
     //Metodos abstratos.
 
+    /**
+     * Começa a tarefa do robo
+     */
     public abstract void executarTarefa();
 
+    /**
+     * Retorna se a Tarefa está ativa
+     */
     public boolean isTarefaAtiva() {
         return tarefaAtiva;
     }
 
+    /**
+     * Define o estado da Tarefa
+     */
     public void setTarefaAtiva(boolean tarefaAtiva) {
         this.tarefaAtiva = tarefaAtiva;
     }

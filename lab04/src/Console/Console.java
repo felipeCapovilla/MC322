@@ -861,9 +861,9 @@ public class Console {
                         //Visualizar arredores
                         try {
                             System.out.println("Espaco: ");
-                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                             System.out.println("");
-                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                         } catch (Exception e) {
                             System.out.println("Sensor espacial nao instalado");
                         }
@@ -1037,9 +1037,9 @@ public class Console {
                         //Visualizar arredores
                         try {
                             System.out.println("Espaco: ");
-                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                             System.out.println("");
-                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                         } catch (Exception e) {
                             System.out.println("Sensor espacial nao instalado");
                         }
@@ -1229,9 +1229,9 @@ public class Console {
                         //Visualizar arredores
                         try {
                             System.out.println("Espaco: ");
-                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarPlano(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                             System.out.println("");
-                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.get_altitude());
+                            robo.get_SensorEspacial().monitorarAltura(ambiente, robo.getX(), robo.getY(), (int) robo.getZ());
                         } catch (Exception e) {
                             System.out.println("Sensor espacial nao instalado");
                         }
