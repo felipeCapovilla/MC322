@@ -5,8 +5,9 @@ import interfaces.*;
 import constantes.Bussola;
 import robo.aereo.standart.*;
 import sensor.temperatura.SensorTemperatura;
+import java.utils.ArrayList;
 
-public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
+public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Sensoriavel {
 
     private int temperatura_atual;
     private int pressao_atual;
@@ -16,6 +17,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
     private boolean em_missao;
     private CentralComunicacao central_comunicacao;
     private ArrayList <String> mensagens_recebidas;
+    private boolean StatusSensores; //True: ligado -> False: desligado.
 
     public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max){
         
@@ -31,6 +33,20 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
         this.em_missao = false;
         this.central_comunicacao = null;
         this.mensagens_recebidas = new ArrayList<String>();
+        this.StatusSensores = false;
+    }
+
+    /**
+     * Liga os sensores do robo.
+     */
+    @Override
+    public void acionarSensores(){  
+        this.StatusSensores = true;
+    }
+
+    @Override
+    public void desligaSensores(){
+        this.StatusSensores= false;
     }
 
     /** 
@@ -55,6 +71,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
+        acionarSensores()
     }
 
      /**
@@ -67,6 +84,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
         this.planeta_atual = "";
         this.pressao_atual=0;
         this.velocidade_atual=0;
+        desligaSensores();
     }
 
     //GETs e SETs
@@ -81,9 +99,13 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
         }
 
         if(this.get_SensorTemperatura() != null){
-            this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
+            if(this.StatusSensores == false){
+                throw new IllegalAccessError("Sensores desligados.");
+            }
+            else{
+                this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
         } else {
-            throw new IllegalAccessError("Senssor temperatura nao instalado");
+            throw new IllegalAccessError("Sensor temperatura nao instalado");
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
 
@@ -125,7 +147,11 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
      * Retorna temperatura atual percebida pelo robo pelo sensor.
      */
     public double get_temperatura(){
+        if(this.StatusSensores == false){
+            throw new IllegalAccessError("Sensor desligado.")
+        }else{
         return this.get_SensorTemperatura().get_temperaturaKelvin(); 
+        }
     }
 
 
@@ -144,6 +170,24 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
         return this.velocidade_atual;
     }
 
+
+    /**
+     * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
+     */
+    @Override
+    public double get_altitude() {
+        if(this.StatusSensores == false){
+            throw new IllegalAccessError("Sensor desligado.")
+        }
+        else{
+            if(get_SensorAltitude() != null && this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
+                return this.get_SensorAltitude().get_altitude();
+            }
+            else{
+                return -1.0; //Caso contrario: retorna um numero incoerente (-1).
+            }
+        }
+    } 
 
      /**
      * Retorna o planeta sendo explorado pelo robo.
@@ -189,3 +233,4 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel {
 }
 
 
+}
