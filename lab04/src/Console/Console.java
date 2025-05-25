@@ -109,8 +109,15 @@ public class Console {
             System.out.println("|         escolha um opcao         |");
 
             for(int i = 0; i<opcoesMenu.size(); i++){
-                System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
-            }            
+                if(i < 9){
+                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                } else {
+                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                }
+            }  
+                     
 
             System.out.println("| [0] Sair                         |");
 
@@ -211,7 +218,13 @@ public class Console {
             System.out.println("|         escolha um opcao         |");
 
             for(int i = 0; i<opcoesMenu.size(); i++){
-                System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+                if(i < 9){
+                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                } else {
+                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                }
             }            
 
             System.out.println("| [0] Sair                         |");
@@ -545,7 +558,13 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+                    if(i < 9){
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                    } else {
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                    }
                 }            
 
                 System.out.println("| [0] Sair                         |");
@@ -695,7 +714,17 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(5, "Monitorar sensores", ()->
+        opcoesMenu.add(new MenuItem(5, "Iniciar Tarefa", ()->
+            {
+                //Iniciar tarefa
+                if(!robo.isTarefaAtiva()){
+                    robo.executarTarefa();
+                } else {
+                    System.out.println("Tarefa já iniciada");
+                }  
+
+            }));
+        opcoesMenu.add(new MenuItem(6, "Monitorar sensores", ()->
             {
                 if(robo.isStatusSensores()){
                     
@@ -725,12 +754,12 @@ public class Console {
 
 
             }));
-        opcoesMenu.add(new MenuItem(6, "Carregar", ()->
+        opcoesMenu.add(new MenuItem(7, "Carregar", ()->
             {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(8, "Info", ()->
+        opcoesMenu.add(new MenuItem(9, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -762,14 +791,14 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(10, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(11, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
                 System.out.println("Robo Desligado");
 
             }));
-        opcoesMenu.add(new MenuItem(9, "Desligar/Ligar Sensores", ()->
+        opcoesMenu.add(new MenuItem(10, "Desligar/Ligar Sensores", ()->
             {
                 //Desligar/Ligar sensores Robo
                 if(robo.isStatusSensores()){
@@ -781,7 +810,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(7, "Enviar mensagem", ()->
+        opcoesMenu.add(new MenuItem(8, "Enviar mensagem", ()->
             {
                 acaoComunicavel(robo);
             })
@@ -802,7 +831,13 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+                    if(i < 9){
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                    } else {
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                    }
                 }            
 
                 System.out.println("| [0] Sair                         |");
@@ -946,7 +981,18 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(5, "Monitorar sensores", ()->
+        opcoesMenu.add(new MenuItem(5, "Iniciar Tarefa", ()->
+            {
+                //Iniciar tarefa
+                if(!robo.isTarefaAtiva()){
+                    robo.executarTarefa();
+                } else {
+                    System.out.println("Tarefa já iniciada");
+                }  
+
+            }));
+        
+        opcoesMenu.add(new MenuItem(6, "Monitorar sensores", ()->
             {
                 //Monitora os sensores do robo
                 if(robo.get_SensorAltitude() == null){
@@ -970,12 +1016,12 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(6, "Carregar", ()->
+        opcoesMenu.add(new MenuItem(7, "Carregar", ()->
             {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(7, "Info", ()->
+        opcoesMenu.add(new MenuItem(8, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1006,7 +1052,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(9, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
@@ -1029,8 +1075,14 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
-                }            
+                    if(i < 9){
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                    } else {
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                    }
+                }             
 
                 System.out.println("| [0] Sair                         |");
 
@@ -1187,8 +1239,14 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
-                }            
+                    if(i < 9){
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                    } else {
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                    }
+                }             
 
                 System.out.println("| [0] Sair                         |");
 
@@ -1437,7 +1495,7 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    if(i < 10){
+                    if(i < 9){
                         System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
                     } else {
                         System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
@@ -1646,7 +1704,13 @@ public class Console {
                 System.out.println("|         escolha um opcao         |");
 
                 for(int i = 0; i<opcoesMenu.size(); i++){
-                    System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+                    if(i < 9){
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+                    } else {
+                        System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+                    }
                 }            
 
                 System.out.println("| [0] Sair                         |");
