@@ -244,4 +244,16 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     }
 
 
+    @Override
+    public void executarTarefa() {
+        if (em_missao) {
+            System.out.println("Explorando o planeta " + this.planeta_atual +
+                " com temperatura de " + this.temperatura_atual + "K, pressão de " + this.pressao_atual + 
+                "Pa e velocidade de " + this.velocidade_atual + "m/s.");
+        } else {
+            System.out.println("Aguardando início da missão de exploração.");
+        }
+    }
+
+
 }
