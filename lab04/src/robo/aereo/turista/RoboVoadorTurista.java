@@ -86,4 +86,17 @@ public class RoboVoadorTurista extends RoboAereo{
             this.numero_passageiros = numero_passageiros;
         }
     }
+
+
+@Override
+public void executar_tarefa() {
+    if (this.em_passeio == true) {
+        System.out.println("Sobrevoando " + this.cidade_turistica + " com " + this.numero_passageiros + " passageiros.");
+    } else {
+        System.out.println("Aguardando passageiros para iniciar o passeio turístico.");
+    }
+}
+
+
+
 }

@@ -109,7 +109,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         }
         this.temperatura_atual = nova_temperatura; //Se for: seta o valor.
 
-    }
+    }}
 
     /**
      * Sobreescrever o metodo de adicionarSensor de temperatura pois aqui o robo tem temperatura definida.
@@ -230,7 +230,16 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     } 
 
 
-}
+    @Override
+    public void executar_tarefa() {
+        if (em_missao) {
+            System.out.println("Explorando o planeta " + this.planeta_atual +
+                " com temperatura de " + this.temperatura_atual + "K, pressão de " + this.pressao_atual + 
+                "Pa e velocidade de " + this.velocidade_atual + "m/s.");
+        } else {
+            System.out.println("Aguardando início da missão de exploração.");
+        }
+    }
 
 
 }
