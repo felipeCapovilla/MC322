@@ -80,9 +80,9 @@ public class RoboTerrestre extends Robo implements Comunicavel{
     }
 
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem){
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws NullPointerException{
         if(this.central_comunicacao == null){
-            throw new IllegalArgumentException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
+            throw new NullPointerException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
         }
         this.central_comunicacao.registrarMensagem(getID(),mensagem);
         destinatario.receberMensagem(mensagem);

@@ -2,15 +2,14 @@ package Console;
 
 import ambiente.*;
 import constantes.*;
-import exceptions.ColisaoException;
-import exceptions.LowBatteryException;
-import exceptions.PointOutOfMapException;
-import exceptions.RoboDesligadoException;
-import exceptions.SensorMissingException;
-import exceptions.ZeroLifePointsException;
+import exceptions.*;
+import interfaces.Comunicavel;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
 import robo.aereo.turista.RoboVoadorTurista;
@@ -87,8 +86,14 @@ public class Console {
                     }
                 }
 
-            }));
+            })
+        );
         opcoesMenu.add(new MenuItem(3, "Utilizar Robos", this::roboMenu));
+        opcoesMenu.add(new MenuItem(4, "Visualizar Comunicacoes", ()->
+            {
+                ambiente.getComunicacao().exibirMensagens();
+            })
+        );
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
 
@@ -160,7 +165,7 @@ public class Console {
                     System.err.println("Altura inválida: " + e.getMessage());
                 }
             }));
-        opcoesMenu.add(new MenuItem(2, "Info", ()->
+        opcoesMenu.add(new MenuItem(4, "Info", ()->
             {
                 //informações do ambiente
                 System.out.printf("- Dimensões (C x L x A): %d x %d x %d\n", ambiente.get_comprimento(), ambiente.get_largura(), ambiente.get_altura());
@@ -178,6 +183,22 @@ public class Console {
                     System.out.printf("\t ->%S\n", robo);
                 }
 
+            }));
+        opcoesMenu.add(new MenuItem(2, "Verificar Sensores", ()->
+            {
+                //Verifica todos os sensores dos robos LIGADOS do ambiente
+                ambiente.executarSensores();
+            }));
+        opcoesMenu.add(new MenuItem(3, "Verificar Colisões", ()->
+            {
+                //Verifica se há colisões no ambiente
+                try {
+                    ambiente.verificarColisoes();
+
+                    System.out.println("Nao ha colisoes no ambiente");
+                } catch (Exception e) {
+                    System.out.println("Colisão em: " + e.getMessage());
+                }
             }));
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
@@ -333,6 +354,43 @@ public class Console {
 
         return running;
     }
+
+    private void acaoComunicavel(Comunicavel robo){
+        int resposta;
+
+        System.out.println("+----------------------------------+");
+            System.out.println("| escolha um robo para comunicar  |");
+
+            //Opções
+            ArrayList<Robo> robosComunicavel = ambiente.getListaRobos().stream()
+                .filter(roboAtual -> ((roboAtual instanceof Comunicavel) && !roboAtual.equals(robo)))
+                .collect(Collectors.toCollection(ArrayList::new));
+            for(int i = 0; i < robosComunicavel.size(); i++){
+                System.out.printf("| [%d] %s|\n", i+1, formatString(robosComunicavel.get(i).toString(), 29));
+
+            }
+
+            System.out.println("+----------------------------------+");
+
+        //Resposta
+        System.out.print("opcao escolhida: ");
+        resposta = scannerNumber();
+
+        if(resposta >0 && resposta <= robosComunicavel.size()){
+            System.out.println("Digite a mensagem:");
+            scanner.nextLine();
+            String mensagem = scanner.nextLine();
+            
+            robo.enviarMensagem((Comunicavel) robosComunicavel.get(resposta-1), mensagem);
+
+            System.out.println("Mensagem enviada com sucesso!");
+
+        } else {
+            System.out.println("Opcao nao disponivel");
+        }
+
+    }
+
 
     /**
      * Menu que controla o RoboAereoStandart
@@ -579,7 +637,7 @@ public class Console {
                     System.err.println("Local fora dos limites do ambiente: " + e.getMessage());
                 } catch(SensorMissingException e){ 
                     System.err.println("Sensor nao instalado: " + e.getMessage());
-                } catch (RoboDesligadoException | NullPointerException e) {
+                } catch (Exception e) {
                     //Não é para ocorrer
                     System.err.println(e);
                 }
@@ -639,26 +697,32 @@ public class Console {
             }));
         opcoesMenu.add(new MenuItem(5, "Monitorar sensores", ()->
             {
-                //Monitora os sensores do robo
-                if(robo.get_SensorAltitude() == null){
-                    System.out.println("Sensor de altitude nao instalado");
+                if(robo.isStatusSensores()){
+                    
+                    //Monitora os sensores do robo
+                    if(robo.get_SensorAltitude() == null){
+                        System.out.println("Sensor de altitude nao instalado");
+                    } else {
+                        System.out.print("Sensor de altitude:\n\t");
+                        robo.get_SensorAltitude().monitorar();
+                    }
+
+                    if(robo.get_SensorTemperatura() == null){
+                        System.out.println("Sensor de temperatura nao instalado");
+                    } else {
+                        System.out.print("Sensor de temperatura:\n\t");
+                        robo.get_SensorTemperatura().monitorar();
+                    }
+                    if(robo.get_SensorEspacial() == null){
+                        System.out.println("Sensor espacial nao instalado");
+                    } else {
+                        System.out.print("Sensor espacial:\n\t");
+                        robo.get_SensorEspacial().monitorar();
+                    }
                 } else {
-                    System.out.print("Sensor de altitude:\n\t");
-                    robo.get_SensorAltitude().monitorar();
+                    System.out.println("Sensores desligados");
                 }
 
-                if(robo.get_SensorTemperatura() == null){
-                    System.out.println("Sensor de temperatura nao instalado");
-                } else {
-                    System.out.print("Sensor de temperatura:\n\t");
-                    robo.get_SensorTemperatura().monitorar();
-                }
-                if(robo.get_SensorEspacial() == null){
-                    System.out.println("Sensor espacial nao instalado");
-                } else {
-                    System.out.print("Sensor espacial:\n\t");
-                    robo.get_SensorEspacial().monitorar();
-                }
 
             }));
         opcoesMenu.add(new MenuItem(6, "Carregar", ()->
@@ -666,7 +730,7 @@ public class Console {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(7, "Info", ()->
+        opcoesMenu.add(new MenuItem(8, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -698,13 +762,30 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(10, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
                 System.out.println("Robo Desligado");
 
             }));
+        opcoesMenu.add(new MenuItem(9, "Desligar/Ligar Sensores", ()->
+            {
+                //Desligar/Ligar sensores Robo
+                if(robo.isStatusSensores()){
+                    robo.desligaSensores();
+                    System.out.println("Sensores desligados");
+                } else {
+                    robo.acionarSensores();
+                    System.out.println("Sensores ligados");
+                }
+
+            }));
+        opcoesMenu.add(new MenuItem(7, "Enviar mensagem", ()->
+            {
+                acaoComunicavel(robo);
+            })
+        );
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
 
@@ -1061,7 +1142,7 @@ public class Console {
 
             }));
 
-        opcoesMenu.add(new MenuItem(5, "Info", ()->
+        opcoesMenu.add(new MenuItem(6, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1078,13 +1159,18 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(6, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(7, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
                 System.out.println("Robo Desligado");
 
             }));
+        opcoesMenu.add(new MenuItem(5, "Enviar mensagem", ()->
+            {
+                acaoComunicavel(robo);
+            })
+        );
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
 
@@ -1225,7 +1311,7 @@ public class Console {
 
             }));
 
-        opcoesMenu.add(new MenuItem(11, "Info", ()->
+        opcoesMenu.add(new MenuItem(12, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1253,7 +1339,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(12, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(13, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
@@ -1330,6 +1416,11 @@ public class Console {
                 System.out.println("Vida reparada!");
 
             }));
+        opcoesMenu.add(new MenuItem(11, "Enviar mensagem", ()->
+            {
+                acaoComunicavel(robo);
+            })
+        );
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
 
@@ -1478,7 +1569,7 @@ public class Console {
 
             }));
 
-        opcoesMenu.add(new MenuItem(7, "Info", ()->
+        opcoesMenu.add(new MenuItem(8, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1510,7 +1601,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(9, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
@@ -1534,6 +1625,11 @@ public class Console {
                 }  
 
             }));
+        opcoesMenu.add(new MenuItem(7, "Enviar mensagem", ()->
+            {
+                acaoComunicavel(robo);
+            })
+        );
 
         opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
 

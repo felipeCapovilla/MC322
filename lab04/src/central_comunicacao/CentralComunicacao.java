@@ -26,10 +26,11 @@ public class CentralComunicacao{
      *  Mensagem: <mensagem>
      */
     public void exibirMensagens(){
-        System.out.printf("\n----------MensagensTrocadas----------");
+        System.out.printf("\n+---------MensagensTrocadas---------+\n");
         for(int i =0; i<mensagens.size();i++){
             System.out.printf("Remetente: %s\nMensagem: %s\n",remetentes_associados.get(i),mensagens.get(i));
         }
+        System.out.println();
     }
 
     /**

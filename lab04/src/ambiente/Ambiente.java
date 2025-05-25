@@ -3,9 +3,12 @@ package ambiente;
 import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
 import exceptions.*;
+import interfaces.Comunicavel;
 import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import central_comunicacao.CentralComunicacao;
 import robo.standart.Robo;
 import sensor.standart.Sensor;
 
@@ -20,6 +23,7 @@ public class Ambiente {
 
     private final ArrayList<Entidade> entidades;
 
+    final CentralComunicacao comunicacao = new CentralComunicacao();
 
     /**
      * [X] [Y] [Z]
@@ -168,6 +172,10 @@ public class Ambiente {
         if(adicionarEntidade(robo)){
             this.quantidade_robos_ativos++;
             robo.set_ambiente(this);
+
+            if(robo instanceof Comunicavel){
+                ((Comunicavel) robo).set_CentralComunicao(comunicacao);
+            }
         }
     }
 
@@ -337,28 +345,36 @@ public class Ambiente {
     }
 
     /**
-     * Imprime todos os sensores que os robos possuem
+     * Imprime todos os sensores que os robos LIGADOS possuem
      */
     public void executarSensores(){
+        int robos_ligados = 0;
+
         for(Robo robo : getListaRobos()){
-            System.out.printf("->%S:\n", robo);
-            Sensor sensortemp;
-
-            sensortemp = robo.get_SensorEspacial();
-            if(sensortemp != null){
-                System.out.printf("\t -Sensor Espacial %s\n", sensortemp.get_modelo());
+            if(robo.isLigado()){
+                robos_ligados++;
+                System.out.printf("->%S:\n", robo);
+                Sensor sensortemp;
+    
+                sensortemp = robo.get_SensorEspacial();
+                if(sensortemp != null){
+                    System.out.printf("\t -Sensor Espacial %s\n", sensortemp.get_modelo());
+                }
+                
+                sensortemp = robo.get_SensorAltitude();
+                if(sensortemp != null){
+                    System.out.printf("\t -Sensor Altitude %s\n", sensortemp.get_modelo());
+                }
+    
+                sensortemp = robo.get_SensorTemperatura();
+                if(sensortemp != null){
+                    System.out.printf("\t -Sensor Temperatura %s\n", sensortemp.get_modelo());
+                }
             }
-            
-            sensortemp = robo.get_SensorAltitude();
-            if(sensortemp != null){
-                System.out.printf("\t -Sensor Altitude %s\n", sensortemp.get_modelo());
-            }
 
-            sensortemp = robo.get_SensorTemperatura();
-            if(sensortemp != null){
-                System.out.printf("\t -Sensor Temperatura %s\n", sensortemp.get_modelo());
-            }
-
+        }
+        if(robos_ligados == 0){
+            System.out.println("Nao ha robos LIGADOS");
         }
     }
 
@@ -529,6 +545,13 @@ public class Ambiente {
 
     public TipoEntidade[][][] getMapa() {
         return mapa;
+    }
+
+    /**
+     * Retorna a central de comunicação
+     */
+    public CentralComunicacao getComunicacao() {
+        return comunicacao;
     }
 
 }
