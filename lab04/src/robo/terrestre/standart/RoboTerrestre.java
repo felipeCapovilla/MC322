@@ -1,16 +1,16 @@
 package robo.terrestre.standart;
 
+import central_comunicacao.CentralComunicacao;
 import constantes.Bussola;
-import exceptions.ColisaoException;
-import exceptions.PointOutOfMapException;
-import exceptions.RoboDesligadoException;
-import exceptions.ValueOutOfBoundsException;
+import exceptions.*;
+import interfaces.*;
+import java.util.ArrayList;
 import robo.standart.Robo;
 
 public class RoboTerrestre extends Robo implements Comunicavel{
     private int velocidadeMaxima;
     private CentralComunicacao central_comunicacao;
-    private ArrayList <String> mensagens_recebidas;
+    private ArrayList<String> mensagens_recebidas;
 
     /**
      * Construtor da classe RoboTerrestre.
@@ -23,9 +23,10 @@ public class RoboTerrestre extends Robo implements Comunicavel{
         }
 
         this.velocidadeMaxima = velocidadeMaxima;
-    }
         this.central_comunicacao = null;
-        this.mensagens_recebidas = new ArrayList<String>();
+        this.mensagens_recebidas = new ArrayList<>();
+    }
+        
     /**
      * Adiciona a variacao das coordenadas no valor da coordenada atual, sendo a variação máxima igual à velocidadeMaxima.
      * @param deltaX
@@ -74,7 +75,7 @@ public class RoboTerrestre extends Robo implements Comunicavel{
     }
 
     @Override
-    public CentralComunicacao get_CentralComunicacao(){
+    public CentralComunicacao get_centralComunicacao(){
         return this.central_comunicacao;
     }
 
@@ -83,14 +84,14 @@ public class RoboTerrestre extends Robo implements Comunicavel{
         if(this.central_comunicacao == null){
             throw new IllegalArgumentException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
         }
-        this.central_comunicacao.registrarMensagem(this.nome,mensagem);
+        this.central_comunicacao.registrarMensagem(getID(),mensagem);
         destinatario.receberMensagem(mensagem);
     }
 
     @Override
     public void receberMensagem(String mensagem){
         mensagens_recebidas.add(mensagem);
-    } 
+    }
 
 
 }
