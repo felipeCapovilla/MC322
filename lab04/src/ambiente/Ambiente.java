@@ -7,6 +7,7 @@ import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import robo.standart.Robo;
+import sensor.standart.Sensor;
 
 public class Ambiente {
 
@@ -335,8 +336,31 @@ public class Ambiente {
         }
     }
 
-    //TODO ver o que significa
-    public void executarSensores(){}
+    /**
+     * Imprime todos os sensores que os robos possuem
+     */
+    public void executarSensores(){
+        for(Robo robo : getListaRobos()){
+            System.out.printf("->%S:\n", robo);
+            Sensor sensortemp;
+
+            sensortemp = robo.get_SensorEspacial();
+            if(sensortemp != null){
+                System.out.printf("\t -Sensor Espacial %s\n", sensortemp.get_modelo());
+            }
+            
+            sensortemp = robo.get_SensorAltitude();
+            if(sensortemp != null){
+                System.out.printf("\t -Sensor Altitude %s\n", sensortemp.get_modelo());
+            }
+
+            sensortemp = robo.get_SensorTemperatura();
+            if(sensortemp != null){
+                System.out.printf("\t -Sensor Temperatura %s\n", sensortemp.get_modelo());
+            }
+
+        }
+    }
 
     /**
      * Verifica se há colisões entre as entidades
@@ -395,9 +419,9 @@ public class Ambiente {
      * Imprime o mapa do ambiente na altura desejada
      * @param altura
      */
-    public void visualizarAmbiente(int z) throws ValueOutOfBoundsException{
+    public void visualizarAmbiente(int z) throws PointOutOfMapException{
         if(z < 0 || z >= altura){
-            throw new ValueOutOfBoundsException("altura = " + z);
+            throw new PointOutOfMapException("altura = " + z);
         } else{
 
         }

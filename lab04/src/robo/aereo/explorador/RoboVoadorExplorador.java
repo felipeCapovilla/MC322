@@ -1,11 +1,11 @@
 package robo.aereo.explorador;
 
+import java.util.ArrayList;
 import central_comunicacao.CentralComunicacao;
 import interfaces.*;
 import constantes.Bussola;
 import robo.aereo.standart.*;
 import sensor.temperatura.SensorTemperatura;
-import java.utils.ArrayList;
 
 public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Sensoriavel {
 
@@ -16,7 +16,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     private String planeta_atual;
     private boolean em_missao;
     private CentralComunicacao central_comunicacao;
-    private ArrayList <String> mensagens_recebidas;
+    private final ArrayList<String> mensagens_recebidas;
     private boolean StatusSensores; //True: ligado -> False: desligado.
 
     public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max){
@@ -71,7 +71,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         this.em_missao = true; 
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
-        acionarSensores()
+        acionarSensores();
     }
 
      /**
@@ -104,6 +104,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
             }
             else{
                 this.get_SensorTemperatura().set_temperatura(nova_temperatura); //Altera a informacao no sensor.
+            }
         } else {
             throw new IllegalAccessError("Sensor temperatura nao instalado");
         }
@@ -146,9 +147,9 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     /**
      * Retorna temperatura atual percebida pelo robo pelo sensor.
      */
-    public double get_temperatura(){
+    public double get_temperatura() throws IllegalAccessError{
         if(this.StatusSensores == false){
-            throw new IllegalAccessError("Sensor desligado.")
+            throw new IllegalAccessError("Sensor desligado.");
         }else{
         return this.get_SensorTemperatura().get_temperaturaKelvin(); 
         }
@@ -175,12 +176,12 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
      * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
      */
     @Override
-    public double get_altitude() {
+    public double get_altitude() throws IllegalAccessError{
         if(this.StatusSensores == false){
-            throw new IllegalAccessError("Sensor desligado.")
+            throw new IllegalAccessError("Sensor desligado.");
         }
         else{
-            if(get_SensorAltitude() != null && this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
+            if(get_SensorAltitude() != null && get_altitude() <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
                 return this.get_SensorAltitude().get_altitude();
             }
             else{
@@ -211,7 +212,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     }
 
     @Override
-    public CentralComunicacao get_CentralComunicacao(){
+    public CentralComunicacao get_centralComunicacao(){
         return this.central_comunicacao;
     }
 
@@ -220,7 +221,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         if(this.central_comunicacao == null){
             throw new IllegalArgumentException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
         }
-        this.central_comunicacao.registrarMensagem(this.nome,mensagem);
+        this.central_comunicacao.registrarMensagem(getID(),mensagem);
         destinatario.receberMensagem(mensagem);
     }
 
@@ -228,9 +229,6 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     public void receberMensagem(String mensagem){
         mensagens_recebidas.add(mensagem);
     } 
-
-
-}
 
 
 }
