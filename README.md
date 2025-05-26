@@ -12,11 +12,19 @@ Guilherme Henrique da Silva - 281217
   - Comunicavel: RoboTerestre RoboVoadorExplorador
   - Sensoriavel: RoboVoadorExplorador
   - Battery: RoboAereo
-  - Attacker: RoboTerrestreVeiculo
-  - Destructible: RoboTerrestreVeiculo e RoboTerrestrePedestre
+  - Attacker: RoboVeiculo
+  - Destructible: RoboVeiculo e RoboPedestre
 - Criação de Exceptions personalizadas
+  - ColisaoException: Ambiente, RoboAereo e Robo
+  - ErroComunicacaoException: RoboVoadorExplorador, RoboTerrestre
+  - LowBatteryException: RoboAereo
+  - PointOutOfMapException: Ambiente, Robo, SensorEspacial
+  - RoboDesligadoException: Robo, RoboPedestre, RoboVeiculo
+  - SensorMissingException: RoboVoadorExplorador, RoboAereo
+  - ValueOutOfBoundsException: RoboVoadorExplorador, RoboAereo, RoboVoadorTurista, RoboTerrestre, RoboVeiculo, SensorAltitude, SensorTemperatura
+  - ZeroLifePointsException: RoboPedestre, RoboVeiculo
 - Tornar o console modularizável
-- Adição de Tarefas para: RoboVoadorExplorador, RoboVoadorTurista, RoboTerrestreVeiculo e RoboTerrestrePedestre
+- Adição de Tarefas para: RoboVoadorExplorador, RoboVoadorTurista, RoboVeiculo e RoboPedestre
 
 # Manual
 ## Execução
@@ -38,43 +46,63 @@ java -cp bin Main
      - deslocamento da altura (subir[+]/descer[-])
      - imprimir o ambiente no raio de alcance do sensor
      - monitorar estado dos sensores
+     - carregar bateria
      - informações do robo
+     - desligar robo
    - RoboAereoExplorador
      - deslocamento no plano
      - deslocamento da altura (subir[+]/descer[-])
      - imprimir o ambiente no raio de alcance do sensor
      - Iniciar/Finalizar missão, indicando o planeta destino, velocidade, temperatura e pressão
+     - Iniciar Tarefa (realizar missão)
      - monitorar estado dos sensores
+     - carregar robo
+     - enviar mensagem
      - informações do robo
+     - ligar/desligar sensores
+     - desligar robo
    - RoboAereoTurista
      - deslocamento no plano
      - deslocamento da altura (subir[+]/descer[-])
      - imprimir o ambiente no raio de alcance do sensor
      - Iniciar/Finalizar passeio, indicando cidade turistica e número de passageiros
+     - inicar tarefa (realizar passeio)
      - monitorar estado dos sensores
+     - carregar robo
      - informações do robo
+     - desligar robo
    - RoboTerrestreStandart
      - deslocamento no plano
      - imprimir o ambiente no raio de alcance do sensor
      - Definir a velocidade máxima de deslocamento do robo
      - monitorar estado dos sensores
+     - enviar mensagem
      - informações do robo
-   - RoboTerrestreVeiculo
+     - desligar robo
+   - RoboVeiculo
      - deslocamento no plano, para frente ou para trás
      - mudar a velocidade de deslocamento
      - Virar a direção do robo
      - imprimir o ambiente no raio de alcance do sensor
      - Definir a velocidade máxima de deslocamento do robo
      - Mudar número de passageiros
+     - iniciar tarefa (realizar 1-5 ataque bem-sucedidos)
+     - atacar na frente
+     - reparar robo
      - monitorar estado dos sensores
+     - enviar mensagem
      - informações do robo
-   - RoboTerrestrePedestre
+     - desligar robo
+   - RoboPedestre
      - deslocamento no plano. Correndo(100% velocidade máxima) ou Andando (60% velocidade máxima), deslocando-se menos quanto mais peso carrega 
      - imprimir o ambiente no raio de alcance do sensor
-     - mudar peso do robo
      - Definir a velocidade máxima de deslocamento do robo
+     - reparar robo
      - monitorar estado dos sensores
+     - iniciar tarefa (coletar 1-8 caixas no mapa)
+     - enviar mensagem
      - informações do robo
+     - desligar robo
 
 ## Diagrama UML
 Diagrama de classes e relações do projeto.
