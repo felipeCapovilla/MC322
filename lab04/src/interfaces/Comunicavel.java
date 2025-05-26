@@ -1,13 +1,14 @@
 package interfaces;
 
 import central_comunicacao.CentralComunicacao;
+import exceptions.ErroComunicacaoException;
 
 public interface Comunicavel{
 
     /**
      * Realiza o envio da mensagem para um objeto que tambem e comunicavel e envia o conteudo.
      */
-    void enviarMensagem(Comunicavel destinatario, String mensagem);
+    void enviarMensagem(Comunicavel destinatario, String mensagem) throws ErroComunicacaoException;
 
     /**
      * Receber a mensagem.

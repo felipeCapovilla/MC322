@@ -4,12 +4,10 @@ import ambiente.*;
 import constantes.*;
 import exceptions.*;
 import interfaces.Comunicavel;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
 import robo.aereo.turista.RoboVoadorTurista;
@@ -394,9 +392,16 @@ public class Console {
             scanner.nextLine();
             String mensagem = scanner.nextLine();
             
-            robo.enviarMensagem((Comunicavel) robosComunicavel.get(resposta-1), mensagem);
+            try {
+                robo.enviarMensagem((Comunicavel) robosComunicavel.get(resposta-1), mensagem);
 
-            System.out.println("Mensagem enviada com sucesso!");
+                System.out.println("Mensagem enviada com sucesso!");
+    
+            } catch (ErroComunicacaoException e) {
+                //Não é para ocorrer
+                System.err.println(e.getMessage());
+            }
+
 
         } else {
             System.out.println("Opcao nao disponivel");
