@@ -6,13 +6,13 @@ public enum TipoEntidade {
     OBSTACULO('#'),
     DESCONHECIDO('?');
 
-    char representacao;
+    private char representacao;
 
     private TipoEntidade(char representacao) {
         this.representacao = representacao;
     }
 
     public char getRepresentacao() {
-        return representacao;
+        return this.representacao;
     }
 }
