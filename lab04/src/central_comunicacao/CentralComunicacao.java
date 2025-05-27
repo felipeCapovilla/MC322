@@ -59,7 +59,9 @@ public class CentralComunicacao{
      */
     public void removerMensagem(String mensagem){
         int indice = mensagem.indexOf(mensagem);
-
+        if(indice == -1){
+            throw new NoSuchElementException("Mensagem nao encontrada");
+        }
         this.mensagens.remove(indice); //Remove tanto a mensagem quanto o remetente, para manter a paridade.
         this.remetentes_associados.remove(indice);
     }
