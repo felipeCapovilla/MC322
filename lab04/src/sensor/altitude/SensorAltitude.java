@@ -51,7 +51,7 @@ public class SensorAltitude extends Sensor{
         }
 
         this.altitude_atual = 0;
-        this.precisao = 0.05*altitude_atual; //Usa precisao generica: 0,5% do valor medido.
+        this.precisao = 0.05*altura_maxima; //Usa precisao generica: 0,5% do valor medido.
         this.altura_maxima = altura_maxima;
     }
 

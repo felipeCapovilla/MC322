@@ -1,8 +1,6 @@
 /*
  * Main.java
  * 
- * Última modificação: 10/04/2025
- * 
  * Simulação de um ambiente virtual para a testar robos.
  */
 

@@ -65,7 +65,7 @@ public abstract class Robo implements Entidade{
 
 
         if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY, posZ+deltaZ)){
-            if(detectarColisoes(posX + deltaX, posY + deltaY, posZ + deltaZ)){
+            if(!ambiente_atual.estaOcupado(posX + deltaX, posY + deltaY, posZ + deltaZ)){
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
                 ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ + deltaZ);
 
@@ -73,13 +73,13 @@ public abstract class Robo implements Entidade{
                 this.posY += deltaY;
                 this.posZ += deltaZ;
             } else {
-                throw new ColisaoException("Posicao ja ocupada");
+                throw new ColisaoException("(" + (posX+deltaX) + "," + (posY+deltaY) + ","+ (posZ+deltaZ) + ")");
             }
                 
         } else if((int) getZ() == -1){
-            throw  new SensorMissingException("Sensor de altitude nao instalado, nao e seguro se movimentar"); 
+            throw  new SensorMissingException("Sensor de altitude"); 
         } else {
-            throw new PointOutOfMapException("Tentativa de mover fora dos limites. Continua na posição (" + posX + "," + posY + ","+ posZ + ")");
+            throw new PointOutOfMapException("(" + (posX+deltaX) + "," + (posY+deltaY) + ","+ (posZ+deltaZ) + ")");
         }
         
     }    

@@ -5,6 +5,7 @@ import constantes.Bussola;
 import exceptions.*;
 import interfaces.*;
 import java.util.ArrayList;
+import java.util.Random;
 import robo.aereo.standart.*;
 import sensor.temperatura.SensorTemperatura;
 
@@ -15,10 +16,12 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     private final int velocidade_max;
     private int velocidade_atual;
     private String planeta_atual;
-    private boolean em_missao;
     private CentralComunicacao central_comunicacao;
     private final ArrayList<String> mensagens_recebidas;
     private boolean StatusSensores; //True: ligado -> False: desligado.
+
+    //Variávei tarefa
+    private final int[] chegada = {-1,-1,-1};
 
 
     public RoboVoadorExplorador(String nome,int posicaoX, int posicaoY,Bussola direcao,int altitude,int altitude_max,int velocidade_max) throws ValueOutOfBoundsException{
@@ -36,10 +39,34 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         this.temperatura_atual =0;
         this.velocidade_atual =0;
         this.planeta_atual = "";
-        this.em_missao = false;
         this.central_comunicacao = null;
         this.mensagens_recebidas = new ArrayList<>();
         this.StatusSensores = false;
+    }
+
+    //Movimento detecta tarefa
+    @Override
+    public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException, ValueOutOfBoundsException{
+        super.subir(metros);
+        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+            finalizarTarefa();
+        }
+    }
+
+    @Override
+    public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException{
+        super.descer(metros);
+        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+            finalizarTarefa();
+        }
+    }
+
+    @Override
+    public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException {
+        super.mover(deltaX, deltaY);
+        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+            finalizarTarefa();
+        }
     }
 
     /**
@@ -55,7 +82,9 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         this.StatusSensores= false;
     }
 
-    /** 
+
+    //Tarefa
+        /** 
      * Inicia a atividade do robo.
      * @param pressao_atual Pressao atual do ambiente em que esta.
      * @param temperatura_atual Temperatura do ambiente que esta.
@@ -74,23 +103,50 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         //Se tudo estiver válido
         set_temperatura(temperatura_atual);
         this.velocidade_atual = velocidade_atual; 
-        this.em_missao = true; 
+        setTarefaAtiva(true);
         this.pressao_atual = pressao_atual;
         this.planeta_atual = planeta;
         acionarSensores();
     }
 
-     /**
-     * Finaliza a missao e libera o robo para uso.
+    /**
+     * Finaliza a tarefa do robo
      */
-    public void finalizar_exploracao(){
-        set_temperatura(0);
+    public void finalizarTarefa(){
+        System.out.println("Tarefa Finalizada!");
 
-        this.em_missao = false;
+        set_temperatura(0);
         this.planeta_atual = "";
         this.pressao_atual=0;
         this.velocidade_atual=0;
         desligaSensores();
+        setTarefaAtiva(false);
+    }
+
+    @Override
+    public void executarTarefa() {
+        if (isTarefaAtiva()) {
+            System.out.println("Tarefa Iniciada!");
+            System.out.println("Explorando o planeta " + this.planeta_atual +
+                " com temperatura de " + this.temperatura_atual + "K, pressão de " + this.pressao_atual + 
+                "Pa e velocidade de " + this.velocidade_atual + "m/s.");
+            boolean running;
+            Random random = new Random();
+
+            do { 
+                chegada[0] = random.nextInt(get_ambiente().get_largura());
+                chegada[1] = random.nextInt(get_ambiente().get_comprimento());
+                chegada[2] = random.nextInt(get_ambiente().get_altura());
+
+                running = (get_ambiente().estaOcupado(chegada[0], chegada[1], chegada[2]) || chegada[2] >= get_altitude_max());
+     
+            } while (running);
+
+            System.out.printf("Chegada em: (%d,%d,%d)\n", chegada[0], chegada[1], chegada[2]);
+
+        } else {
+            System.out.println("Aguardando início da missão de exploração.");
+        }
     }
 
     //GETs e SETs
@@ -203,13 +259,6 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         return this.planeta_atual;
     }
 
-     /**
-     * Retorna se o robo esta sendo usado.
-     */
-    public boolean status_missao(){
-        return this.em_missao;
-    }
-
     //Implementacao dos metodos da interface COMUNICAVEL
 
     @Override
@@ -243,16 +292,8 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         return StatusSensores;
     }
 
-
-    @Override
-    public void executarTarefa() {
-        if (em_missao) {
-            System.out.println("Explorando o planeta " + this.planeta_atual +
-                " com temperatura de " + this.temperatura_atual + "K, pressão de " + this.pressao_atual + 
-                "Pa e velocidade de " + this.velocidade_atual + "m/s.");
-        } else {
-            System.out.println("Aguardando início da missão de exploração.");
-        }
+    public int[] getChegada() {
+        return chegada;
     }
 
 

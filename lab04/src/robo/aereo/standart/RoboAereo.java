@@ -8,7 +8,6 @@ import sensor.altitude.SensorAltitude;
 
 public class RoboAereo extends Robo implements Battery {
     
-    private int altitude;
     private final int altitude_max;
     private int bateria = 100;
     private final int carregarBateria = 20;
@@ -24,7 +23,6 @@ public class RoboAereo extends Robo implements Battery {
             throw new ValueOutOfBoundsException("altitude máxima: " + altitude_max);
         }
 
-        this.altitude = altitude;
         this.altitude_max = altitude_max;
     }
 
@@ -36,8 +34,8 @@ public class RoboAereo extends Robo implements Battery {
     public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException, ValueOutOfBoundsException{
         int pesoBateria = 10;//quanto gasta de bateria
         
-        if(this.altitude + metros > this.altitude_max){ //Verifica se a altura pode ser atingida por conta das limitações do robo.
-            throw new ValueOutOfBoundsException("altitude acima da máxima: " + ((altitude + metros) - this.altitude_max)+"m."); 
+        if(getZ() + metros > this.altitude_max){ //Verifica se a altura pode ser atingida por conta das limitações do robo.
+            throw new ValueOutOfBoundsException("altitude acima da máxima: " + ((getZ() + metros) - this.altitude_max)+"m."); 
         }
 
         if(this.get_SensorAltitude() == null){
@@ -47,9 +45,8 @@ public class RoboAereo extends Robo implements Battery {
         if(detectarColisoes(getX(), getY(), (int) get_altitude() + metros)){
             descarregar(pesoBateria);
 
-            mover(0, 0, altitude);
-            this.altitude+=metros; //Adiciona a altitude.
-            this.get_SensorAltitude().set_altitude(this.altitude);
+            mover(0, 0, metros);            
+            this.get_SensorAltitude().set_altitude(getZ());
         } else {
             throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
         }
@@ -73,8 +70,7 @@ public class RoboAereo extends Robo implements Battery {
             descarregar(pesoBateria);
 
             mover(0, 0, -metros);
-            this.altitude-=metros; //Adiciona a altitude.
-            this.get_SensorAltitude().set_altitude(this.altitude);
+            this.get_SensorAltitude().set_altitude(getZ());
         } else {
             throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
         }
@@ -102,7 +98,7 @@ public class RoboAereo extends Robo implements Battery {
     @Override
     public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
-        novo_SensorAltitude.set_altitude(this.altitude);
+        novo_SensorAltitude.set_altitude(getZ());
         this.set_sensorAltitude(novo_SensorAltitude); 
         sensores.add(novo_SensorAltitude);
     }
@@ -112,7 +108,7 @@ public class RoboAereo extends Robo implements Battery {
      */
     public double get_altitude() {
 
-        if(get_SensorAltitude() != null && this.altitude <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
+        if(get_SensorAltitude() != null && getZ() <= this.get_SensorAltitude().get_alturaMaxima()){ //Se a altitude atual pode ser medida pelo sensor.
             return this.get_SensorAltitude().get_altitude();
         }
         else{
@@ -124,20 +120,21 @@ public class RoboAereo extends Robo implements Battery {
      * Define o valor da variável altitude
      */
     public void set_altitude(int altitude) {
+        mover(0, 0, -getZ()); //zerar altitude
+
         if(altitude < 0){
             System.out.println("A altitude do robo não pode ser < 0m. Ajustando altura para 0m.");
-            this.altitude = 0;
             this.get_SensorAltitude().set_altitude(0);
         } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().get_altura()){
             System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().get_altura()+"m.");
-            this.altitude = this.get_ambiente().get_altura();
+            mover(0, 0, get_ambiente().get_altura());
             this.get_SensorAltitude().set_altitude(this.get_ambiente().get_altura());
         }else if(altitude > altitude_max){
             System.out.println("A altitude não pode ultrapassar o limite do robo. Altura ajustada para "+this.altitude_max+"m.");
-            this.altitude = altitude_max;
+            mover(0, 0, altitude_max);
             this.get_SensorAltitude().set_altitude(altitude_max);
         } else {
-            this.altitude = altitude;
+            mover(0, 0, altitude);
             this.get_SensorAltitude().set_altitude(altitude);
         }
     }

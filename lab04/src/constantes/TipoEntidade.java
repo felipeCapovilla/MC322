@@ -6,7 +6,7 @@ public enum TipoEntidade {
     OBSTACULO('#'),
     DESCONHECIDO('?');
 
-    private char representacao;
+    private final char representacao;
 
     private TipoEntidade(char representacao) {
         this.representacao = representacao;

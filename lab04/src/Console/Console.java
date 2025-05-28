@@ -466,8 +466,10 @@ public class Console {
                 } catch(PointOutOfMapException e){ 
                     System.err.println("Local fora dos limites do ambiente: " + e.getMessage());
                 } catch(SensorMissingException e){ 
+                    System.err.println(e.getMessage());
+                } catch(ValueOutOfBoundsException e){ 
                     System.err.println("Sensor nao instalado: " + e.getMessage());
-                } catch (Exception e) {
+                } catch (RoboDesligadoException | NullPointerException e) {
                     //Não é para ocorrer
                     System.err.println(e);
                 }
@@ -683,13 +685,11 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(4, "Iniciar/Finalizar missao", ()->
+
+        opcoesMenu.add(new MenuItem(4, "Iniciar Tarefa", ()->
             {
-                //Inicia/finaliza uma missão
-                if(robo.status_missao()){
-                    robo.finalizar_exploracao();
-                    System.out.println("Missao finalizada");
-                } else {
+                //Iniciar tarefa
+                if(!robo.isTarefaAtiva()){
                     int pressao, temperatura, velocidade;
                     String planeta;
 
@@ -709,27 +709,18 @@ public class Console {
                     try{
                         robo.iniciar_exploracao(pressao, temperatura, velocidade, planeta);
 
-                        System.out.println("Missao iniciada");
-
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
-                    }
+                    } 
 
-                    
-                }
-
-            }));
-        opcoesMenu.add(new MenuItem(5, "Iniciar Tarefa", ()->
-            {
-                //Iniciar tarefa
-                if(!robo.isTarefaAtiva()){
                     robo.executarTarefa();
+
                 } else {
                     System.out.println("Tarefa já iniciada");
                 }  
 
             }));
-        opcoesMenu.add(new MenuItem(6, "Monitorar sensores", ()->
+        opcoesMenu.add(new MenuItem(5, "Monitorar sensores", ()->
             {
                 if(robo.isStatusSensores()){
                     
@@ -759,12 +750,12 @@ public class Console {
 
 
             }));
-        opcoesMenu.add(new MenuItem(7, "Carregar", ()->
+        opcoesMenu.add(new MenuItem(6, "Carregar", ()->
             {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(9, "Info", ()->
+        opcoesMenu.add(new MenuItem(8, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -785,25 +776,26 @@ public class Console {
                     System.out.println("Temperatura: Sensor de temperatura nao instalado");
                 }
 
-                if(robo.status_missao()){
+                if(robo.isTarefaAtiva()){
                     System.out.println("Status da missao: ATIVO");
                     System.out.println("\tPlaneta destino: " + robo.get_planeta());
                     System.out.printf("\tPressao atual: %dkPa\n", robo.get_pressao());
                     System.out.printf("\tVelocidade atual: %dm/s\n", robo.get_velocidade());
+                    System.out.printf("\tChegada em: (%d,%d,%d)\n", robo.getChegada()[0], robo.getChegada()[1], robo.getChegada()[2]);
 
                 } else {
                     System.out.println("Status da missao: INATIVO");
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(11, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(10, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
                 System.out.println("Robo Desligado");
 
             }));
-        opcoesMenu.add(new MenuItem(10, "Desligar/Ligar Sensores", ()->
+        opcoesMenu.add(new MenuItem(9, "Desligar/Ligar Sensores", ()->
             {
                 //Desligar/Ligar sensores Robo
                 if(robo.isStatusSensores()){
@@ -815,7 +807,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(8, "Enviar mensagem", ()->
+        opcoesMenu.add(new MenuItem(7, "Enviar mensagem", ()->
             {
                 acaoComunicavel(robo);
             })
@@ -957,13 +949,10 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(4, "Iniciar/Finalizar passeio", ()->
+        opcoesMenu.add(new MenuItem(4, "Iniciar Tarefa", ()->
             {
-                //Iniciar/finalizar passeio
-                if(robo.get_status()){
-                    robo.finalizar_passeio();
-                    System.out.println("Passeio finalizado");
-                } else {
+                //Iniciar tarefa
+                if(!robo.isTarefaAtiva()){
                     int passageiros;
                     String cidade;
 
@@ -979,17 +968,11 @@ public class Console {
                         
                         System.out.println("Passeio iniciado");
 
-                    } catch (Exception e) {
+                    } catch (ValueOutOfBoundsException e) {
                         System.out.println(e.getMessage());
                     }
-                    
-                }
 
-            }));
-        opcoesMenu.add(new MenuItem(5, "Iniciar Tarefa", ()->
-            {
-                //Iniciar tarefa
-                if(!robo.isTarefaAtiva()){
+
                     robo.executarTarefa();
                 } else {
                     System.out.println("Tarefa já iniciada");
@@ -997,7 +980,7 @@ public class Console {
 
             }));
         
-        opcoesMenu.add(new MenuItem(6, "Monitorar sensores", ()->
+        opcoesMenu.add(new MenuItem(5, "Monitorar sensores", ()->
             {
                 //Monitora os sensores do robo
                 if(robo.get_SensorAltitude() == null){
@@ -1021,12 +1004,12 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(7, "Carregar", ()->
+        opcoesMenu.add(new MenuItem(6, "Carregar", ()->
             {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(8, "Info", ()->
+        opcoesMenu.add(new MenuItem(7, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1047,17 +1030,18 @@ public class Console {
                     System.out.println("Temperatura: Sensor de temperatura nao instalado");
                 }
 
-                if(robo.get_status()){
+                if(robo.isTarefaAtiva()){
                     System.out.println("Status do passeio: ATIVO");
                     System.out.println("\tCidade turistica: " + robo.get_destino());
                     System.out.println("\tNumeros passageiros: "+ robo.get_numero_passageiros());
+                    System.out.printf("\tChegada em: (%d,%d,%d)\n", robo.getChegada()[0], robo.getChegada()[1], robo.getChegada()[2]);
 
                 } else {
                     System.out.println("Status do passeio: INATIVO");
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(9, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
