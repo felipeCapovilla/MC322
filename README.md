@@ -107,7 +107,7 @@ java -cp bin Main
 ## Diagrama UML
 Diagrama de classes e relações do projeto.
 
-![Diagrama](lab03/lab03_UML.png)
+![Diagrama](lab04/diagrama_uml_lab04.jpg)
 
 ## Arquivos
 #### Main
