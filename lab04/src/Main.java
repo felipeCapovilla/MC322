@@ -80,7 +80,7 @@ public class Main {
         ambiente.adicionarObstaculo(3, 97, TipoObstaculo.PESSOA);
         ambiente.adicionarObstaculo(2, 96, TipoObstaculo.PESSOA);
         ambiente.adicionarObstaculo(2, 98, TipoObstaculo.PESSOA);
-        ambiente.adicionarObstaculo(70, 70, TipoObstaculo.ARBUSTO);
+        ambiente.adicionarObstaculo(31, 31, TipoObstaculo.ARBUSTO);
 
         ambiente.adicionarObstaculo(1, 40, 5, 60, TipoObstaculo.PREDIO);
         ambiente.adicionarObstaculo(30, 25, 15, 25, TipoObstaculo.PAREDE);

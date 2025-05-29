@@ -1,7 +1,6 @@
 package robo.standart;
 
 import ambiente.Ambiente;
-import ambiente.Obstaculo;
 import constantes.*;
 import exceptions.*;
 import interfaces.Entidade;
@@ -65,19 +64,28 @@ public abstract class Robo implements Entidade{
 
 
         if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY, posZ+deltaZ)){
-            if(!ambiente_atual.estaOcupado(posX + deltaX, posY + deltaY, posZ + deltaZ)){
+            int colisao;
+
+            try {
+                colisao = detectarColisoes(posX + deltaX, posY + deltaY, posZ + deltaZ);
+            } catch (SensorMissingException e) {
+                colisao = -1;
+            }
+
+            //Caso o espaço esteja ocupado e dentro do raio do sensor, o robo não tenta se mover
+            if(colisao == 1){
+                throw new ColisaoException(String.format("Sensor espacial detectou ocupacao em: (%d,%d,%d)", posX + deltaX, posY + deltaY, posZ + deltaZ));
+            } else {
+                //Caso contrário, o robo se move e, se houver colisão, o ambiente joga um ColisaoException
+
                 //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
                 ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ + deltaZ);
 
                 this.posX += deltaX;
                 this.posY += deltaY;
                 this.posZ += deltaZ;
-            } else {
-                throw new ColisaoException("(" + (posX+deltaX) + "," + (posY+deltaY) + ","+ (posZ+deltaZ) + ")");
             }
-                
-        } else if((int) getZ() == -1){
-            throw  new SensorMissingException("Sensor de altitude"); 
+
         } else {
             throw new PointOutOfMapException("(" + (posX+deltaX) + "," + (posY+deltaY) + ","+ (posZ+deltaZ) + ")");
         }
@@ -106,48 +114,18 @@ public abstract class Robo implements Entidade{
     }
 
     /**
-     * Verifica se o espaco verificado esta livre
-     * @param X
-     * @param Y
-     * @return
+     * Verifica se o espaco verificado esta livre, segundo o sensor espacial <p>
+     * retorno: <p>
+     * 1 = colinsao <p> 
+     * 0 = sem solisao <p>
+     * -1 = fora do alcance
      */
-    public boolean detectarColisoes(int X, int Y, int Z){
-        return !identificar_obstaculos(X, Y, Z) && !identificar_robos(X, Y, Z);
-    }
-
-    /**
-     * Identifica se a posicao esta ocupado por um obstaculo
-     */
-    private boolean identificar_obstaculos(int X, int Y, int Z) throws NullPointerException{
-        if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            for(Obstaculo obst: ambiente_atual.getObstaculos()){
-                if(!obst.Passavel() && obst.estaDentro(X, Y, Z)){
-                    return true;
-                }
-                
-            }
-
-            return false;
-        } else {
-            throw new NullPointerException();
+    public int detectarColisoes(int X, int Y, int Z) throws SensorMissingException{
+        if(get_SensorEspacial() == null){
+            throw new SensorMissingException("Sensor Espacial");
         }
-    }
 
-    /**
-     * Identifica se a posicao esta ocupado por um robo
-     */
-    private boolean identificar_robos(int X, int Y, int Z) throws NullPointerException{
-        if(ambiente_atual != null){ //apenas verifica se o robo estiver em um ambiente
-            for(Robo robo: ambiente_atual.getListaRobos()){
-                if(robo.getX() == X && robo.getY() == Y && robo.getZ() == Z){
-                    return true;
-                }
-            }
-
-            return false;
-        } else {
-            throw new NullPointerException();
-        }
+        return get_SensorEspacial().detectarColisoes(getX(), getY(), getZ(), X, Y, Z, get_ambiente());
     }
 
     /**

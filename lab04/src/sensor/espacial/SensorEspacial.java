@@ -122,6 +122,31 @@ public class SensorEspacial extends Sensor{
 
     }
 
+    /**
+     * Verifica se o espaco verificado esta livre, segundo o sensor espacial <p>
+     * retorno: <p>
+     * 1 = colinsao <p> 
+     * 0 = sem solisao <p>
+     * -1 = fora do alcance
+     */
+    public int detectarColisoes(int roboX, int roboY, int roboZ, int novoX, int novoY, int novoZ, Ambiente ambiente){
+        int distX = Math.abs(roboX - novoX);
+        int distY = Math.abs(roboY - novoY);
+        int distZ = Math.abs(roboZ - novoZ);
+
+        //Ponto fora do alcance do sensor
+        if(distX > get_raioAlcance() || distY > get_raioAlcance() || distZ > get_raioAlcance()){
+            return -1;
+        
+        } else {
+            if(ambiente.estaOcupado(novoX, novoY, novoZ)){
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
     @Override
     public void monitorar(){
         System.out.printf("Monitorando ambiente num raio de %d metros.\n", get_raioAlcance());

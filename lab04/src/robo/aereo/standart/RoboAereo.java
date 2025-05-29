@@ -42,14 +42,11 @@ public class RoboAereo extends Robo implements Battery {
             throw new SensorMissingException("Sensor de altitude");
         }
 
-        if(detectarColisoes(getX(), getY(), (int) get_altitude() + metros)){
-            descarregar(pesoBateria);
 
-            mover(0, 0, metros);            
-            this.get_SensorAltitude().set_altitude(getZ());
-        } else {
-            throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
-        }
+        mover(0, 0, metros); 
+        descarregar(pesoBateria);
+        this.get_SensorAltitude().set_altitude(getZ());
+
         
     }
 
@@ -66,14 +63,10 @@ public class RoboAereo extends Robo implements Battery {
             throw new SensorMissingException("Sensor de altitude");
         }
         
-        if(detectarColisoes(getX(), getY(), (int) get_altitude() - metros)){
-            descarregar(pesoBateria);
+        mover(0, 0, -metros);
+        descarregar(pesoBateria);
+        this.get_SensorAltitude().set_altitude(getZ());
 
-            mover(0, 0, -metros);
-            this.get_SensorAltitude().set_altitude(getZ());
-        } else {
-            throw new ColisaoException(String.format("(%d,%d,%d)", getX(), getY(), (int) get_altitude() + metros));
-        }
     }
 
     /**
@@ -148,7 +141,7 @@ public class RoboAereo extends Robo implements Battery {
 
     @Override
     public void executarTarefa() {
-        // TODO Auto-generated method stub
+        // Tarefa não implementada para RoboAereo
         throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
     }
 

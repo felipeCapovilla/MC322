@@ -29,7 +29,7 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         super(nome,posicaoX,posicaoY,direcao,altitude,altitude_max); //Inicializa as variaveis da classe herdada.
         
         if(velocidade_max < 0){
-            throw new ValueOutOfBoundsException("Velocidade macima: " + velocidade_max);
+            throw new ValueOutOfBoundsException("Velocidade maxima: " + velocidade_max);
         }
 
         this.velocidade_max = velocidade_max;
@@ -48,24 +48,31 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
     @Override
     public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException, ValueOutOfBoundsException{
         super.subir(metros);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
+        
     }
 
     @Override
     public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException{
         super.descer(metros);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
     }
 
     @Override
     public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException {
         super.mover(deltaX, deltaY);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
     }
 
@@ -96,6 +103,10 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
         //Verificação de valores inválidos
         if(velocidade_atual > this.velocidade_max){ //Verifica se velocidade respeita limites do robo.
             throw new ValueOutOfBoundsException("Velocidade acima da maxima: "+(velocidade_atual - this.velocidade_max)+"m/s"); //Se nao: lança erro.
+        } else if(velocidade_atual < 0){
+            throw new ValueOutOfBoundsException("Velocidade <0m/s"); //Se nao: lança erro.
+        } else if (pressao_atual < 0) {
+            throw new ValueOutOfBoundsException("Pressão <0Pas"); //Se nao: lança erro.
         } else if (temperatura_atual < 0) { //Verifica se a temperatura é plausivel.
             throw new ValueOutOfBoundsException("Temperatura: <0K"); //Se nao: lança erro.
         }

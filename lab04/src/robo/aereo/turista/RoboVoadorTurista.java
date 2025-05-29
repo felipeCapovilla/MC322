@@ -36,24 +36,30 @@ public class RoboVoadorTurista extends RoboAereo{
     @Override
     public void subir(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException, ValueOutOfBoundsException{
         super.subir(metros);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
     }
 
     @Override
     public void descer(int metros) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException, SensorMissingException{
         super.descer(metros);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
     }
 
     @Override
     public void mover(int deltaX, int deltaY) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException, LowBatteryException {
         super.mover(deltaX, deltaY);
-        if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
-            finalizarTarefa();
+        if(isTarefaAtiva()){
+            if (getX() == chegada[0] && getY() == chegada[1] && getZ() == chegada[2]) {
+                finalizarTarefa();
+            }
         }
     }
 
@@ -66,6 +72,8 @@ public class RoboVoadorTurista extends RoboAereo{
     public void inciar_passeio(int numero_passageiros, String cidade_turistica) throws ValueOutOfBoundsException{
         if(numero_passageiros > this.capacidade_maxima){ //Verifica se a quantidade de passageiros e permitida.
             throw new ValueOutOfBoundsException("Capacidade acima da máxima: "+(numero_passageiros - this.capacidade_maxima));
+        } else if(numero_passageiros < 0){
+            throw new ValueOutOfBoundsException("Passageiros <0"); //Se nao: lança erro.
         }
 
         this.numero_passageiros = numero_passageiros;
