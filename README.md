@@ -33,7 +33,7 @@ Comandos usados dentros de uma das pastas labXX.
 javac -sourcepath src src/**/*.java -d bin
 ```
 ```
-java -cp bin Main
+java -cp bin main/Main
 ```
 
 ## Instruções do MENU
