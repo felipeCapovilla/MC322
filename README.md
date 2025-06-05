@@ -30,7 +30,7 @@ Guilherme Henrique da Silva - 281217
 ## Execução
 Comandos usados dentros de uma das pastas labXX.
 ```
-javac -sourcepath src src/*.java -d bin
+javac -sourcepath src src/**/*.java -d bin
 ```
 ```
 java -cp bin Main
