@@ -3,7 +3,7 @@ Repositorio utilizado para entrega de laboratórios da matéria MC322.
 
 ## Colaboradores
 Felipe Pavanello Capovilla - 174411 <p>
-Guilherme Henrique da Silva - 281217
+Guilherme Henrique da Silva - 281217!
 
 # Adições
 ## LAB 4
