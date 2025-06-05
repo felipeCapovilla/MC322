@@ -3,7 +3,7 @@ Repositorio utilizado para entrega de laboratórios da matéria MC322.
 
 ## Colaboradores
 Felipe Pavanello Capovilla - 174411 <p>
-Guilherme Henrique da Silva - 281217
+Guilherme Henrique da Silva - 281217!
 
 # Adições
 ## LAB 4
@@ -107,7 +107,7 @@ java -cp bin Main
 ## Diagrama UML
 Diagrama de classes e relações do projeto.
 
-![Diagrama](lab03/lab03_UML.png)
+![Diagrama](lab04/diagrama_uml_lab04.jpg)
 
 ## Arquivos
 #### Main

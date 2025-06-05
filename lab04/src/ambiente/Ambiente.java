@@ -1,5 +1,6 @@
 package ambiente;
 
+import central_comunicacao.CentralComunicacao;
 import constantes.TipoEntidade;
 import constantes.TipoObstaculo;
 import exceptions.*;
@@ -7,8 +8,6 @@ import interfaces.Comunicavel;
 import interfaces.Entidade;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
-import central_comunicacao.CentralComunicacao;
 import robo.standart.Robo;
 import sensor.standart.Sensor;
 
@@ -144,11 +143,21 @@ public class Ambiente {
     }
 
     /**
-     * Verifica se o ponto está ocupado
+     * Verifica se o ponto está ocupado <p>
+     * Caso for um obstáculo passável, retorna que está livre
      */
     public boolean estaOcupado(int x, int y, int z){
-        //TODO ajustar para obstáculos passáveis
-        return (mapa[x][y][z] != TipoEntidade.VAZIO);
+        if(mapa[x][y][z] != TipoEntidade.OBSTACULO){
+            return (mapa[x][y][z] != TipoEntidade.VAZIO);
+        } else{
+            for(Obstaculo obst : getObstaculos()){
+                if(obst.estaDentro(x, y, z)){
+                    return !obst.Passavel();
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -334,9 +343,17 @@ public class Ambiente {
             throw new PointOutOfMapException(String.format("(%d,%d,%d)", novoX, novoY, novoZ));
         }
 
+        
+
         if(!estaOcupado(novoX, novoY, novoZ)){
-            //TODO ajustar para obstáculos passáveis
-            mapa[ent.getX()][ent.getY()][ent.getZ()] = TipoEntidade.VAZIO;
+            int oldX = ent.getX();
+            int oldY = ent.getY();
+            int oldZ = ent.getZ();
+
+            //Verifica se havia um obstaculo passável no local
+            boolean haObjPassavel = getObstaculos().stream().anyMatch(obst -> obst.Passavel() && obst.estaDentro(oldX,oldY,oldZ));
+
+            mapa[oldX][oldY][oldZ] = haObjPassavel ? TipoEntidade.OBSTACULO : TipoEntidade.VAZIO;
 
             mapa[novoX][novoY][novoZ] = ent.getTipo();
         } else {
