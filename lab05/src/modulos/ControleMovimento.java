@@ -1,6 +1,5 @@
 package modulos;
 
-
 import exceptions.*;
 import robo.Robo;
 
@@ -61,15 +60,34 @@ public class ControleMovimento(){
     }
 
 
-
-
-
     public void set_roboAssociado(Robo novo_robo){
         this.robo_associado = novo_robo;
     }
 
     public Robo get_roboAssociado(){
         return this.robo_associado;
+    }
+
+    public void return_toHome(){
+        if(this.robo_associado == null){
+            throw new NoRobotException(String.format("O modulo %s nao tem nenhum robo sendo controlado."),this.modelo);
+        }
+        if(robo_associado.ambiente_atual == null){
+            throw new NullPointerException();
+        }
+        if(robo_associado.isLigado()==false){
+            throw new RoboDesligadoException();
+        }
+
+        robo_associado.setX(0);
+        robo_associado.setY(0);
+        robo_associado.setZ(0);
+
+    }
+
+    @Override
+    public Strign toStrign(){
+        return String.format("Modulo controlador de movimento do modelo %s\nassociado ao robo %s",this.modelo,this.robo_associado);
     }
 
 }
