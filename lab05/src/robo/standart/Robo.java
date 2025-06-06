@@ -9,7 +9,7 @@ import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
-
+import modulos.controle_movimento;
 
 public abstract class Robo implements Entidade{
     
@@ -29,6 +29,8 @@ public abstract class Robo implements Entidade{
     private SensorEspacial sensor_espacial;
     protected final ArrayList<Sensor> sensores;
 
+    private ControleMovimento modulo_controleMovimento;
+
     /**
      * NORTE, SUL, LESTE, OESTE
      */
@@ -46,6 +48,7 @@ public abstract class Robo implements Entidade{
         this.sensor_temperatura = null;
         this.sensor_espacial = null;
         this.estado = EstadoRobo.DESLIGADO;
+        this.modulo_controleMovimento = null;
     }
 
 
@@ -54,42 +57,11 @@ public abstract class Robo implements Entidade{
      * @param deltaX
      * @param deltaY
      */
-    public void mover(int deltaX, int deltaY, int deltaZ) throws NullPointerException, ColisaoException, PointOutOfMapException, RoboDesligadoException{ 
-        if(this.ambiente_atual == null){
-            throw new NullPointerException();
+    public void mover(int deltaX, int deltaY, int deltaZ) throws NoModuleException{ 
+        if(this.modulo_controleMovimento == null){
+            throw new NoModuleException("Modulo para controle de movimento nao detectado.");
         }
-        if(!isLigado()){
-            throw new RoboDesligadoException();
-        }
-
-
-        if(ambiente_atual.dentroDosLimites(this.posX + deltaX, this.posY + deltaY, posZ+deltaZ)){
-            int colisao;
-
-            try {
-                colisao = detectarColisoes(posX + deltaX, posY + deltaY, posZ + deltaZ);
-            } catch (SensorMissingException e) {
-                colisao = -1;
-            }
-
-            //Caso o espaço esteja ocupado e dentro do raio do sensor, o robo não tenta se mover
-            if(colisao == 1){
-                throw new ColisaoException(String.format("Sensor espacial detectou ocupacao em: (%d,%d,%d)", posX + deltaX, posY + deltaY, posZ + deltaZ));
-            } else {
-                //Caso contrário, o robo se move e, se houver colisão, o ambiente joga um ColisaoException
-
-                //Obs.: a função moverEntidade precisa ser chamada antes de mudar as variáveis do robo
-                ambiente_atual.moverEntidade(this, this.posX+deltaX, this.posY+deltaY, this.posZ + deltaZ);
-
-                this.posX += deltaX;
-                this.posY += deltaY;
-                this.posZ += deltaZ;
-            }
-
-        } else {
-            throw new PointOutOfMapException("(" + (posX+deltaX) + "," + (posY+deltaY) + ","+ (posZ+deltaZ) + ")");
-        }
-        
+        this.modulo_controleMovimento.mover(deltaX,deltaY,deltaZ);
     }    
 
     /**
@@ -272,6 +244,17 @@ public abstract class Robo implements Entidade{
         return this.posZ;
     }
 
+    public int setX(int novo_x){
+        this.posX = novo_x;
+    }
+
+    public int setY(int novo_y){
+        this.posY = novo_y;
+    }
+
+    public int setZ(int novo_z){
+        this.posZ = novo_z;
+    }
 
     @Override
     public TipoEntidade getTipo() {
@@ -297,6 +280,13 @@ public abstract class Robo implements Entidade{
         return tipoEntidade.getRepresentacao();
     }
 
+    public ControleMovimento get_controleMovimento(){
+        return this.modulo_controleMovimento;
+    }
+
+    public void set_ControleMovimento(ControleMovimento novo_modulo){
+        this.modulo_controleMovimento=novo_modulo;
+    }
     //Metodos abstratos.
 
     /**
@@ -322,6 +312,8 @@ public abstract class Robo implements Entidade{
     public String getDescricao() {
         return "Robo é uma entidade móvel que pode realizar diversas funções";
     }
+
+
 
 }
 
