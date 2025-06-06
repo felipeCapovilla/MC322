@@ -19,4 +19,26 @@ public enum Bussola {
         return indice;
     }
 
+    /**
+     * Transforma string em direção da bussola
+     */
+    static public Bussola strToBussola(String dir){
+        switch (dir.toLowerCase()) {
+            case "oeste":
+                return Bussola.OESTE; 
+
+            case "leste":
+                return Bussola.LESTE; 
+
+            case "norte":
+                return Bussola.NORTE; 
+            
+            case "sul":
+                return Bussola.SUL; 
+
+            default:
+                return null;
+        }
+    }
+
 }

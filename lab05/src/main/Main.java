@@ -3,14 +3,20 @@
  * 
  * Simulação de um ambiente virtual para a testar robos.
  */
-
+package main;
 
 import Console.Console;
 import ambiente.*;
 import constantes.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
+import robo.standart.Robo;
 import robo.terrestre.pedestre.*;
 import robo.terrestre.standart.*;
 import robo.terrestre.veiculo.*;
@@ -20,11 +26,85 @@ import robo.terrestre.veiculo.*;
  */
 public class Main {
     public static void main(String[] args) {
+        //Ambiente
+        Ambiente ambiente =null;
+
+        //Importar configurações do arquivo de propriedades
+        String path = "src" + File.separator + "resources" + File.separator + "config.txt";
+        
+        try {
+            File fileConfig = new File(path);
+            BufferedReader inData = new BufferedReader(new FileReader(fileConfig));
+            try (Scanner configText = new Scanner(inData)) {
+                String leitura;
+                Robo robo;
+                
+                while (configText.hasNext()) {
+                    leitura = configText.next();
+                    
+                    switch (leitura) {
+                        case "AMBIENTE":
+                            ambiente = new Ambiente(configText.nextInt(), configText.nextInt(), configText.nextInt());
+                            break;
+
+                        case "ROBOAEREO":
+                            robo = new RoboAereo(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()),configText.nextInt(),configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+
+                        case "ROBOAEREOTURISTA":
+                            robo = new RoboVoadorTurista(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()),configText.nextInt(),configText.nextInt(), configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+
+                        case "ROBOAEREOEXPLORADOR":
+                            robo = new RoboVoadorExplorador(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()),configText.nextInt(),configText.nextInt(), configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+
+                        case "ROBOTERRESTRE":
+                            robo = new RoboTerrestre(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()),configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+
+                        case "ROBOVEICULO":
+                            robo = new RoboVeiculo(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()),configText.nextInt(), configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+
+                        case "ROBOPEDESTRE":
+                            robo = new RoboPedestre(configText.next(),configText.nextInt(),configText.nextInt(),Bussola.strToBussola(configText.next()), configText.nextInt());
+                            ambiente.adicionarRobo(robo);
+                            break;
+                            
+                        default:
+                            System.err.println(leitura);;
+                    }
+                    
+                }
+            }
+
+
+
+        } catch (FileNotFoundException ex) {
+            System.err.println("Erro ao ler o arquivo de configuração: " + ex.getMessage());
+            return;
+        } catch (Exception e){
+            System.err.println(e);
+        }
+
+
+        //Começar programa
+        Console menu = new Console(ambiente);
+
+        //Menu
+        menu.mainMenu();
+
         
         //Criacao do ambiente e dos robos.
 
-        Ambiente ambiente = new Ambiente(100,100,100);
-        Console menu = new Console(ambiente);
+        
+
 
         RoboAereo roboAereo = new RoboAereo("padrao aereo",2,97,Bussola.OESTE,5,100);
         RoboVoadorTurista roboAereoTurista = new RoboVoadorTurista("turistando",10,20,Bussola.OESTE,10,40,30);
@@ -87,8 +167,7 @@ public class Main {
         ambiente.adicionarObstaculo(75, 10, 90, 20, 40, TipoObstaculo.AVIAO);
 
 
-        //Menu
-        menu.mainMenu();
+        
 
         
 
