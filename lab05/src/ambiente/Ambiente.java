@@ -571,4 +571,19 @@ public class Ambiente {
         return comunicacao;
     }
 
+    /**
+     * Retorna o Robo com id inserido
+     */
+    public Robo getRobo(String id){
+        ArrayList<Robo> listaRobos = getListaRobos();
+
+        for(Robo robo : listaRobos){
+            if(robo.getID().equals(id)){
+                return robo;
+            }
+        }
+
+        return null;
+    }
+
 }

@@ -34,4 +34,16 @@ public enum TipoObstaculo {
     public boolean isBloqueio() {
         return bloqueio;
     }
+
+    static public TipoObstaculo strToTipoObstaculo(String kind){
+        TipoObstaculo[] listaTipoObstaculo = TipoObstaculo.values();
+
+        for(TipoObstaculo tipoObstaculo : listaTipoObstaculo){
+            if(tipoObstaculo.toString().equals(kind.toUpperCase())){
+                return tipoObstaculo;
+            }
+        }
+
+        return TipoObstaculo.OUTRO;
+    }
 }
