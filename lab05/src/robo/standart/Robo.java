@@ -5,11 +5,11 @@ import constantes.*;
 import exceptions.*;
 import interfaces.Entidade;
 import java.util.ArrayList;
+import modulos.ControleMovimento;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
 import sensor.temperatura.SensorTemperatura;
-import modulos.controle_movimento;
 
 public abstract class Robo implements Entidade{
     
@@ -244,15 +244,15 @@ public abstract class Robo implements Entidade{
         return this.posZ;
     }
 
-    public int setX(int novo_x){
+    public void setX(int novo_x){
         this.posX = novo_x;
     }
 
-    public int setY(int novo_y){
+    public void setY(int novo_y){
         this.posY = novo_y;
     }
 
-    public int setZ(int novo_z){
+    public void setZ(int novo_z){
         this.posZ = novo_z;
     }
 

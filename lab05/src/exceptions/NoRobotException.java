@@ -1,6 +1,6 @@
 package exceptions;
 
-public class NoRobotException extends RuntimeException(){
+public class NoRobotException extends RuntimeException{
 
     public NoRobotException(){
         super();

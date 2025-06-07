@@ -1,10 +1,9 @@
 package modulos;
 
-
 import exceptions.*;
-import robo.Robo;
+import robo.standart.Robo;
 
-public class ControleMovimento(){
+public class ControleMovimento{
     
     private Robo robo_associado;
     private String modelo;
@@ -23,16 +22,16 @@ public class ControleMovimento(){
 
     public void mover(int deltaX, int deltaY, int deltaZ) throws NullPointerException,ColisaoException,PointOutOfMapException,RoboDesligadoException,NoRobotException{
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("O modulo %s nao tem nenhum robo sendo controlado."),this.modelo);
+            throw new NoRobotException(String.format("O modulo %s nao tem nenhum robo sendo controlado.",this.modelo));
         }
-        if(robo_associado.ambiente_atual == null){
+        if(robo_associado.get_ambiente() == null){
             throw new NullPointerException();
         }
         if(robo_associado.isLigado()==false){
             throw new RoboDesligadoException();
         }
 
-        if(robo_associado.ambiente_atual.dentroDosLimites(robo_associado.getX() + deltaX, robo_associado.getY() + deltaY,robo_associado.getZ()+deltaZ)){
+        if(robo_associado.get_ambiente().dentroDosLimites(robo_associado.getX() + deltaX, robo_associado.getY() + deltaY,robo_associado.getZ()+deltaZ)){
             int colisao;
             try{
                 colisao = robo_associado.detectarColisoes(robo_associado.getX()+deltaX,robo_associado.getY()+deltaY,robo_associado.getZ()+deltaZ);
@@ -43,12 +42,12 @@ public class ControleMovimento(){
             if(colisao == 1){
                 throw new ColisaoException(String.format("Sensor espacial detectou ocupacao em: (%d,%d,%d)",robo_associado.getX()+deltaX,robo_associado.getY()+deltaY,robo_associado.getZ()+deltaZ));
             }else{
-                robo_associado.ambiente_atual.moverEntidade(robo_associado,robo_associado.getX()+deltaX,robo_associado.getY()+deltaY,robo_associado.getZ()+deltaZ);
+                robo_associado.get_ambiente().moverEntidade(robo_associado,robo_associado.getX()+deltaX,robo_associado.getY()+deltaY,robo_associado.getZ()+deltaZ);
 
 
-                int currX = robo_associado.getX()
-                int currY = robo_associado.getY()
-                int currZ = robo_associado.getZ()
+                int currX = robo_associado.getX();
+                int currY = robo_associado.getY();
+                int currZ = robo_associado.getZ();
 
                 robo_associado.setX(currX+deltaX);
                 robo_associado.setY(currY+deltaY);

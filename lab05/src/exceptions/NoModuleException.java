@@ -1,6 +1,6 @@
 package exceptions;
 
-public class NoModuleException extends RuntimeException(){
+public class NoModuleException extends RuntimeException{
 
     public NoModuleException(){
         super();
