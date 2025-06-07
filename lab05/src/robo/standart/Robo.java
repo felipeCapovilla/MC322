@@ -30,6 +30,7 @@ public abstract class Robo implements Entidade{
     protected final ArrayList<Sensor> sensores;
 
     private ControleMovimento modulo_controleMovimento;
+    private GerenciadorSensores modulo_gerenciadorSensores;
 
     /**
      * NORTE, SUL, LESTE, OESTE
@@ -104,6 +105,9 @@ public abstract class Robo implements Entidade{
      * Adicionar um sensor de temperatura no robo
      */
     public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
         sensores.add(novo_sensorTemperatura);
@@ -112,6 +116,9 @@ public abstract class Robo implements Entidade{
      * Adicionar um sensor de altitude no robo
      */
     public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
         sensores.add(novo_SensorAltitude);
@@ -120,6 +127,9 @@ public abstract class Robo implements Entidade{
      * Adicionar um sensor espacial no robo
      */
     public void adicionar_sensorEspacial(int raio_alcance, String modelo){
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
         SensorEspacial novo_SensorEspacial = new SensorEspacial(raio_alcance,modelo);
         this.sensor_espacial = novo_SensorEspacial;
         sensores.add(novo_SensorEspacial);
@@ -133,7 +143,10 @@ public abstract class Robo implements Entidade{
      * @param novo_sensor Novo sensor a ser adicionado.
      */
     public void set_sensorTemperatura(SensorTemperatura novo_sensor){
-        this.sensor_temperatura = novo_sensor;
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
+        this.modulo_gerenciadorSensores.set_sensorTemperatura(novo_sensor);
     }
 
     /**
@@ -141,7 +154,10 @@ public abstract class Robo implements Entidade{
      * @param novo_sensor Novo sensor a ser adicionado.
      */
     public void set_sensorAltitude(SensorAltitude novo_sensor){
-        this.sensor_altitude  = novo_sensor;
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
+        this.modulo_gerenciadorSensores.set_sensorAltitude(novo_sensor);
     }
 
     /**
@@ -149,7 +165,10 @@ public abstract class Robo implements Entidade{
      * @param novo_sensor Novo sensor a ser adicionado.
      */
     public void set_sensorEspacial(SensorEspacial novo_sensor){
-        this.sensor_espacial = novo_sensor;
+        if(this.modulo_gerenciadorSensores == null){
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+        }
+        this.modulo_gerenciadorSensores.set_sensorEspacial(novo_sensor);
     }
 
     /**
@@ -232,6 +251,13 @@ public abstract class Robo implements Entidade{
         return this.posX;
     }
 
+    public void set_gerenciadorSensores(GerenciadorSensores novo_gerenciador){
+        this.modulo_gerenciadorSensores = novo_gerenciador;
+    }
+
+    public GerenciadorSensores get_gerenciadorSensores(){
+        return this.modulo_gerenciadorSensores;
+    }
 
     @Override
     public int getY() {
