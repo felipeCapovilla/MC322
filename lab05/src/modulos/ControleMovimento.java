@@ -70,9 +70,9 @@ public class ControleMovimento{
 
     public void return_toHome(){
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("O modulo %s nao tem nenhum robo sendo controlado."),this.modelo);
+            throw new NoRobotException(String.format("O modulo %s nao tem nenhum robo sendo controlado.",this.modelo));
         }
-        if(robo_associado.ambiente_atual == null){
+        if(robo_associado.get_ambiente() == null){
             throw new NullPointerException();
         }
         if(robo_associado.isLigado()==false){
@@ -86,7 +86,7 @@ public class ControleMovimento{
     }
 
     @Override
-    public Strign toStrign(){
+    public String toString(){
         return String.format("Modulo controlador de movimento do modelo %s\nassociado ao robo %s",this.modelo,this.robo_associado);
     }
 

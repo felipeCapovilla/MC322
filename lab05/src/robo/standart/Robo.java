@@ -6,6 +6,7 @@ import exceptions.*;
 import interfaces.Entidade;
 import java.util.ArrayList;
 import modulos.ControleMovimento;
+import modulos.GerenciadorSensores;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
@@ -28,6 +29,8 @@ public abstract class Robo implements Entidade{
     private SensorAltitude sensor_altitude;
     private SensorEspacial sensor_espacial;
     protected final ArrayList<Sensor> sensores;
+
+    
 
     private ControleMovimento modulo_controleMovimento;
     private GerenciadorSensores modulo_gerenciadorSensores;
@@ -106,7 +109,7 @@ public abstract class Robo implements Entidade{
      */
     public void adicionar_sensorTemperatura(int raio_alcance, String modelo, double precisao, double temperatura_maxima, double temperatura_minima){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         SensorTemperatura novo_sensorTemperatura = new SensorTemperatura(raio_alcance,modelo,precisao,temperatura_maxima,temperatura_minima);
         this.sensor_temperatura = novo_sensorTemperatura;
@@ -117,7 +120,7 @@ public abstract class Robo implements Entidade{
      */
     public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
@@ -128,7 +131,7 @@ public abstract class Robo implements Entidade{
      */
     public void adicionar_sensorEspacial(int raio_alcance, String modelo){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         SensorEspacial novo_SensorEspacial = new SensorEspacial(raio_alcance,modelo);
         this.sensor_espacial = novo_SensorEspacial;
@@ -144,7 +147,7 @@ public abstract class Robo implements Entidade{
      */
     public void set_sensorTemperatura(SensorTemperatura novo_sensor){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         this.modulo_gerenciadorSensores.set_sensorTemperatura(novo_sensor);
     }
@@ -155,7 +158,7 @@ public abstract class Robo implements Entidade{
      */
     public void set_sensorAltitude(SensorAltitude novo_sensor){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         this.modulo_gerenciadorSensores.set_sensorAltitude(novo_sensor);
     }
@@ -166,7 +169,7 @@ public abstract class Robo implements Entidade{
      */
     public void set_sensorEspacial(SensorEspacial novo_sensor){
         if(this.modulo_gerenciadorSensores == null){
-            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s"),this.id)
+            throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
         this.modulo_gerenciadorSensores.set_sensorEspacial(novo_sensor);
     }
@@ -337,6 +340,10 @@ public abstract class Robo implements Entidade{
     @Override
     public String getDescricao() {
         return "Robo é uma entidade móvel que pode realizar diversas funções";
+    }
+
+    public ArrayList<Sensor> getSensores() {
+        return sensores;
     }
 
 

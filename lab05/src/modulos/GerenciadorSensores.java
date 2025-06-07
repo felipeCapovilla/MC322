@@ -1,12 +1,15 @@
 package modulos;
 
-import sensor.*;
-import robo.*;
-import java.utils.ArrayList;
 import exceptions.*;
+import java.util.ArrayList;
+import robo.standart.Robo;
+import sensor.altitude.SensorAltitude;
+import sensor.espacial.SensorEspacial;
+import sensor.standart.Sensor;
+import sensor.temperatura.SensorTemperatura;
 
 
-public class GerenciadorSensores(){
+public class GerenciadorSensores{
 
     private String modelo;   
     private Robo robo_associado;
@@ -22,30 +25,30 @@ public class GerenciadorSensores(){
         this.robo_associado = null;
     }
 
-    public set_sensorAltitude(SensorAltitude novo_sensor){
+    public void set_sensorAltitude(SensorAltitude novo_sensor){
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s"),this.modelo);
+            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s",this.modelo));
         }
         robo_associado.set_sensorAltitude(novo_sensor);
     }
 
-    public set_sensorEspacial(SensorEspacial novo_sensor){
+    public void set_sensorEspacial(SensorEspacial novo_sensor){
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s"),this.modelo);
+            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s",this.modelo));
         }
         robo_associado.set_sensorEspacial(novo_sensor);        
     }
 
-    public set_sensorTemperatura(SensorTemperatura novo_sensor){
+    public void set_sensorTemperatura(SensorTemperatura novo_sensor){
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s"),this.modelo);
+            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s",this.modelo));
         }
         robo_associado.set_sensorTemperatura(novo_sensor);        
     }
 
-    public remover_todosSensores(){
+    public void remover_todosSensores(){
         if(this.robo_associado == null){
-            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s"),this.modelo);
+            throw new NoRobotException(String.format("Nao ha robo associado ao gerenciador %s",this.modelo));
         }
         robo_associado.set_sensorAltitude(null);
         robo_associado.set_sensorEspacial(null);
@@ -54,7 +57,7 @@ public class GerenciadorSensores(){
 
     public void set_roboAssociado(Robo novo_robo){
         this.robo_associado = novo_robo;
-        this.sensores_ativos = robo_associado.sensores;
+        this.sensores_ativos = robo_associado.getSensores();
     }
 
     public Robo get_roboAssociado(){
