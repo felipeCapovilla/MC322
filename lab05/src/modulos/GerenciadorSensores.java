@@ -18,6 +18,7 @@ public class GerenciadorSensores{
     public GerenciadorSensores(String modelo,Robo robo_associado){
         this.modelo = modelo;
         this.robo_associado = robo_associado;
+        this.sensores_ativos = robo_associado.getSensores();
     }
 
     public GerenciadorSensores(String modelo){
@@ -71,6 +72,28 @@ public class GerenciadorSensores{
     @Override
     public String toString(){
         return String.format("Modulo gerenciador de sensores do modelo: %s\nAssociado ao robo %s",this.modelo,this.robo_associado);
+    }
+
+    public ArrayList<Sensor> getSensores_ativos() {
+        return sensores_ativos;
+    }
+
+    /**
+     * Retorna o Sensor espacial com maior raio do robo associado
+     */
+    public SensorEspacial getSensorEspacial(){
+        SensorEspacial sensorEspacial = null;
+        for(Sensor sensor : sensores_ativos){
+            if(sensor instanceof SensorEspacial){
+                if(sensorEspacial == null || sensorEspacial.get_raioAlcance() < sensor.get_raioAlcance()){
+                    sensorEspacial = (SensorEspacial) sensor;
+
+                } 
+            }
+        }
+
+        return sensorEspacial;
+
     }
 }
 

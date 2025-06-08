@@ -1,12 +1,14 @@
 package robo.aereo.standart;
 
+import ambiente.Ambiente;
 import constantes.*;
 import exceptions.*;
 import interfaces.*;
-import robo.standart.*;
+import missao.MissaoBuscarPonto;
+import robo.agenteInteligente.AgenteInteligente;
 import sensor.altitude.SensorAltitude;
 
-public class RoboAereo extends Robo implements Battery {
+public class RoboAereo extends AgenteInteligente implements Battery {
     
     private final int altitude_max;
     private int bateria = 100;
@@ -163,6 +165,14 @@ public class RoboAereo extends Robo implements Battery {
     @Override
     public int getBateria() {
         return bateria;
+    }
+
+
+    @Override
+    public void executarMissao(Ambiente a) {
+        missao = new MissaoBuscarPonto();
+
+        missao.executar(this, a);
     }
 
 }

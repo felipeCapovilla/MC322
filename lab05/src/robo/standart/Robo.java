@@ -52,7 +52,9 @@ public abstract class Robo implements Entidade{
         this.sensor_temperatura = null;
         this.sensor_espacial = null;
         this.estado = EstadoRobo.DESLIGADO;
-        this.modulo_controleMovimento = null;
+
+        this.modulo_controleMovimento = new ControleMovimento(id, this);
+        this.modulo_gerenciadorSensores = new GerenciadorSensores(id, this);
     }
 
 
@@ -149,7 +151,8 @@ public abstract class Robo implements Entidade{
         if(this.modulo_gerenciadorSensores == null){
             throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
-        this.modulo_gerenciadorSensores.set_sensorTemperatura(novo_sensor);
+        sensor_temperatura = novo_sensor;
+        sensores.add(novo_sensor);
     }
 
     /**
@@ -160,7 +163,8 @@ public abstract class Robo implements Entidade{
         if(this.modulo_gerenciadorSensores == null){
             throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
-        this.modulo_gerenciadorSensores.set_sensorAltitude(novo_sensor);
+        sensor_altitude = novo_sensor;
+        sensores.add(novo_sensor);
     }
 
     /**
@@ -171,7 +175,8 @@ public abstract class Robo implements Entidade{
         if(this.modulo_gerenciadorSensores == null){
             throw new NoModuleException(String.format("Nao foi possivel realizar essa operacao. Nao existe modulo gerenciador de sensores ativo em. %s",this.id));
         }
-        this.modulo_gerenciadorSensores.set_sensorEspacial(novo_sensor);
+        sensor_espacial = novo_sensor;
+        sensores.add(novo_sensor);
     }
 
     /**

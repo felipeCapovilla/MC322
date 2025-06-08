@@ -225,7 +225,7 @@ public class Console {
                 }
             }            
 
-            System.out.println("| [0] Sair                         |");
+            System.out.println("| [0] Voltar                       |");
 
             System.out.println("+----------------------------------+");
 
@@ -522,6 +522,8 @@ public class Console {
             }));
         opcoesMenu.add(new MenuItem(6, "Info", ()->
             {
+                robo.executarMissao(ambiente);
+
                 //Info
                 System.out.println("Status: " + robo.getEstado());
                 System.out.println("Nome: " + robo.getID());
