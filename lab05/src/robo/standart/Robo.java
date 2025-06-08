@@ -7,6 +7,7 @@ import interfaces.Entidade;
 import java.util.ArrayList;
 import modulos.ControleMovimento;
 import modulos.GerenciadorSensores;
+import moodulos.ModuloComunicacao;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
@@ -34,6 +35,7 @@ public abstract class Robo implements Entidade{
 
     private ControleMovimento modulo_controleMovimento;
     private GerenciadorSensores modulo_gerenciadorSensores;
+    private ModuloComunicacao modulo_comunicacao;
 
     /**
      * NORTE, SUL, LESTE, OESTE
