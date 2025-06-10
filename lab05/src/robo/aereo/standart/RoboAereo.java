@@ -4,7 +4,6 @@ import ambiente.Ambiente;
 import constantes.*;
 import exceptions.*;
 import interfaces.*;
-import missao.MissaoBuscarPonto;
 import robo.agenteInteligente.AgenteInteligente;
 import sensor.altitude.SensorAltitude;
 
@@ -169,10 +168,16 @@ public class RoboAereo extends AgenteInteligente implements Battery {
 
 
     @Override
-    public void executarMissao(Ambiente a) {
-        missao = new MissaoBuscarPonto();
+    public void executarMissao(Ambiente a) throws NullPointerException{
+        if(temMissao()){
+            System . out . println (" Executando missão de busca de ponto ... ");
+            missao.executar(this, a);
+        } else {
+            throw new NullPointerException("Missao nao selecionada");
+        }
 
-        missao.executar(this, a);
+        
     }
+
 
 }

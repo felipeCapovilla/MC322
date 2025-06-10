@@ -84,11 +84,11 @@ public class RoboTerrestre extends Robo implements Comunicavel{
         if(this.central_comunicacao == null){
             throw new ErroComunicacaoException("Nao e possivel fazer uma comunicacao sem uma central intermediaria. Favor adicione uma central.");
         }
-        if(this.modulo_comunicacao == null){
+        if(getModulo_comunicacao() == null){
             throw new ErroComunicacaoException("Nao foi possivel enviar a mensagem: nao ha modulo de comunicao inserido.");
         }
-        if(this.modulo_comunicacao.get_statusComunicacao()==false){
-            throw new ErroComunicacaoException(String.format("Nao foi possivel enviar a mensagem: o modulo de comunicacao %s nao esta permitindo que haja comunicacao"),this.modulo_comunicacao.get_nome());
+        if(getModulo_comunicacao().get_statusComunicacao()==false){
+            throw new ErroComunicacaoException(String.format("Nao foi possivel enviar a mensagem: o modulo de comunicacao %s nao esta permitindo que haja comunicacao",getModulo_comunicacao().get_nome()));
         }
         this.central_comunicacao.registrarMensagem(getID(),mensagem);
         destinatario.receberMensagem(mensagem);

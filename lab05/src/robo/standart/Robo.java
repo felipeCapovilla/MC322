@@ -5,9 +5,7 @@ import constantes.*;
 import exceptions.*;
 import interfaces.Entidade;
 import java.util.ArrayList;
-import modulos.ControleMovimento;
-import modulos.GerenciadorSensores;
-import moodulos.ModuloComunicacao;
+import modulos.*;
 import sensor.altitude.SensorAltitude;
 import sensor.espacial.SensorEspacial;
 import sensor.standart.Sensor;
@@ -351,6 +349,10 @@ public abstract class Robo implements Entidade{
 
     public ArrayList<Sensor> getSensores() {
         return sensores;
+    }
+
+    public ModuloComunicacao getModulo_comunicacao() {
+        return modulo_comunicacao;
     }
 
 

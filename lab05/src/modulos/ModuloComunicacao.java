@@ -1,11 +1,9 @@
 package modulos;
 
-
-import robos.Robo;
-import java.utils.ArrayList;
 import exceptions.NoRobotException;
+import robo.standart.Robo;
 
-public class ModuloComunicacao(){
+public class ModuloComunicacao{
     private String nome;
     private Robo robo_associado;
     private boolean comunicacao_disponivel;
@@ -35,7 +33,7 @@ public class ModuloComunicacao(){
 
     public Robo get_roboAssociado(){
         if(this.robo_associado==null){
-            throw new NoRobotException("Nao existe nenhum robo associado a essa operacao.z")
+            throw new NoRobotException("Nao existe nenhum robo associado a essa operacao.z");
         }
         return this.robo_associado;
     }
