@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import missao.MissaoBuscarPonto;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
 import robo.aereo.turista.RoboVoadorTurista;
@@ -520,10 +521,14 @@ public class Console {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(6, "Info", ()->
+        opcoesMenu.add(new MenuItem(6, "Executar Missao", ()->
             {
+                //Executar missão autônoma
+                robo.definirMissao(new MissaoBuscarPonto());
                 robo.executarMissao(ambiente);
-
+        }));
+        opcoesMenu.add(new MenuItem(7, "Info", ()->
+            {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
                 System.out.println("Nome: " + robo.getID());
@@ -544,7 +549,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(7, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();

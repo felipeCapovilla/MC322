@@ -47,6 +47,7 @@ public class MissaoBuscarPonto implements Missao{
         if(!isAtivo){
             boolean running;
             Random random = new Random();
+            isAtivo = true;
 
             do { 
                 finalX = random.nextInt(ambiente.get_largura());
@@ -61,19 +62,21 @@ public class MissaoBuscarPonto implements Missao{
                 }
      
             } while (running);
+
+            System.out.printf("Ponto final: (%d, %d, %d)\n",finalX, finalY, finalZ);
         }
 
         //Algoritmo de movimentação
         int[] pontoFinal = {finalX, finalY, finalZ};
-        System.out.printf("%d, %d, %d\n",finalX, finalY, finalZ);
+        
 
         ArrayList<int[]> direcoes = acharCaminho(robo, ambiente, pontoFinal);
 
-        // System.out.println(direcoes.size());
-        // direcoes.forEach(dir -> System.out.println(Arrays.toString(dir)));
+        //System.out.println(direcoes.size());
+        //direcoes.forEach(dir -> System.out.println(Arrays.toString(dir)));
 
             
-        if(direcoes == null || direcoes.size() == 0){
+        if(direcoes == null || direcoes.isEmpty()){
             //Impossível chegar até o ponto
             isAtivo = false;
         } else {
@@ -98,6 +101,8 @@ public class MissaoBuscarPonto implements Missao{
                 deslocamentoX += direcoes.get(index)[0];
                 deslocamentoY += direcoes.get(index)[1];
                 deslocamentoZ += direcoes.get(index)[2];
+
+                index++;
             }
             
             if(Math.abs(deslocamentoX) >= raioDeslocamento || Math.abs(deslocamentoY) >= raioDeslocamento || Math.abs(deslocamentoZ) >= raioDeslocamento){
@@ -108,10 +113,20 @@ public class MissaoBuscarPonto implements Missao{
         robo.get_controleMovimento().mover(deslocamentoX, deslocamentoY, deslocamentoZ);
         }
 
+
+        if(
+            robo.getX() == finalX &&
+            robo.getY() == finalY &&
+            robo.getZ() == finalZ
+        ){
+            System.out.println("Missão finalizada");
+            isAtivo = false;
+        }
         
 
     }
 
+    @Override
     public boolean isAtivo() {
         return isAtivo;
     }
@@ -125,9 +140,9 @@ public class MissaoBuscarPonto implements Missao{
         boolean[][][] visitado = new boolean[largura][comprimento][altura]; //Inicia com todos os valores como false
         visitado[robo.getX()][robo.getY()][robo.getZ()] = true;
 
+        TipoEntidade mapa[][][] = ambiente.getMapa();
 
-
-        if(!recursaoAcharCaminho(robo, ambiente, ponto, pontoFinal, visitado)){
+        if(!recursaoAcharCaminho(robo, ambiente, ponto, pontoFinal, visitado, mapa)){
             return null;
         }
 
@@ -135,16 +150,16 @@ public class MissaoBuscarPonto implements Missao{
     }
 
 
-    private boolean recursaoAcharCaminho(Robo robo, Ambiente ambiente, PontoCaminho pontoAtual, int[] pontoFinal, boolean [][][] visitado){
+    private boolean recursaoAcharCaminho(Robo robo, Ambiente ambiente, PontoCaminho pontoAtual, int[] pontoFinal, boolean [][][] visitado, TipoEntidade mapa[][][]){
         //Chegou no ponto
         if(pontoAtual.compararPonto(pontoFinal)){
             return true;
         }
-        System.out.printf("%d,%d,%d\n", pontoAtual.getX(), pontoAtual.getY(), pontoAtual.getZ());
+
+        //System.out.printf("%d,%d,%d\n", pontoAtual.getX(), pontoAtual.getY(), pontoAtual.getZ());
 
         //Recursão
-        TipoEntidade mapa[][][] = ambiente.getMapa();
-
+        
 
         if (mapa[finalX][finalY][finalZ] != TipoEntidade.VAZIO){
             return false;
@@ -208,7 +223,7 @@ public class MissaoBuscarPonto implements Missao{
 
             visitado[pontoAtual.getX()][pontoAtual.getY()][pontoAtual.getZ()] = true;
 
-            if(recursaoAcharCaminho(robo, ambiente, pontoAtual, pontoFinal, visitado)){
+            if(recursaoAcharCaminho(robo, ambiente, pontoAtual, pontoFinal, visitado, mapa)){
                 return true;
             } 
 
