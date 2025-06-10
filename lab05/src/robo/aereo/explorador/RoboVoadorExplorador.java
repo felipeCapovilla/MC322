@@ -1,5 +1,6 @@
 package robo.aereo.explorador;
 
+import ambiente.Ambiente;
 import central_comunicacao.CentralComunicacao;
 import constantes.Bussola;
 import exceptions.*;
@@ -159,6 +160,17 @@ public class RoboVoadorExplorador extends RoboAereo implements Comunicavel,Senso
             System.out.println("Aguardando início da missão de exploração.");
         }
     }
+
+        @Override
+    public void executarMissao(Ambiente a) throws NullPointerException, IllegalStateException{
+        if(!StatusSensores){
+            throw new IllegalStateException("Sensores desligados.");
+        }
+
+
+        super.executarMissao(a);
+    }
+
 
     //GETs e SETs
 

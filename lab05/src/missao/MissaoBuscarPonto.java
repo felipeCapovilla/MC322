@@ -25,7 +25,7 @@ public class MissaoBuscarPonto implements Missao{
     }
 
     @Override
-    public void executar(Robo robo, Ambiente ambiente) throws NoRobotException, NullPointerException, SensorMissingException{
+    public void executar(Robo robo, Ambiente ambiente) throws NoRobotException, NullPointerException, SensorMissingException, NoModuleException{
         //Verificar Exceptions
         if(robo == null){
             throw new NoRobotException();
@@ -34,6 +34,10 @@ public class MissaoBuscarPonto implements Missao{
             throw new NullPointerException();
         }
 
+        //Verifica sensores
+        if(robo.get_gerenciadorSensores() == null){
+            throw new NoModuleException("Gerenciador de Sensores");
+        }
         int raioDeslocamento;
         SensorEspacial sensor = robo.get_gerenciadorSensores().getSensorEspacial();
 

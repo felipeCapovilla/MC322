@@ -110,28 +110,6 @@ public class RoboAereo extends AgenteInteligente implements Battery {
         }
     }
 
-    /**
-     * Define o valor da variável altitude
-     */
-    public void set_altitude(int altitude) {
-        mover(0, 0, -getZ()); //zerar altitude
-
-        if(altitude < 0){
-            System.out.println("A altitude do robo não pode ser < 0m. Ajustando altura para 0m.");
-            this.get_SensorAltitude().set_altitude(0);
-        } else if(this.get_ambiente() != null && altitude >= this.get_ambiente().get_altura()){
-            System.out.println("A altitude não pode ultrapassar o maximo do ambiente. Altura ajustada para "+this.get_ambiente().get_altura()+"m.");
-            mover(0, 0, get_ambiente().get_altura());
-            this.get_SensorAltitude().set_altitude(this.get_ambiente().get_altura());
-        }else if(altitude > altitude_max){
-            System.out.println("A altitude não pode ultrapassar o limite do robo. Altura ajustada para "+this.altitude_max+"m.");
-            mover(0, 0, altitude_max);
-            this.get_SensorAltitude().set_altitude(altitude_max);
-        } else {
-            mover(0, 0, altitude);
-            this.get_SensorAltitude().set_altitude(altitude);
-        }
-    }
 
     /**
      * Retorna o valor da variável altitude maxima
@@ -182,6 +160,17 @@ public class RoboAereo extends AgenteInteligente implements Battery {
         }
 
         
+    }
+
+    @Override
+    public void setZ(int z) throws SensorMissingException {
+        super.setZ(z);
+
+        if(this.get_SensorAltitude() == null){
+            throw new SensorMissingException("Sensor de altitude");
+        } else {
+            this.get_SensorAltitude().set_altitude(z);
+        }        
     }
 
 
