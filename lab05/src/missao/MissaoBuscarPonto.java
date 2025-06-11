@@ -16,7 +16,7 @@ public class MissaoBuscarPonto implements Missao{
     private int finalY;
     private int finalZ;
 
-    boolean isAtivo = false;
+    private boolean isAtivo = false;
 
     public MissaoBuscarPonto(){
         finalX=0;
@@ -240,5 +240,9 @@ public class MissaoBuscarPonto implements Missao{
         return false;
     }
 
+    @Override
+    public String getName(){
+        return "Buscar Ponto";
+    }
 
 }

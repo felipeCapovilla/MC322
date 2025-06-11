@@ -7,4 +7,6 @@ public interface Missao {
     public void executar ( Robo r , Ambiente a ) ;
 
     public boolean isAtivo() ;
+
+    public String getName();
 }

@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-import missao.MissaoBuscarPonto;
+import missao.*;
 import robo.aereo.explorador.RoboVoadorExplorador;
 import robo.aereo.standart.RoboAereo;
 import robo.aereo.turista.RoboVoadorTurista;
+import robo.agenteInteligente.AgenteInteligente;
 import robo.standart.Robo;
 import robo.terrestre.pedestre.RoboPedestre;
 import robo.terrestre.standart.RoboTerrestre;
@@ -367,6 +368,10 @@ public class Console {
         return running;
     }
 
+    /**
+     * Menu para comunicar com outro robo
+     * @param robo
+     */
     private void acaoComunicavel(Comunicavel robo){
         int resposta;
 
@@ -405,6 +410,74 @@ public class Console {
 
 
         } else {
+            System.out.println("Opcao nao disponivel");
+        }
+
+    }
+
+    /**
+     * Menu para selecionar missao
+     */
+    private void acaoMissao(AgenteInteligente robo){
+        //Instanciar as opções do menu
+        ArrayList<MenuItem> opcoesMenu = new ArrayList<>();
+        opcoesMenu.add(new MenuItem(1, "Buscar Ponto", ()->
+            {
+                //Executar Missao Buscar Ponto
+                robo.definirMissao(new MissaoBuscarPonto());
+                robo.executarMissao(ambiente);
+
+        }));
+        opcoesMenu.add(new MenuItem(2, "Patrulhar", ()->
+            {
+                //Executar Missao Buscar Ponto
+                robo.definirMissao(new MissaoPatrulhar());
+                robo.executarMissao(ambiente);
+
+        }));
+
+        opcoesMenu.sort(Comparator.comparing((opcao) -> opcao.getIndice())); //ordenar por indice
+
+
+        int resposta;
+
+        System.out.println("+----------------------------------+");
+        System.out.println("|        escolha uma missao        |");
+
+            //Opções
+        for(int i = 0; i<opcoesMenu.size(); i++){
+            if(i < 9){
+                System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 29));
+
+            } else {
+                System.out.printf("| [%d] %s|\n", i+1, formatString(opcoesMenu.get(i).getDescricao(), 28));
+
+            }
+        }            
+
+        System.out.println("+----------------------------------+");
+
+        //Resposta
+        System.out.print("opcao escolhida: ");
+        resposta = scannerNumber();
+
+        if (resposta <= opcoesMenu.size() && resposta > 0){
+            //Opções
+            Runnable acao = opcoesMenu.get(resposta-1).getFuncao();
+            
+            if (acao != null) {
+                //try {
+                    acao.run();
+                // } catch (Exception e) {
+                //     System.err.println("Erro ao executar a missão: " + e);
+                // }
+                
+            } else {
+                System.err.println("Ação não disponível");
+            }
+
+        } else {
+            //Não existe
             System.out.println("Opcao nao disponivel");
         }
 
@@ -524,8 +597,7 @@ public class Console {
         opcoesMenu.add(new MenuItem(6, "Executar Missao", ()->
             {
                 //Executar missão autônoma
-                robo.definirMissao(new MissaoBuscarPonto());
-                robo.executarMissao(ambiente);
+                acaoMissao(robo);
         }));
         opcoesMenu.add(new MenuItem(7, "Info", ()->
             {
@@ -762,7 +834,12 @@ public class Console {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(8, "Info", ()->
+        opcoesMenu.add(new MenuItem(7, "Executar Missao", ()->
+            {
+                //Executar missão autônoma
+                acaoMissao(robo);
+        }));
+        opcoesMenu.add(new MenuItem(9, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -795,14 +872,14 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(10, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(11, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
                 System.out.println("Robo Desligado");
 
             }));
-        opcoesMenu.add(new MenuItem(9, "Desligar/Ligar Sensores", ()->
+        opcoesMenu.add(new MenuItem(10, "Desligar/Ligar Sensores", ()->
             {
                 //Desligar/Ligar sensores Robo
                 if(robo.isStatusSensores()){
@@ -814,7 +891,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(7, "Enviar mensagem", ()->
+        opcoesMenu.add(new MenuItem(8, "Enviar mensagem", ()->
             {
                 acaoComunicavel(robo);
             })
@@ -1016,7 +1093,12 @@ public class Console {
                 //Carregar
                 robo.carregar();
             }));
-        opcoesMenu.add(new MenuItem(7, "Info", ()->
+        opcoesMenu.add(new MenuItem(7, "Executar Missao", ()->
+            {
+                //Executar missão autônoma
+                acaoMissao(robo);
+        }));
+        opcoesMenu.add(new MenuItem(8, "Info", ()->
             {
                 //Info
                 System.out.println("Status: " + robo.getEstado());
@@ -1048,7 +1130,7 @@ public class Console {
                 }
 
             }));
-        opcoesMenu.add(new MenuItem(8, "Desligar Robo", ()->
+        opcoesMenu.add(new MenuItem(9, "Desligar Robo", ()->
             {
                 //Desligar Robo
                 robo.desligar();
