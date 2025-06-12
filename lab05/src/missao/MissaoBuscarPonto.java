@@ -68,6 +68,11 @@ public class MissaoBuscarPonto implements Missao{
             } while (running);
 
             OutputLog.addToLogln(String.format("== Robo %s iniciou a missao %s ==", robo.getID(), getName()));
+            OutputLog.addToLog("Sensores ativos: ");
+            robo.get_gerenciadorSensores().getSensores_ativos().forEach((item) -> {
+                OutputLog.addToLog(item.getClass().getSimpleName() + " ");
+            });
+            OutputLog.addToLogln("");
             OutputLog.addToLogln(String.format("Ponto inicial: (%d,%d,%d)", robo.getX(), robo.getY(), robo.getZ()));
             OutputLog.addToLogln(String.format("Ponto final: (%d,%d,%d)", finalX, finalY, finalZ));
 

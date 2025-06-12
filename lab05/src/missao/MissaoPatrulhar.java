@@ -55,6 +55,11 @@ public class MissaoPatrulhar implements Missao {
             } while (running);
 
             OutputLog.addToLogln(String.format("== Robo %s iniciou a missao %s ==", robo.getID(), getName()));
+            OutputLog.addToLog("Sensores ativos: ");
+            robo.get_gerenciadorSensores().getSensores_ativos().forEach((item) -> {
+                OutputLog.addToLog(item.getClass().getSimpleName() + " ");
+            });
+            OutputLog.addToLogln("");
             OutputLog.addToLogln(String.format("Caminho quadrado de lado %d", (int)Math.ceil(tamanhoInicial/4)));
 
         }

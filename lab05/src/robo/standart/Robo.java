@@ -127,6 +127,7 @@ public abstract class Robo implements Entidade{
         }
         SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
         this.sensor_altitude = novo_SensorAltitude;
+        sensor_altitude.set_altitude(getZ());
         sensores.add(novo_SensorAltitude);
     }
     /**

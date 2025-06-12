@@ -5,7 +5,6 @@ import constantes.*;
 import exceptions.*;
 import interfaces.*;
 import robo.agenteInteligente.AgenteInteligente;
-import sensor.altitude.SensorAltitude;
 
 public class RoboAereo extends AgenteInteligente implements Battery {
     
@@ -85,17 +84,6 @@ public class RoboAereo extends AgenteInteligente implements Battery {
         }
     }
 
-
-    /**
-     * Sobreescreve o metodo adicionar_sensorAltitude pois aqui o robo ja pode ter altitude, a qual e passada pelo sensor.
-     */
-    @Override
-    public void adicionar_sensorAltitude(int raio_alcance, String modelo,double precisao, double altura_maxima){
-        SensorAltitude novo_SensorAltitude = new SensorAltitude(raio_alcance,modelo,precisao,altura_maxima);
-        novo_SensorAltitude.set_altitude(getZ());
-        this.set_sensorAltitude(novo_SensorAltitude); 
-        sensores.add(novo_SensorAltitude);
-    }
 
     /**
      * Retorna o valor da variável altitude pelo sensor, caso esteja dentro dos limites de seu funcionamento.
