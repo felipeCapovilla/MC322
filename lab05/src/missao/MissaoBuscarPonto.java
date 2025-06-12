@@ -4,6 +4,7 @@ import ambiente.Ambiente;
 import constantes.TipoEntidade;
 import exceptions.*;
 import interfaces.Missao;
+import iofiles.OutputLog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;

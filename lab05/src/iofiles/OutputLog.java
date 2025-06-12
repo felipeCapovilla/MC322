@@ -1,4 +1,4 @@
-package missao;
+package iofiles;
 
 import java.io.BufferedWriter;
 import java.io.File;
