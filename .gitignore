@@ -1,2 +1,5 @@
 # ignora TODOS .class arquivos
 *.class
+
+#ignora registro de log de missão
+logRegister.txt

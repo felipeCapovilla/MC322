@@ -54,6 +54,9 @@ public class MissaoPatrulhar implements Missao {
                 }
             } while (running);
 
+            OutputLog.addToLogln(String.format("== Robo %s iniciou a missao %s ==", robo.getID(), getName()));
+            OutputLog.addToLogln(String.format("Caminho quadrado de lado %d", (int)Math.ceil(tamanhoInicial/4)));
+
         }
 
         //Algoritmo de movimentação
@@ -63,6 +66,8 @@ public class MissaoPatrulhar implements Missao {
         int deslocamentoZ = 0;
 
         boolean running = true;
+        OutputLog.addToLog(String.format("\t(%d,%d,%d) -> ", robo.getX(), robo.getY(), robo.getZ()));
+
         while (running && !caminho.isEmpty()) {
 
             if(
@@ -86,6 +91,8 @@ public class MissaoPatrulhar implements Missao {
         }
 
         robo.get_controleMovimento().mover(deslocamentoX, deslocamentoY, deslocamentoZ);
+        OutputLog.addToLog(String.format("(%d,%d,%d)", robo.getX(), robo.getY(), robo.getZ()));
+        OutputLog.addToLogln(String.format(" == Progresso: %.02f%%", ((((float)(tamanhoInicial - caminho.size()))/tamanhoInicial)*100)));
         System.out.printf("Progresso: %.02f%%\n", ((((float)(tamanhoInicial - caminho.size()))/tamanhoInicial)*100));
 
         if(
@@ -93,6 +100,7 @@ public class MissaoPatrulhar implements Missao {
         ){
             System.out.println("Missão finalizada");
             isAtivo = false;
+            OutputLog.addToLogln("Missão finalizada\n");
         }
 
     }

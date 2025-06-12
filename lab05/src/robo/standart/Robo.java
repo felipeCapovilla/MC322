@@ -55,6 +55,7 @@ public abstract class Robo implements Entidade{
 
         this.modulo_controleMovimento = new ControleMovimento(id, this);
         this.modulo_gerenciadorSensores = new GerenciadorSensores(id, this);
+        this.modulo_comunicacao = new ModuloComunicacao(id, this);
     }
 
 
@@ -353,6 +354,10 @@ public abstract class Robo implements Entidade{
 
     public ModuloComunicacao getModulo_comunicacao() {
         return modulo_comunicacao;
+    }
+
+    public void setModulo_comunicacao(ModuloComunicacao modulo_comunicacao) {
+        this.modulo_comunicacao = modulo_comunicacao;
     }
 
 

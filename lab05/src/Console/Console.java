@@ -466,11 +466,11 @@ public class Console {
             Runnable acao = opcoesMenu.get(resposta-1).getFuncao();
             
             if (acao != null) {
-                //try {
+                try {
                     acao.run();
-                // } catch (Exception e) {
-                //     System.err.println("Erro ao executar a missão: " + e);
-                // }
+                } catch (Exception e) {
+                     System.err.println("Erro ao executar a missão: " + e.getMessage());
+                }
                 
             } else {
                 System.err.println("Ação não disponível");

@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Locale;
 import java.util.Scanner;
+import missao.OutputLog;
 import robo.aereo.explorador.*;
 import robo.aereo.standart.*;
 import robo.aereo.turista.*;
@@ -28,6 +29,9 @@ import robo.terrestre.veiculo.*;
  */
 public class Main {
     public static void main(String[] args) {
+        //Limpar logs antigos
+        OutputLog.clearLog();
+
         //Ambiente
         Ambiente ambiente =null;
 

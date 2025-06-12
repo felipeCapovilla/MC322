@@ -67,6 +67,11 @@ public class MissaoBuscarPonto implements Missao{
      
             } while (running);
 
+            OutputLog.addToLogln(String.format("== Robo %s iniciou a missao %s ==", robo.getID(), getName()));
+            OutputLog.addToLogln(String.format("Ponto inicial: (%d,%d,%d)", robo.getX(), robo.getY(), robo.getZ()));
+            OutputLog.addToLogln(String.format("Ponto final: (%d,%d,%d)", finalX, finalY, finalZ));
+
+            System.out.printf("Ponto inicial: (%d,%d,%d)\n", robo.getX(), robo.getY(), robo.getZ());
             System.out.printf("Ponto final: (%d, %d, %d)\n",finalX, finalY, finalZ);
         }
 
@@ -92,6 +97,8 @@ public class MissaoBuscarPonto implements Missao{
 
         boolean running = true;
         int index = 0;
+        OutputLog.addToLog(String.format("\t(%d,%d,%d) -> ", robo.getX(), robo.getY(), robo.getZ()));
+
         while (running && index < direcoes.size()) {
 
             if(
@@ -115,6 +122,8 @@ public class MissaoBuscarPonto implements Missao{
         }
 
         robo.get_controleMovimento().mover(deslocamentoX, deslocamentoY, deslocamentoZ);
+        OutputLog.addToLogln(String.format("(%d,%d,%d)", robo.getX(), robo.getY(), robo.getZ()));
+
         }
 
 
@@ -125,6 +134,7 @@ public class MissaoBuscarPonto implements Missao{
         ){
             System.out.println("Missão finalizada");
             isAtivo = false;
+            OutputLog.addToLogln("Missão finalizada\n");
         }
         
 

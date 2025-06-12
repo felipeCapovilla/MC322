@@ -147,13 +147,14 @@ public class RoboAereo extends AgenteInteligente implements Battery {
 
     @Override
     public void executarMissao(Ambiente a) throws NullPointerException{
+
         if(temMissao()){
             System.out.printf (" Executando missão de %s ...\n", missao.getName());
-            System.out.printf("Ponto inicial: (%d,%d,%d)\n", getX(), getY(), getZ());
             do { 
                 missao.executar(this, a); 
             } while (missao.isAtivo());
             
+
         } else {
             throw new NullPointerException("Missao nao selecionada");
         }
