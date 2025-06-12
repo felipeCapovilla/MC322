@@ -1,7 +1,11 @@
 package sensor.espacial;
 
 import ambiente.Ambiente;
+import constantes.TipoEntidade;
 import exceptions.*;
+import interfaces.Entidade;
+import java.util.ArrayList;
+import robo.standart.Robo;
 import sensor.standart.Sensor;
 
 public class SensorEspacial extends Sensor{
@@ -145,6 +149,42 @@ public class SensorEspacial extends Sensor{
                 return 0;
             }
         }
+    }
+
+    /**
+     * Retorna uma lista de todas entidades dentro do raio detectado pelo sensor
+     */
+    public ArrayList<Entidade> detectarEntidades(Ambiente ambiente, Robo robo){
+        ArrayList<Entidade> listaEntidades = new ArrayList<>();
+
+        ambiente.getEntidades().forEach((e) -> {
+            if(estaDentro(robo, e) && !(robo.equals(e))){
+                listaEntidades.add(e);
+            }
+        });
+
+        return listaEntidades;
+    }
+
+    /**
+     * Verifica se a entidae está dentro do raio detactado pelo sensor
+     */
+    private boolean estaDentro(Robo robo, Entidade ent){
+        int posX1 = robo.getX() - get_raioAlcance();
+        int posX2 = robo.getX() + get_raioAlcance();
+        int posY1 = robo.getY() - get_raioAlcance();
+        int posY2 = robo.getY() + get_raioAlcance();
+
+        if(ent.getTipo() == TipoEntidade.OBSTACULO){
+            return (posX1 <= ent.getX() && posX2 >= ent.getX()) 
+                && (posY1 <= ent.getY() && posY2 >= ent.getY())
+                && (ent.getZ() > robo.getZ());
+        } else {
+            return (posX1 <= ent.getX() && posX2 >= ent.getX()) 
+                && (posY1 <= ent.getY() && posY2 >= ent.getY())
+                && (ent.getZ() == robo.getZ());
+        }
+        
     }
 
     @Override
