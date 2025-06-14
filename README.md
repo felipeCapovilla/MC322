@@ -25,6 +25,21 @@ Guilherme Henrique da Silva - 281217
   - ZeroLifePointsException: RoboPedestre, RoboVeiculo
 - Tornar o console modularizável
 - Adição de Tarefas para: RoboVoadorExplorador, RoboVoadorTurista, RoboVeiculo e RoboPedestre
+## LAB 5
+- Implementação de arquivos de input/output
+  - Ler de entrada no terminal
+  - Ler aruivo txt: entrada de configurações
+  - Escrever arquivo txt: saída de registros de log
+- Instanciação de objetos na classe main por leitura de arquivo txt
+- Adição de AgenteInteligente's: robos que consseguem realizar uma missão automaticamente, registrando o processo em um log
+- Adição de missões para AgenteInteligente's:
+  - Missão de buscar ponto: cria um ponto final aleatório que o robo deve chegar
+  - Missão de patrulha: cria um caminho quadrado que o robo deve percorrer
+  - Missão de monitorar: usuário escolhe um ponto final, o robo detecta todas as entidades que passou no caminho
+- Adição de módulos para robos
+  - Módulo de ControleMovimento
+  - Módulo de GerenciadorSensores
+  - Módulo de Comunicação
 
 # Manual
 ## Execução
@@ -47,6 +62,7 @@ java -cp bin main/Main
      - imprimir o ambiente no raio de alcance do sensor
      - monitorar estado dos sensores
      - carregar bateria
+     - Executar missão
      - informações do robo
      - desligar robo
    - RoboAereoExplorador
@@ -58,6 +74,7 @@ java -cp bin main/Main
      - monitorar estado dos sensores
      - carregar robo
      - enviar mensagem
+     - Executar missão
      - informações do robo
      - ligar/desligar sensores
      - desligar robo
@@ -69,6 +86,7 @@ java -cp bin main/Main
      - inicar tarefa (realizar passeio)
      - monitorar estado dos sensores
      - carregar robo
+     - Executar missão
      - informações do robo
      - desligar robo
    - RoboTerrestreStandart
@@ -120,9 +138,10 @@ Diagrama de classes e relações do projeto.
 - **MenuItem.java** - modelo para guardar as informações de uma opção do menu;
 #### Robo
 - **Robo.java** - classe mais geral do `Robo` que possui os métodos mais amplos;
-  - **RoboAereo.java** - classe geral de `Robo` voador, implementando o movimento vertical;
-    - **RoboVoadorExplorador.java** - classe especialista de `RoboAereo`que inclui missões para planetas;
-    - **RoboVoadorTurista.java** - classe especialista de `RoboAereo`que inclui passeios turisticos para cidades;
+  - **AgenteInteligente.java** - classe de `Robo` que possui missões que são realizadas automaticamente;
+    - **RoboAereo.java** - classe geral de `Robo` voador, implementando o movimento vertical;
+      - **RoboVoadorExplorador.java** - classe especialista de `RoboAereo`que inclui missões para planetas;
+      - **RoboVoadorTurista.java** - classe especialista de `RoboAereo`que inclui passeios turisticos para cidades;
   - **RoboTerrestre.java** - classe geral de `Robo` voador, implementando o velocidade máxima;
     - **RoboVeiculo.java** - classe especialista de `RoboTerretre`que inclui movimento apenas no sentido da direção do robo;
     - **RoboPedestre.java** - classe especialista de `RoboTerretre`que inclui movimento de andar e correr, com modificações com o peso;
@@ -140,6 +159,7 @@ Diagrama de classes e relações do projeto.
 - **Battery.java** - interface para `Entidade` que possui bateria;
 - **Comunicavel.java** - interface para `Entidade` que pode se comunicar com outros `Comunicavel`;
 - **Sensoriavel.java** - interface para `Entidade` que podem ligar e desligar sensores;
+- **Missao.java** - interface para tipo de missão para `AgenteInteligente`;
 #### Constantes
 - **Bussola.java** - enum das quatro direções da bússola;
 - **TipoObstaculo.jaava** - enum de tipos de `Obstaculo` padrão, determinando se não atravessáveis.
@@ -154,6 +174,28 @@ Diagrama de classes e relações do projeto.
 - **SensorMissingException.java** - excessão ocorre quando tenta acessar um sensor que não está instalado;
 - **ValueOutOfBoundsException.java** - excessão ocorre quando uma variável recebe um valor fora de um intervalo determinado pelo código;
 - **ZeroLifePointsException.java** - excessão ocorre quando uma `Entidade` que implementa `Destructible` tenta realizar uma ação enquanto não possui vida;
+- **NoModuleException.java** - excessão ocorre quando tenta acessar um modulo que não existe;
+- **NoRobotException.java** - excessão ocorre quando tenta acessar um robo que não existe;
+### IOfiles
+- **LeitorConfiguracao.java** - classe que lê o arquivo `config.txt` e instancia o ambiente e entidades dele;
+- **OutputLog.java** - classe que escreve no arquivo `logRegister.txt`, utilizado para registrar os logs de `Missao`;
+- **ScannerGlobal.java** - classe que instancia um scanner de terminal para ser chamado por qualquer arquivo;
+### Missão
+- **MissaoBuscarPonto.java** - `Missao` que cria um ponto final aleatório que um `AgenteInteligente` deve chegar automaticamente;
+- **MissaoMonitorar.java** - `Missao` que o usuário encvia o ponto final que o `AgenteInteligente` deve chegar, detectando todas as `Entidade` que passa no raio do `SensorEspacial`;
+- **MissaoPatrulhar.java** - `Missao` que cria um caminho quadrado que o `AgenteInteligente` deve percorrer;
+- **PontoCaminho.java** - classe auxiliar para o `Missao` especializadas;
+### Modulos
+- **ControleMovimento.java** - modulo que controla o movimento de um `Robo` associado;
+- **GerenciadorSensore.java** - modulo que gerencia os sensores de um `Robo` associado;
+- **ModuloComunicacao.java** - modulo que gerencia a comunicação de um `Comunicavel` associado;
+### Resources
+- **config.txt** - arquivo de configuração do sistema, onde localiza a instância de todos os objetos;
+- **logRegister.java** - arquivo de registro dos logs de `Missao` de `AgenteInteligente`;
+
+
+
+
 
 ## Sobre
 **IDE Utilizada:** Visual Studio Code <p>
